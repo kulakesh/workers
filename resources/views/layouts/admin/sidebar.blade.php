@@ -39,7 +39,21 @@
                         <i class="ri-apps-2-line"></i> <span>Dashboard</span>
                     </a>
                 </li> 
-               
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarProduct" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarProduct">
+                        <i class="bx bx-bell"></i> <span>District</span>
+                    </a>
+                    <div class="collapse {{ request()->is('admin/district*') ? 'show' : null }} menu-dropdown" id="sidebarProduct">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.createDistrict') }}" class="nav-link">Add / Edit</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->

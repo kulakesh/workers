@@ -13,11 +13,23 @@ class District extends Authenticatable
 
     protected $fillable = [
         'name',
+        'contact_person',
+        'designation',
         'email',
+        'phone',
+        'city',
+        'state',
+        'address',
+        'pin',
+        'username',
         'password',
+        'del',
     ];
 
-    
+    protected $attributes = [
+        'del' => 0
+    ];
+
     protected $hidden = [
         'password',
     ];

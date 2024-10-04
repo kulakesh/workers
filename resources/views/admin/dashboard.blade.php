@@ -1,4 +1,4 @@
-@extends('layouts.admin.layouts-horizontal')
+@extends(DEFAULT_THEME)
 @section('title') {{ __('Dashboard') }} @endsection
 @section('content')
     @component('components.breadcrumb')

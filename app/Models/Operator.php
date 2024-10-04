@@ -13,10 +13,21 @@ class Operator extends Authenticatable
 
     protected $fillable = [
         'name',
+        'designation',
         'email',
+        'phone',
+        'city',
+        'state',
+        'address',
+        'pin',
+        'username',
         'password',
+        'del',
     ];
 
+    protected $attributes = [
+        'del' => 0
+    ];
     
     protected $hidden = [
         'password',
