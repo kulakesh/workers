@@ -1,4 +1,4 @@
-@extends('layouts.admin.' . DEFAULT_THEME)
+@extends('layouts.district.' . DEFAULT_THEME)
 @section('title') {{ __('Dashboard') }} @endsection
 @section('content')
     @component('components.breadcrumb')

@@ -15,4 +15,13 @@ class MainController extends Controller
         ];
         return view('admin.main', compact('params'));
     }
+    public function createOparator(){
+        $params = [
+            'page_group' => 'Oparator',
+            'page_name' => 'Create Oparator',
+            'page_id' => 'oparator'
+
+        ];
+        return view('district.main', compact('params'));
+    }
 }

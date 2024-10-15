@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModals">Add District</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModals">Add Operator</button>
         
             </div>
             <div class="col-sm-12 col-md-6">
@@ -24,7 +24,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 overflow-hidden">
                 <div class="modal-header p-3">
-                    <h4 class="card-title mb-0">Add District</h4>
+                    <h4 class="card-title mb-0">Add Operator</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal" aria-label="Close"></button>
                 </div>
                 <div class="hide-me-after-done pb-3">
@@ -40,12 +40,8 @@
                         <div class="row">
                             <div class="col-6">
                                 <x-input-wire name="name"
-                                    placeholder="District Name"
+                                    placeholder="Operator Name"
                                     required
-                                />
-                                <x-input-wire name="contact_person"
-                                    label="Contact Person"
-                                    placeholder="Contact Person Name"
                                 />
                                 <x-input-wire name="designation"
                                     placeholder="Designation of above person"
@@ -101,8 +97,7 @@
                     <th>#</th>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>District Name</th>
-                    <th>Contact Person</th>
+                    <th>Operator Name</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>-</th>
@@ -116,7 +111,6 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->username }}</td>
                         <td>{{ $item->name }}</td>
-                        <td>{{ $item->contact_person }}</td>
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->phone }}</td>
                         <td>
@@ -134,7 +128,7 @@
                     </tr>
             @empty
                 <tr>
-                    <td class="align-middle text-center" colspan="8">
+                    <td class="align-middle text-center" colspan="7">
                         No results found
                     </td>
                 </tr>
@@ -165,12 +159,8 @@
                     <div class="row">
                             <div class="col-6">
                                 <x-input-wire name="name"
-                                    placeholder="District Name"
+                                    placeholder="Operator Name"
                                     required
-                                />
-                                <x-input-wire name="contact_person"
-                                    label="Contact Person"
-                                    placeholder="Contact Person Name"
                                 />
                                 <x-input-wire name="designation"
                                     placeholder="Designation of above person"

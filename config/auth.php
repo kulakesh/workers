@@ -42,11 +42,11 @@ return [
         ],
         'district' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'districts',
         ],
         'operator' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'operators',
         ],
     ],
 
@@ -72,11 +72,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-        'district' => [
+        'districts' => [
             'driver' => 'eloquent',
             'model' => App\Models\District::class,
         ],
-        'operator' => [
+        'operators' => [
             'driver' => 'eloquent',
             'model' => App\Models\Operator::class,
         ],

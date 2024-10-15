@@ -1,4 +1,4 @@
-@extends('layouts.admin.' . DEFAULT_THEME)
+@extends('layouts.operator.' . DEFAULT_THEME)
 
 @section('title') {{ __('Create Category') }} @endsection
 @section('content')
@@ -7,8 +7,8 @@
         @slot('title') {{ $params['page_name'] }} @endslot
     @endcomponent
 
-    @if($params['page_id'] == 'district')
-    <livewire:create-district />
+    @if($params['page_id'] == 'oparator')
+    <livewire:create-operator />
     @elseif($params['page_id'] == 'item')
     <livewire:create-item />
     @elseif($params['page_id'] == 'variety')
