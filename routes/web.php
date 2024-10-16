@@ -32,5 +32,5 @@ Route::middleware(['auth:operator'])->group(function () {
     Route::get('op/dashboard/',[DashboardController::class,'operatorDashboard'])->name('operator.dashboard');
     Route::get('op/logout/',[AuthController::class,'operatorLogout'])->name('operator.logout');
 
-    // Route::get('dt/oparator/create',[MainController::class,'createOparator'])->name('district.createOparator');
+    Route::get('op/workers/create',[MainController::class,'createWorker'])->name('operator.createWorker');
 });

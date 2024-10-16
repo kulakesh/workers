@@ -7,8 +7,8 @@
         @slot('title') {{ $params['page_name'] }} @endslot
     @endcomponent
 
-    @if($params['page_id'] == 'oparator')
-    <livewire:create-operator />
+    @if($params['page_id'] == 'worker')
+    <livewire:create-worker />
     @elseif($params['page_id'] == 'item')
     <livewire:create-item />
     @elseif($params['page_id'] == 'variety')
