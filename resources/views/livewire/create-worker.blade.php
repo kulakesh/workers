@@ -1,6 +1,6 @@
 <div>
     <div class="row">
-        <div class="col-8 offset-2">
+        <div class="col-md-12 col-xl-8 offset-2">
             <div class="card">
                 <div class="card-body">
                     <form action="#" class="form-steps" autocomplete="off">
@@ -38,10 +38,10 @@
                                         aria-selected="false">Biometric</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="steparrow-upload-info-tab"
-                                        data-bs-toggle="pill" data-bs-target="#steparrow-upload-info" type="button"
-                                        role="tab" aria-controls="steparrow-upload-info"
-                                        aria-selected="false">Upload</button>
+                                    <button class="nav-link" id="steparrow-document-info-tab"
+                                        data-bs-toggle="pill" data-bs-target="#steparrow-document-info" type="button"
+                                        role="tab" aria-controls="steparrow-document-info"
+                                        aria-selected="false">Document</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-review-info-tab"
@@ -62,13 +62,217 @@
                             <div class="tab-pane fade show active" id="steparrow-gen-info" role="tabpanel"
                                 aria-labelledby="steparrow-gen-info-tab">
                                 <div>
-                                    <h4>General</h4>
+                                    <div class="card">
+                                        <div class="card-header"><h5>Personal Details</h5></div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                            <x-input-wire name="name"
+                                                placeholder="Beneficiary Name"
+                                                required
+                                            />
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="father"
+                                                    placeholder="Father's Name"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="mother"
+                                                    placeholder="Mother's Name"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="spouse"
+                                                    placeholder="Spouse's Name"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <label for="spouse" class="form-label ">Gender</label>
+                                                <select name="gender" id="gender" class="form-select" aria-label="Gender">
+                                                    <option  selected="" disabled="">Select Gender</option>
+                                                    <option value="Male" @if(old('gender')=='Male') selected="selected" @endif>Male</option>
+                                                    <option value="Female" @if(old('gender')=='Female') selected="selected" @endif>Female</option>
+                                                    <option value="Other" @if(old('gender')=='Other') selected="selected" @endif>Other</option>
+                                                </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-4">
+                                                <x-input-wire name="dob"
+                                                    label="Date of Birth"
+                                                    placeholder="DD/MM/YYYY"
+                                                    required
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-4">
+                                                <x-input-wire name="cast"
+                                                    placeholder="Cast"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-4">
+                                                <x-input-wire name="tribe"
+                                                    placeholder="Tribe's Name"
+                                                />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header"><h5>Present Address</h5></div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="city_t"
+                                                    label="City/Village"
+                                                    placeholder="City/Village"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="district_t"
+                                                    label="District"
+                                                    placeholder="District"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="state_t"
+                                                    label="State"
+                                                    placeholder="Arunachal"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="pin_t"
+                                                    label="Pin"
+                                                    placeholder="Pin number"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <x-input-wire name="address_t"
+                                                    label="Address"
+                                                    placeholder="Address"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h5>Permanent Address</h5>
+                                            <div>
+                                            <input type="checkbox" id="same_address" name="same_address" value="same">
+                                            <label for="vehicle3"> Same as present address</label>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="city_t"
+                                                    label="City/Village"
+                                                    placeholder="City/Village"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="district_t"
+                                                    label="District"
+                                                    placeholder="District"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="state_t"
+                                                    label="State"
+                                                    placeholder="Arunachal"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="pin_t"
+                                                    label="Pin"
+                                                    placeholder="Pin number"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <x-input-wire name="address_t"
+                                                    label="Address"
+                                                    placeholder="Address"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header"><h5>Work Details</h5></div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="nature"
+                                                    label="Nature of work"
+                                                    placeholder="Nature of work"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="serial"
+                                                    label="Serial number"
+                                                    placeholder="Old serial/registration number"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="doe"
+                                                    label="Date of registration"
+                                                    placeholder="DD/MM/YYYY"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="dor"
+                                                    label="Date of retirement"
+                                                    placeholder="DD/MM/YYYY"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="turnover"
+                                                    label="Anual turnover"
+                                                    placeholder="0.00"
+                                                />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header"><h5>Nomini details</h5></div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="nominee"
+                                                    placeholder="Nominee Name"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="relation"
+                                                    label="Relationship"
+                                                    placeholder="Relation with beneficiary"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Go to more
-                                        info</button>
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
                                 </div>
                             </div>
                             <!-- end tab pane -->
@@ -135,14 +339,14 @@
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                             Photo</button>
                                     <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                        data-nexttab="steparrow-upload-info-tab"><i
+                                        data-nexttab="steparrow-document-info-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                                 </div>
                             </div>
                             <!-- end tab pane -->
 
-                            <div class="tab-pane fade" id="steparrow-upload-info" role="tabpanel"
-                                aria-labelledby="steparrow-upload-info-tab">
+                            <div class="tab-pane fade" id="steparrow-document-info" role="tabpanel"
+                                aria-labelledby="steparrow-document-info-tab">
                                 <div>
                                     <h4>Upload documents</h4>
                                 </div>
