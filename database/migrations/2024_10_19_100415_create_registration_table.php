@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('registration', function (Blueprint $table) {
             $table->id();
             $table->string('system_id', 20)->unique();
+            $table->integer('operator_id');
             $table->string('name',150);
             $table->string('father',150)->nullable();
             $table->string('mother',150)->nullable();

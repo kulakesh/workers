@@ -3,7 +3,6 @@
         <div class="col-md-12 col-xl-8 offset-2">
             <div class="card">
                 <div class="card-body">
-                    <form action="#" class="form-steps" autocomplete="off">
                         
                         <div class="step-arrow-nav mb-4">
 
@@ -60,7 +59,8 @@
 
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="steparrow-gen-info" role="tabpanel"
-                                aria-labelledby="steparrow-gen-info-tab">
+                            aria-labelledby="steparrow-gen-info-tab">
+                            <form wire:submit.prevent="generalSave">
                                 <div>
                                     <div class="card">
                                         <div class="card-header"><h5>Personal Details</h5></div>
@@ -91,12 +91,17 @@
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="spouse" class="form-label ">Gender</label>
-                                                <select name="gender" id="gender" class="form-select" aria-label="Gender">
-                                                    <option  selected="" disabled="">Select Gender</option>
+                                                <select name="gender" id="gender" wire:model="gender" class="form-select" aria-label="Gender">
+                                                    <option selected="">Select Gender</option>
                                                     <option value="Male" @if(old('gender')=='Male') selected="selected" @endif>Male</option>
                                                     <option value="Female" @if(old('gender')=='Female') selected="selected" @endif>Female</option>
                                                     <option value="Other" @if(old('gender')=='Other') selected="selected" @endif>Other</option>
                                                 </select>
+                                                @error('gender')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -250,7 +255,7 @@
                                     </div>
 
                                     <div class="card">
-                                        <div class="card-header"><h5>Nomini details</h5></div>
+                                        <div class="card-header"><h5>Nominee details</h5></div>
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
@@ -270,10 +275,12 @@
 
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="button" id="moveFast">click</button>
+                                    <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
                                 </div>
+                            </form>
                             </div>
                             <!-- end tab pane -->
 
@@ -395,7 +402,6 @@
 
                         </div>
                         <!-- end tab content -->
-                    </form>
                 </div>
                 <!-- end card body -->
             </div>
@@ -404,4 +410,29 @@
 </div>
 @section('script')
 <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
+<script src="{{ URL::asset('build/libs/cleave.js/cleave.min.js') }}"></script>
+<script>
+    if (document.querySelector("#dob")) {
+        var cleaveDate = new Cleave('#dob', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
+    if (document.querySelector("#doe")) {
+        var cleaveDate = new Cleave('#doe', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
+    if (document.querySelector("#dor")) {
+        var cleaveDate = new Cleave('#dor', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
+
+</script>
 @endsection

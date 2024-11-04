@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Operator extends Authenticatable
 {
     use HasFactory;
@@ -12,6 +13,7 @@ class Operator extends Authenticatable
     protected $table = 'operators';
 
     protected $fillable = [
+        'district_id',
         'name',
         'designation',
         'email',
@@ -24,7 +26,10 @@ class Operator extends Authenticatable
         'password',
         'del',
     ];
-
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class)->withDefault();
+    }
     protected $attributes = [
         'del' => 0
     ];

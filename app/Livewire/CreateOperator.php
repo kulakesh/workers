@@ -26,6 +26,7 @@ class CreateOperator extends Component
         ]);
 
         $create = Operator::create([
+            'district_id' => auth()->user()->id,
             'name' => $this->name,
             'designation' => $this->designation,
             'email' => $this->email,

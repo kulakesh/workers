@@ -35,7 +35,6 @@
                     @endif
                 </div>
                 <div class="modal-body">
-                    @if(!session()->has('message'))
                     <form wire:submit.prevent="save"> 
                         <div class="row">
                             <div class="col-6">
@@ -80,7 +79,6 @@
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
-                    @endif
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -154,7 +152,6 @@
                     @endif
                 </div>
                 <div class="modal-body">
-                    @if(!session()->has('message'))
                     <form wire:submit.prevent="update"> 
                     <div class="row">
                             <div class="col-6">
@@ -198,7 +195,6 @@
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
-                    @endif
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

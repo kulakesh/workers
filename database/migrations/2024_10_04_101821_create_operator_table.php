@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('operators', function (Blueprint $table) {
             $table->id();
+            $table->integer('district_id');
             $table->string('name',100);
             $table->string('designation',100)->nullable();
             $table->string('email',150)->nullable();

@@ -48,7 +48,7 @@
                     <div class="collapse {{ request()->is('admin/workers*') ? 'show' : null }} menu-dropdown" id="sidebarWorkers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('operator.createWorker') }}" class="nav-link">Add / Edit</a>
+                                <a href="{{ route('operator.createWorker') }}" class="nav-link">Enroll</a>
                             </li>
                         </ul>
                     </div>

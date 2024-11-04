@@ -14,6 +14,12 @@
                 $('.modal').find('.hide-me-after-done').html('');
             }, 2000);
         });
+        Livewire.on('move-to-family', (event) => {
+            // console.log("move move");
+            setTimeout(() => {
+                $("#steparrow-family-info-tab").trigger("click");
+            }, 2000);
+        });
     });
 </script>
 @yield('script-bottom')
