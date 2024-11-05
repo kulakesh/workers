@@ -10,57 +10,57 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="steparrow-gen-info-tab" data-bs-toggle="pill"
                                         data-bs-target="#steparrow-gen-info" type="button" role="tab"
-                                        aria-controls="steparrow-gen-info" aria-selected="false">General</button>
+                                        aria-controls="steparrow-gen-info" aria-selected="false" wire:ignore.self>General</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-family-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-family-info" type="button"
                                         role="tab" aria-controls="steparrow-family-info"
-                                        aria-selected="false">Family</button>
+                                        aria-selected="false" wire:ignore.self>Family</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-employment-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-employment-info" type="button"
                                         role="tab" aria-controls="steparrow-employment-info"
-                                        aria-selected="false">Employment</button>
+                                        aria-selected="false" wire:ignore.self>Employment</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-photo-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-photo-info" type="button"
                                         role="tab" aria-controls="steparrow-photo-info"
-                                        aria-selected="false">Photo</button>
+                                        aria-selected="false" wire:ignore.self>Photo</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-biometric-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-biometric-info" type="button"
                                         role="tab" aria-controls="steparrow-biometric-info"
-                                        aria-selected="false">Biometric</button>
+                                        aria-selected="false" wire:ignore.self>Biometric</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-document-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-document-info" type="button"
                                         role="tab" aria-controls="steparrow-document-info"
-                                        aria-selected="false">Document</button>
+                                        aria-selected="false" wire:ignore.self>Document</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-review-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-review-info" type="button"
                                         role="tab" aria-controls="steparrow-review-info"
-                                        aria-selected="false">Review</button>
+                                        aria-selected="false" wire:ignore.self>Review</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-finish-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-finish-info" type="button"
                                         role="tab" aria-controls="steparrow-finish-info"
-                                        aria-selected="false">Finish</button>
+                                        aria-selected="false" wire:ignore.self>Finish</button>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="steparrow-gen-info" role="tabpanel"
-                            aria-labelledby="steparrow-gen-info-tab">
-                            <form wire:submit.prevent="generalSave">
+                            aria-labelledby="steparrow-gen-info-tab" wire:ignore.self>
+                            <form wire:submit.prevent="generalValidate">
                                 <div>
                                     <div class="card">
                                         <div class="card-header"><h5>Personal Details</h5></div>
@@ -275,7 +275,6 @@
 
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" id="moveFast">click</button>
                                     <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-description-info-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
@@ -285,9 +284,68 @@
                             <!-- end tab pane -->
 
                             <div class="tab-pane fade" id="steparrow-family-info" role="tabpanel"
-                                aria-labelledby="steparrow-family-info-tab">
+                                aria-labelledby="steparrow-family-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Family</h4>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th>#</th>
+                                                <th>Name</th>
+                                                <th>Age</th>
+                                                <th>Relation</th>
+                                                <th>-</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <form wire:submit.prevent="addFamilyMember">
+                                            <tr>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <input type="text" class="form-control" name="family_member_name" wire:model="family_member_name" placeholder="Family member name">
+                                                    @error('family_member_name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="family_member_age" wire:model="family_member_age" placeholder="Family member age">
+                                                    @error('family_member_age')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="family_member_relation" wire:model="family_member_relation" placeholder="Relation with Family member">
+                                                    @error('family_member_relation')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td><button type="submit" class="btn btn-primary">Add</button></td>
+                                            </tr>
+                                            </form>
+                                            @forelse ($family_members as $family_member)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $family_member['family_member_name'] }}</td>
+                                                    <td>{{ $family_member['family_member_age'] }}</td>
+                                                    <td>{{ $family_member['family_member_relation'] }}</td>
+                                                    <td><button class="btn btn-danger btn-sm" wire:click="removeFamilyMember({{$loop->index}})">Remove</button></td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td class="align-middle text-center" colspan="5">
+                                                        No results found
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
@@ -302,9 +360,71 @@
                             <!-- end tab pane -->
 
                             <div class="tab-pane fade" id="steparrow-employment-info" role="tabpanel"
-                                aria-labelledby="steparrow-employment-info-tab">
+                                aria-labelledby="steparrow-employment-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Employer Details</h4>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th>#</th>
+                                                <th>Description</th>
+                                                <th>Employer</th>
+                                                <th>Nature of work</th>
+                                                <th>-</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <form wire:submit.prevent="addEmployers">
+                                            <tr>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control" name="employer_description" wire:model="employer_description" rows="5"
+                                                    placeholder="Description of establishment / building work & address where the beneficiary is employed"></textarea>
+                                                    @error('employer_description')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control" name="employer_name_address" wire:model="employer_name_address" 
+                                                    placeholder="Name of employer & address"></textarea>
+                                                    @error('employer_name_address')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control" name="employer_nature" wire:model="employer_nature"  rows="4"
+                                                    placeholder="Nature of work done by the beneficiary/ which work dose he/she do"></textarea>
+                                                    @error('employer_nature')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td><button type="submit" class="btn btn-primary">Add</button></td>
+                                            </tr>
+                                            </form>
+                                            @forelse ($employers as $employer)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $employer['employer_description'] }}</td>
+                                                    <td>{{ $employer['employer_name_address'] }}</td>
+                                                    <td>{{ $employer['employer_nature'] }}</td>
+                                                    <td><button class="btn btn-danger btn-sm" wire:click="removeEmployers({{$loop->index}})">Remove</button></td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td class="align-middle text-center" colspan="5">
+                                                        No results found
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
@@ -319,7 +439,7 @@
                             <!-- end tab pane -->
 
                             <div class="tab-pane fade" id="steparrow-photo-info" role="tabpanel"
-                                aria-labelledby="steparrow-photo-info-tab">
+                                aria-labelledby="steparrow-photo-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Photo capture</h4>
                                 </div>
@@ -336,7 +456,7 @@
                             <!-- end tab pane -->
 
                             <div class="tab-pane fade" id="steparrow-biometric-info" role="tabpanel"
-                                aria-labelledby="steparrow-biometric-info-tab">
+                                aria-labelledby="steparrow-biometric-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Biometric Capture</h4>
                                 </div>
@@ -353,7 +473,7 @@
                             <!-- end tab pane -->
 
                             <div class="tab-pane fade" id="steparrow-document-info" role="tabpanel"
-                                aria-labelledby="steparrow-document-info-tab">
+                                aria-labelledby="steparrow-document-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Upload documents</h4>
                                 </div>
@@ -370,7 +490,7 @@
                             <!-- end tab pane -->
 
                             <div class="tab-pane fade" id="steparrow-review-info" role="tabpanel"
-                                aria-labelledby="steparrow-review-info-tab">
+                                aria-labelledby="steparrow-review-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Review</h4>
                                 </div>
@@ -386,7 +506,7 @@
                             </div>
                             <!-- end tab pane -->
 
-                            <div class="tab-pane fade" id="steparrow-finish-info" role="tabpanel">
+                            <div class="tab-pane fade" id="steparrow-finish-info" role="tabpanel" wire:ignore.self>
                                 <div class="text-center">
 
                                     <div class="avatar-md mt-5 mb-4 mx-auto">

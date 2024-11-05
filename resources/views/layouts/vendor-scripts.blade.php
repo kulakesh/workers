@@ -18,7 +18,7 @@
             // console.log("move move");
             setTimeout(() => {
                 $("#steparrow-family-info-tab").trigger("click");
-            }, 2000);
+            }, 500);
         });
     });
 </script>

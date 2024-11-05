@@ -11,56 +11,108 @@ class CreateWorker extends Component
 
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $cast, $tribe, $email, $phone, $city_t, $district_t, $state_t, $pin_t, $address_t, $city_p, $district_p, $state_p, $pin_p, $address_p, $nature, $serial, $doe, $dor, $turnover, $nominee, $relation, $del;
 
-    public function generalSave() 
-    {
+    public $family_member_name, $family_member_age, $family_member_relation;
+    public $family_members = [];
+
+    public $employer_description, $employer_name_address, $employer_nature;
+    public $employers = [];
+
+    public function addEmployers(){
         $this->validate([
-            'name' => 'required',
-            'gender' => 'required|in:Male,Female,Other',
-            'dob' => 'required|date_format:d/m/Y',
-            'email' => 'nullable|email',
-            'phone' => 'nullable|digits:10',
-            'pin_t' => 'nullable|digits:6',
-            'pin_p' => 'nullable|digits:6',
-            'doe' => 'nullable|date_format:d/m/Y',
-            'dor' => 'nullable|date_format:d/m/Y',
-            'turnover' => 'nullable|numeric'
+            'employer_description' => 'required',
+            'employer_name_address' => 'required',
+            'employer_nature' => 'required',
         ]);
 
-        $create = Registration::create([
-            'operator_id' => auth()->user()->id,
-            'system_id' => $this->getSystemID(),
-            'name' => $this->name,
-            'father' => $this->father,
-            'mother' => $this->mother,
-            'spouse' => $this->spouse,
-            'gender' => $this->gender,
-            'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
-            'cast' => $this->cast,
-            'tribe' => $this->tribe,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'city_t' => $this->city_t,
-            'district_t' => $this->district_t,
-            'state_t' => $this->state_t,
-            'pin_t' => $this->pin_t,
-            'address_t' => $this->address_t,
-            'city_p' => $this->city_p,
-            'district_p' => $this->district_p,
-            'state_p' => $this->state_p,
-            'pin_p' => $this->pin_p,
-            'address_p' => $this->address_p,
-            'nature' => $this->nature,
-            'serial' => $this->serial,
-            'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
-            'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
-            'turnover' => $this->turnover,
-            'nominee' => $this->nominee,
-            'relation' => $this->relation,
-            'del' => 0
+        array_push($this->employers, [
+            'employer_description' => $this->employer_description,
+            'employer_name_address' => $this->employer_name_address,
+            'employer_nature' => $this->employer_nature,
         ]);
 
-        session()->flash('message', 'Worker Created');
-        $this->resetVals();
+        $this->employer_description = null;
+        $this->employer_name_address = null;
+        $this->employer_nature = null;
+    }
+    public function removeEmployers($index){
+        array_splice($this->employers, $index, 1);
+    }
+    public function addFamilyMember(){
+        $this->validate([
+            'family_member_name' => 'required',
+            'family_member_age' => 'required|numeric',
+            'family_member_relation' => 'required',
+        ]);
+
+        array_push($this->family_members, [
+            'family_member_name' => $this->family_member_name,
+            'family_member_age' => $this->family_member_age,
+            'family_member_relation' => $this->family_member_relation,
+        ]);
+
+        $this->family_member_name = null;
+        $this->family_member_age = null;
+        $this->family_member_relation = null;
+    }
+    public function removeFamilyMember($index){
+        array_splice($this->family_members, $index, 1);
+    }
+    private $generalRules = [
+        'name' => 'required',
+        'gender' => 'required|in:Male,Female,Other',
+        'dob' => 'required|date_format:d/m/Y',
+        'email' => 'nullable|email',
+        'phone' => 'nullable|digits:10',
+        'pin_t' => 'nullable|digits:6',
+        'pin_p' => 'nullable|digits:6',
+        'doe' => 'nullable|date_format:d/m/Y',
+        'dor' => 'nullable|date_format:d/m/Y',
+        'turnover' => 'nullable|numeric'
+    ];
+    private $generalMessages = [
+        'dob.date_format' => 'Must match the format DD/MM/YYYY',
+        'doe.date_format' => 'Must match the format DD/MM/YYYY',
+        'dor.date_format' => 'Must match the format DD/MM/YYYY'
+    ];
+    public function generalValidate() 
+    {
+        $this->validate($this->generalRules,$this->generalMessages);
+
+        // $create = Registration::create([
+        //     'operator_id' => auth()->user()->id,
+        //     'system_id' => $this->getSystemID(),
+        //     'name' => $this->name,
+        //     'father' => $this->father,
+        //     'mother' => $this->mother,
+        //     'spouse' => $this->spouse,
+        //     'gender' => $this->gender,
+        //     'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
+        //     'cast' => $this->cast,
+        //     'tribe' => $this->tribe,
+        //     'email' => $this->email,
+        //     'phone' => $this->phone,
+        //     'city_t' => $this->city_t,
+        //     'district_t' => $this->district_t,
+        //     'state_t' => $this->state_t,
+        //     'pin_t' => $this->pin_t,
+        //     'address_t' => $this->address_t,
+        //     'city_p' => $this->city_p,
+        //     'district_p' => $this->district_p,
+        //     'state_p' => $this->state_p,
+        //     'pin_p' => $this->pin_p,
+        //     'address_p' => $this->address_p,
+        //     'nature' => $this->nature,
+        //     'serial' => $this->serial,
+        //     'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
+        //     'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
+        //     'turnover' => $this->turnover,
+        //     'nominee' => $this->nominee,
+        //     'relation' => $this->relation,
+        //     'del' => 0
+        // ]);
+
+        session()->flash('message', 'Worker General Complete');
+        // $this->resetVals();
         $this->dispatch('move-to-family');
     }
 
