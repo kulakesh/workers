@@ -33,4 +33,13 @@ class MainController extends Controller
         ];
         return view('operator.main', compact('params'));
     }
+    public function createDocument(){
+        $params = [
+            'page_group' => 'Settings',
+            'page_name' => 'Document Heads',
+            'page_id' => 'document'
+
+        ];
+        return view('admin.main', compact('params'));
+    }
 }

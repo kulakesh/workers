@@ -9,8 +9,8 @@
 
     @if($params['page_id'] == 'district')
     <livewire:create-district />
-    @elseif($params['page_id'] == 'item')
-    <livewire:create-item />
+    @elseif($params['page_id'] == 'document')
+    <livewire:document-heads-create />
     @elseif($params['page_id'] == 'variety')
     <livewire:create-variety  :item_id="$item_id"/>
     @endif

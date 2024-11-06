@@ -54,6 +54,20 @@
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarSettings" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarSettings">
+                        <i class="bx bx-bell"></i> <span>Settings</span>
+                    </a>
+                    <div class="collapse {{ request()->is('admin/settings*') ? 'show' : null }} menu-dropdown" id="sidebarSettings">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.createDocument') }}" class="nav-link">Documents</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->
