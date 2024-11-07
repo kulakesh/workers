@@ -474,18 +474,55 @@
 
                             <div class="tab-pane fade" id="steparrow-document-info" role="tabpanel"
                                 aria-labelledby="steparrow-document-info-tab" wire:ignore.self>
+                                <form wire:submit.prevent="validateDocuments">
                                 <div>
                                     <h4>Upload documents</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <table class="table table-bordered">
+                                            @foreach($document_heads as $index => $document_head)
+                                                <tr>
+                                                    <td>
+                                                        {{ $document_head->name }}
+                                                        @if($document_head->type == 'required') <span class="required">*</span> @endif
+                                                    </td>
+                                                    <td>
+                                                    <select name="documents.{{$index}}" wire:model="documents.{{$index}}" class="form-select" aria-label="Document Type">
+                                                        <option value="" selected="">Document Type</option>
+                                                        @foreach($document_head->docs as $document)
+                                                        <option value="{{ $document->id }}">{{ $document->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('documents.'.$index)
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                    </td>
+                                                    <td>
+                                                    <input type="file" wire:model="uploaded_documents.{{$index}}" accept="image/png, image/jpeg, application/pdf" class="form-select" />
+                                                    @error('uploaded_documents.'.$index)
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
                                         data-previous="steparrow-biometric-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                             Biometric</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-review-info-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                                 </div>
+                                </form>
                             </div>
                             <!-- end tab pane -->
 

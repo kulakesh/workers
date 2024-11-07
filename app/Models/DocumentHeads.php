@@ -18,7 +18,7 @@ class DocumentHeads extends Model
     ];
     public function docs(): HasMany
     {
-        return $this->hasMany(Documents::class,'head_id');
+        return $this->hasMany(Documents::class,'head_id')->whereDel(0);
     }
     protected $attributes = [
         'del' => 0

@@ -2,12 +2,16 @@
 
 namespace App\Livewire;
 
+use Livewire\WithFileUploads;
+use App\Models\DocumentHeads;
 use App\Models\Registration;
 use Carbon\Carbon;
 use Livewire\Component;
 
+
 class CreateWorker extends Component
 {
+    use WithFileUploads;
 
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $cast, $tribe, $email, $phone, $city_t, $district_t, $state_t, $pin_t, $address_t, $city_p, $district_p, $state_p, $pin_p, $address_p, $nature, $serial, $doe, $dor, $turnover, $nominee, $relation, $del;
 
@@ -17,6 +21,35 @@ class CreateWorker extends Component
     public $employer_description, $employer_name_address, $employer_nature;
     public $employers = [];
 
+    public $documents = [];
+    public $uploaded_documents = [];
+
+    public $uploaded_document_name;
+
+
+    public function validateDocuments(){
+        $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
+        $rule = [];
+        $message = [];
+        $attributes = [];
+        foreach($document_heads as $index => $document_head){
+            if($document_head->type == 'required') {
+                $rule['documents.'.$index] = 'required';
+                $message['documents.'.$index] = $document_head->name.' is required';
+            }
+            $rule['uploaded_documents.'.$index] = ($document_head->type == 'required' ? 'required|' : '') . 'mimes:jpeg,png,pdf|max:1024';
+            $message['uploaded_documents.'.$index.'.required'] = 'Select document for '. $document_head->name;
+            $attributes['uploaded_documents.'.$index] = $document_head->name;
+        }
+        // dd($rule, $message, $attributes);
+        $this->validate($rule, $message, $attributes);
+        
+        foreach($this->uploaded_documents as $index => $uploaded_document){
+            $uploaded_document_name[$index] = hexdec(uniqid()).'.'.$uploaded_document->getClientOriginalExtension();
+            $uploaded_document->storeAs('temp_uploads/', $uploaded_document_name[$index], 'public');
+        }
+        
+    }
     public function addEmployers(){
         $this->validate([
             'employer_description' => 'required',
@@ -258,6 +291,7 @@ class CreateWorker extends Component
     }
     public function render()
     {
-        return view('livewire.create-worker');
+        $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
+        return view('livewire.create-worker', compact('document_heads'));
     }
 }
