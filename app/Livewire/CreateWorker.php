@@ -24,7 +24,7 @@ class CreateWorker extends Component
     public $documents = [];
     public $uploaded_documents = [];
 
-    public $uploaded_document_name;
+    public $uploaded_document_name = [];
 
 
     public function validateDocuments(){
@@ -44,9 +44,10 @@ class CreateWorker extends Component
         // dd($rule, $message, $attributes);
         $this->validate($rule, $message, $attributes);
         
+        $this->uploaded_document_name = [];
         foreach($this->uploaded_documents as $index => $uploaded_document){
-            $uploaded_document_name[$index] = hexdec(uniqid()).'.'.$uploaded_document->getClientOriginalExtension();
-            $uploaded_document->storeAs('temp_uploads/', $uploaded_document_name[$index], 'public');
+            $this->uploaded_document_name[$index] = hexdec(uniqid()).'.'.$uploaded_document->getClientOriginalExtension();
+            $uploaded_document->storeAs('temp_uploads/', $this->uploaded_document_name[$index], 'public');
         }
         
     }

@@ -153,7 +153,7 @@
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="pin_t"
                                                     label="Pin"
-                                                    placeholder="Pin number"
+                                                    placeholder="Pin Number"
                                                 />
                                                 </div>
                                             </div>
@@ -177,13 +177,13 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="city_t"
+                                                <x-input-wire name="city_p"
                                                     label="City/Village"
                                                     placeholder="City/Village"
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="district_t"
+                                                <x-input-wire name="district_p"
                                                     label="District"
                                                     placeholder="District"
                                                     />
@@ -191,20 +191,20 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="state_t"
+                                                <x-input-wire name="state_p"
                                                     label="State"
                                                     placeholder="Arunachal"
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="pin_t"
+                                                <x-input-wire name="pin_p"
                                                     label="Pin"
                                                     placeholder="Pin number"
                                                 />
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <x-input-wire name="address_t"
+                                                <x-input-wire name="address_p"
                                                     label="Address"
                                                     placeholder="Address"
                                                 />
@@ -529,7 +529,133 @@
                             <div class="tab-pane fade" id="steparrow-review-info" role="tabpanel"
                                 aria-labelledby="steparrow-review-info-tab" wire:ignore.self>
                                 <div>
-                                    <h4>Review</h4>
+                                    <h4>Personal Details</h4>
+                                    <div class="row">
+                                        <div class="col-md-8 col-sm-6">
+                                            <div>Beneficiary Name :  <strong>{{ $name }}</strong></div>
+                                            <div>Father's Name :  <strong>{{ $father }}</strong></div>
+                                            <div>Mother's Name :  <strong>{{ $mother }}</strong></div>
+                                            <div>Spouse's Name :  <strong>{{ $spouse }}</strong></div>
+                                            <div>Gender :  <strong>{{ $gender }}</strong></div>
+                                            <div>Date of Birth :  <strong>{{ $dob }}</strong></div>
+                                            <div>Cast :  <strong>{{ $cast }}</strong></div>
+                                            <div>Tribe's Name :  <strong>{{ $tribe }}</strong></div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">Photo</div>
+                                    </div>
+                                    <h4>Present Address</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div>City/Village :  <strong>{{ $city_t }}</strong></div>
+                                            <div>District :  <strong>{{ $district_t }}</strong></div>
+                                            <div>State :  <strong>{{ $state_t }}</strong></div>
+                                            <div>Pin Number :  <strong>{{ $pin_t }}</strong></div>
+                                            <div>Address :  <strong>{{ $address_t }}</strong></div>
+                                        </div>
+                                    </div>
+                                    <h4>Permanent Address</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div>City/Village :  <strong>{{ $city_p }}</strong></div>
+                                            <div>District :  <strong>{{ $district_p }}</strong></div>
+                                            <div>State :  <strong>{{ $state_p }}</strong></div>
+                                            <div>Pin Number :  <strong>{{ $pin_p }}</strong></div>
+                                            <div>Address :  <strong>{{ $address_p }}</strong></div>
+                                        </div>
+                                    </div>
+                                    <h4>Work Details</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div>Nature of work :  <strong>{{ $nature }}</strong></div>
+                                            <div>Old serial/registration number :  <strong>{{ $serial }}</strong></div>
+                                            <div>Date of registration :  <strong>{{ $doe }}</strong></div>
+                                            <div>Date of retirement :  <strong>{{ $dor }}</strong></div>
+                                            <div>Anual turnover :  <strong>{{ $turnover }}</strong></div>
+                                        </div>
+                                    </div>
+                                    <h4>Nominee details</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div>Nominee Name :  <strong>{{ $nominee }}</strong></div>
+                                            <div>Relation with beneficiary :  <strong>{{ $relation }}</strong></div>
+                                        </div>
+                                    </div>
+                                    <h4>Work Details</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th>#</th>
+                                                        <th>Name</th>
+                                                        <th>Age</th>
+                                                        <th>Relation</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($family_members as $family_member)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $family_member['family_member_name'] }}</td>
+                                                            <td>{{ $family_member['family_member_age'] }}</td>
+                                                            <td>{{ $family_member['family_member_relation'] }}</td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td class="align-middle text-center" colspan="4">
+                                                                No results found
+                                                            </td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <h4>Employer Details</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th>#</th>
+                                                        <th>Description</th>
+                                                        <th>Employer</th>
+                                                        <th>Nature of work</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($employers as $employer)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $employer['employer_description'] }}</td>
+                                                            <td>{{ $employer['employer_name_address'] }}</td>
+                                                            <td>{{ $employer['employer_nature'] }}</td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td class="align-middle text-center" colspan="4">
+                                                                No results found
+                                                            </td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <h4>Documents</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                        @foreach($document_heads as $index => $document_head)
+                                            <div>
+                                                {{ $document_head->name }} 
+                                                @if(array_key_exists($index,$documents)) - {{ $document_head->docs->where('id',$documents[$index])->first()->name }} @endif
+                                                @if(array_key_exists($index,$uploaded_document_name)) 
+                                                    - <a target="_blank" href="{{ asset('storage/temp_uploads/'.$uploaded_document_name[$index]) }}">View</a>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="button" class="btn btn-light btn-label previestab"
