@@ -442,16 +442,41 @@
                                 aria-labelledby="steparrow-photo-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Photo capture</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn-primary" id="startWebcam">Start Camera</button>
+                                            <button class="btn btn-danger" id="stoptWebcam">Stop Camera</button>
+                                            <button class="btn btn-warning" id="takePhoto">Take Photo</button>
+                                            <button class="btn btn-warning" id="uploadPhoto">Upload</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <video width=400 height=400 id="video" controls autoplay></video>
+                                            <x-alert showError/>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            @error('photo')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                            <canvas style="border:1px solid black;" id="myCanvas" width="400" height="300"></canvas>  
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" class="btn btn-light btn-label previestab"
-                                        data-previous="steparrow-employment-info-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
-                                            Employment</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                        data-nexttab="steparrow-biometric-info"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
-                                </div>
+                                <form wire:submit.prevent="validatePhoto">
+                                    <div class="d-flex align-items-start gap-3 mt-4">
+                                        <input type="text" id="workerPhoto" wire:model="photo" value="">
+                                        <button type="button" class="btn btn-light btn-label previestab"
+                                            data-previous="steparrow-employment-info-tab"><i
+                                                class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
+                                                Employment</button>
+                                        <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                            data-nexttab="steparrow-biometric-info"><i
+                                                class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                    </div>
+                                </form>
                             </div>
                             <!-- end tab pane -->
 
@@ -465,7 +490,7 @@
                                         data-previous="steparrow-photo-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                             Photo</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-document-info-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                                 </div>
@@ -717,5 +742,70 @@
         });
     }
 
+    document.addEventListener('livewire:init', () => {
+        Livewire.on('close-modal', (event) => {
+            setTimeout(() => {
+                $('.modal').modal('hide');
+                $('.modal').find('.hide-me-after-done').html('');
+            }, 2000);
+        });
+        Livewire.on('move-to-family', (event) => {
+            // console.log("move move");
+            setTimeout(() => {
+                $("#steparrow-family-info-tab").trigger("click");
+            }, 500);
+        });
+    });
+
+    ////Photo scripts
+    navigator.getUserMedia = ( navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia);
+
+    var video, webcamStream;
+    var canvas, ctx;
+
+    $(document).ready(function () {
+        canvas = document.getElementById("myCanvas");
+        ctx = canvas.getContext('2d');
+    });
+    $('#startWebcam').click(function () {
+        console.log(navigator.getUserMedia);
+        if (navigator.getUserMedia) {
+           navigator.getUserMedia (
+              // constraints
+              {
+                 video: true,
+                 audio: false
+              },
+
+              // successCallback
+              function(localMediaStream) {
+                video = document.querySelector('video');
+                 video.srcObject=localMediaStream;
+                 // webcamStream = localMediaStream;
+              },
+
+              // errorCallback
+              function(err) {
+                 console.log("The following error occured: " + err);
+              }
+           );
+        } else {
+           console.log("getUserMedia not supported");
+        }  
+    });
+
+    $('#stoptWebcam').click(function () {
+        video.srcObject=null;
+    });
+    $('#takePhoto').click(function () {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    });
+    $('#uploadPhoto').click(function () {
+        var dataURL = canvas.toDataURL();
+		$('#workerPhoto').val(dataURL);
+    });
 </script>
 @endsection

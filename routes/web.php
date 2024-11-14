@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 
+URL::forceScheme('https');
+
 require __DIR__.'/global.php';
 Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',[AuthController::class,'adminIndex'])->name('index');

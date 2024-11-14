@@ -7,6 +7,7 @@ use App\Models\DocumentHeads;
 use App\Models\Registration;
 use Carbon\Carbon;
 use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
 
 
 class CreateWorker extends Component
@@ -26,7 +27,44 @@ class CreateWorker extends Component
 
     public $uploaded_document_name = [];
 
-
+    public $photo, $photo_name;
+    
+    public function validatePhoto(){
+        
+        $this->validate([
+			'photo' => [
+				'required',
+				// function ($attribute, $value, $fail) {
+                //     $data = base64_decode($this->photo);
+                //     $im = imagecreatefromstring($data);
+                //     if(!$im){
+                //         $fail("Need to take a photo!");
+                //     }
+                // },
+            ],
+		]);
+        $this->photo_name = hexdec(uniqid()).'.png';
+        $data = $this->photo;
+        if (preg_match('/^data:image\/(\w+);base64,/', $data, $type)) {
+            $data = substr($data, strpos($data, ',') + 1);
+            $type = strtolower($type[1]); // jpg, png, gif
+        
+            if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                throw new \Exception('invalid image type');
+            }
+            $data = str_replace( ' ', '+', $data );
+            $data = base64_decode($data);
+        
+            if ($data === false) {
+                throw new \Exception('base64_decode failed');
+            }
+        } else {
+            throw new \Exception('did not match data URI with image data');
+        }
+        // file_put_contents("img.{$type}", $data);
+        Storage::disk('public')->put($this->photo_name, $data);
+        // dd($this->photo);
+    }
     public function validateDocuments(){
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         $rule = [];
