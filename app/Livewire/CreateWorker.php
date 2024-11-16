@@ -28,21 +28,32 @@ class CreateWorker extends Component
     public $uploaded_document_name = [];
 
     public $photo, $photo_name;
+
+    public $finger, $finger_name, $finger_template;
     
+    public function validateFinger(){
+        $this->validate([
+			'finger' => 'required',
+			'finger_template' => 'required'
+		],[
+            'finger.required' => 'Capture a finger print',
+            'finger_template.required' => 'Capture a finger print'
+        ]);
+        if($this->finger != 'testing'){
+            $this->finger_name = hexdec(uniqid()).'.png';
+            $data = base64_decode($this->finger);
+            Storage::disk('public')->put('biometric/'.$this->finger_name, $data);
+        }else{
+            $this->finger_name = 'do-not-delete-finger.png';
+        }
+    }
     public function validatePhoto(){
         
         $this->validate([
-			'photo' => [
-				'required',
-				// function ($attribute, $value, $fail) {
-                //     $data = base64_decode($this->photo);
-                //     $im = imagecreatefromstring($data);
-                //     if(!$im){
-                //         $fail("Need to take a photo!");
-                //     }
-                // },
-            ],
-		]);
+			'photo' => 'required'
+		],[
+            'photo.required' => 'Start the camera then take a photo'
+        ]);
         $this->photo_name = hexdec(uniqid()).'.png';
         $data = $this->photo;
         if (preg_match('/^data:image\/(\w+);base64,/', $data, $type)) {
@@ -61,9 +72,8 @@ class CreateWorker extends Component
         } else {
             throw new \Exception('did not match data URI with image data');
         }
-        // file_put_contents("img.{$type}", $data);
-        Storage::disk('public')->put($this->photo_name, $data);
-        // dd($this->photo);
+
+        Storage::disk('public')->put('photo/'.$this->photo_name, $data);
     }
     public function validateDocuments(){
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
@@ -77,6 +87,7 @@ class CreateWorker extends Component
             }
             $rule['uploaded_documents.'.$index] = ($document_head->type == 'required' ? 'required|' : '') . 'mimes:jpeg,png,pdf|max:1024';
             $message['uploaded_documents.'.$index.'.required'] = 'Select document for '. $document_head->name;
+            $message['uploaded_documents.'.$index.'.mimes'] = 'Only jpeg,png,pdf';
             $attributes['uploaded_documents.'.$index] = $document_head->name;
         }
         // dd($rule, $message, $attributes);
@@ -85,7 +96,7 @@ class CreateWorker extends Component
         $this->uploaded_document_name = [];
         foreach($this->uploaded_documents as $index => $uploaded_document){
             $this->uploaded_document_name[$index] = hexdec(uniqid()).'.'.$uploaded_document->getClientOriginalExtension();
-            $uploaded_document->storeAs('temp_uploads/', $this->uploaded_document_name[$index], 'public');
+            $uploaded_document->storeAs('document/', $this->uploaded_document_name[$index], 'public');
         }
         
     }

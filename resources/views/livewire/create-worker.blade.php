@@ -447,13 +447,11 @@
                                             <button class="btn btn-primary" id="startWebcam">Start Camera</button>
                                             <button class="btn btn-danger" id="stoptWebcam">Stop Camera</button>
                                             <button class="btn btn-warning" id="takePhoto">Take Photo</button>
-                                            <button class="btn btn-warning" id="uploadPhoto">Upload</button>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12">
                                             <video width=400 height=400 id="video" controls autoplay></video>
-                                            <x-alert showError/>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             @error('photo')
@@ -467,7 +465,6 @@
                                 </div>
                                 <form wire:submit.prevent="validatePhoto">
                                     <div class="d-flex align-items-start gap-3 mt-4">
-                                        <input type="text" id="workerPhoto" wire:model="photo" value="">
                                         <button type="button" class="btn btn-light btn-label previestab"
                                             data-previous="steparrow-employment-info-tab"><i
                                                 class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
@@ -484,16 +481,31 @@
                                 aria-labelledby="steparrow-biometric-info-tab" wire:ignore.self>
                                 <div>
                                     <h4>Biometric Capture</h4>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button class="btn btn-primary" id="captureFinger">Capture</button>
+                                        </div>
+                                        <div class="col-12">
+                                            @error('finger')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                            <img id="finger-print" src="" wire:ignore.self />
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" class="btn btn-light btn-label previestab"
-                                        data-previous="steparrow-photo-info-tab"><i
-                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
-                                            Photo</button>
-                                    <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                        data-nexttab="steparrow-document-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
-                                </div>
+                                <form wire:submit.prevent="validateFinger">
+                                    <div class="d-flex align-items-start gap-3 mt-4">
+                                        <button type="button" class="btn btn-light btn-label previestab"
+                                            data-previous="steparrow-photo-info-tab"><i
+                                                class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
+                                                Photo</button>
+                                        <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                            data-nexttab="steparrow-document-info-tab"><i
+                                                class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                    </div>
+                                </form>
                             </div>
                             <!-- end tab pane -->
 
@@ -566,38 +578,52 @@
                                             <div>Cast :  <strong>{{ $cast }}</strong></div>
                                             <div>Tribe's Name :  <strong>{{ $tribe }}</strong></div>
                                         </div>
-                                        <div class="col-md-4 col-sm-6">Photo</div>
+                                        <div class="col-md-4 col-sm-6">
+                                            @if($photo_name && file_exists(public_path('storage/photo/') . $photo_name))
+                                            <img class="d-block img-fluid mx-auto" src="{{ asset('storage/photo/'. $photo_name)}}" alt="Photo">
+                                            @endif
+                                        </div>
                                     </div>
                                     <h4>Present Address</h4>
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <div>City/Village :  <strong>{{ $city_t }}</strong></div>
-                                            <div>District :  <strong>{{ $district_t }}</strong></div>
-                                            <div>State :  <strong>{{ $state_t }}</strong></div>
-                                            <div>Pin Number :  <strong>{{ $pin_t }}</strong></div>
-                                            <div>Address :  <strong>{{ $address_t }}</strong></div>
+                                        <div class="col-md-8 col-sm-6">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div>City/Village :  <strong>{{ $city_t }}</strong></div>
+                                                    <div>District :  <strong>{{ $district_t }}</strong></div>
+                                                    <div>State :  <strong>{{ $state_t }}</strong></div>
+                                                    <div>Pin Number :  <strong>{{ $pin_t }}</strong></div>
+                                                    <div>Address :  <strong>{{ $address_t }}</strong></div>
+                                                </div>
+                                            </div>
+                                            <h4>Permanent Address</h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div>City/Village :  <strong>{{ $city_p }}</strong></div>
+                                                    <div>District :  <strong>{{ $district_p }}</strong></div>
+                                                    <div>State :  <strong>{{ $state_p }}</strong></div>
+                                                    <div>Pin Number :  <strong>{{ $pin_p }}</strong></div>
+                                                    <div>Address :  <strong>{{ $address_p }}</strong></div>
+                                                </div>
+                                            </div>
+                                            <h4>Work Details</h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div>Nature of work :  <strong>{{ $nature }}</strong></div>
+                                                    <div>Old serial/registration number :  <strong>{{ $serial }}</strong></div>
+                                                    <div>Date of registration :  <strong>{{ $doe }}</strong></div>
+                                                    <div>Date of retirement :  <strong>{{ $dor }}</strong></div>
+                                                    <div>Anual turnover :  <strong>{{ $turnover }}</strong></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6">
+                                            @if($finger_name && file_exists(public_path('storage/biometric/') . $finger_name))
+                                            <img class="d-block img-fluid mx-auto" src="{{ asset('storage/biometric/'. $finger_name)}}" alt="Biometric">
+                                            @endif
                                         </div>
                                     </div>
-                                    <h4>Permanent Address</h4>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div>City/Village :  <strong>{{ $city_p }}</strong></div>
-                                            <div>District :  <strong>{{ $district_p }}</strong></div>
-                                            <div>State :  <strong>{{ $state_p }}</strong></div>
-                                            <div>Pin Number :  <strong>{{ $pin_p }}</strong></div>
-                                            <div>Address :  <strong>{{ $address_p }}</strong></div>
-                                        </div>
-                                    </div>
-                                    <h4>Work Details</h4>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div>Nature of work :  <strong>{{ $nature }}</strong></div>
-                                            <div>Old serial/registration number :  <strong>{{ $serial }}</strong></div>
-                                            <div>Date of registration :  <strong>{{ $doe }}</strong></div>
-                                            <div>Date of retirement :  <strong>{{ $dor }}</strong></div>
-                                            <div>Anual turnover :  <strong>{{ $turnover }}</strong></div>
-                                        </div>
-                                    </div>
+                                    
                                     <h4>Nominee details</h4>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -605,7 +631,7 @@
                                             <div>Relation with beneficiary :  <strong>{{ $relation }}</strong></div>
                                         </div>
                                     </div>
-                                    <h4>Work Details</h4>
+                                    <h4>Family Details</h4>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <table class="table table-bordered">
@@ -675,7 +701,7 @@
                                                 {{ $document_head->name }} 
                                                 @if(array_key_exists($index,$documents)) - {{ $document_head->docs->where('id',$documents[$index])->first()->name }} @endif
                                                 @if(array_key_exists($index,$uploaded_document_name)) 
-                                                    - <a target="_blank" href="{{ asset('storage/temp_uploads/'.$uploaded_document_name[$index]) }}">View</a>
+                                                    - <a target="_blank" href="{{ asset('storage/document/'.$uploaded_document_name[$index]) }}">View</a>
                                                 @endif
                                             </div>
                                         @endforeach
@@ -802,10 +828,40 @@
     });
     $('#takePhoto').click(function () {
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    });
-    $('#uploadPhoto').click(function () {
         var dataURL = canvas.toDataURL();
-		$('#workerPhoto').val(dataURL);
+        @this.set('photo', dataURL);
+        video.srcObject=null;
+    });
+
+    //finger print
+    $('#captureFinger').click(function () {
+        if(!navigator.userAgent.includes('Windows')){
+            console.log('testing from other os');
+            @this.set('finger', 'testing');
+            @this.set('finger_template', 'testing from mac');
+            return;
+        }
+        var url = "http://localhost:8080/CallMorphoAPI";
+        var xmlhttp;
+        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp=new XMLHttpRequest();
+        }else{// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        
+        xmlhttp.onreadystatechange=function(){
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+                fpobject = JSON.parse(xmlhttp.responseText);
+                console.log(fpobject.Base64ISOTemplate);
+                document.getElementById("finger-print").src = "data:image/png;base64, "+fpobject.Base64BMPIMage+"";
+                @this.set('finger', fpobject.Base64BMPIMage);
+                @this.set('finger_template',fpobject.Base64ISOTemplate);
+            }
+        }
+
+        var timeout = 5;
+        xmlhttp.open("POST",url+"?"+timeout,true);
+        xmlhttp.send();
     });
 </script>
 @endsection
