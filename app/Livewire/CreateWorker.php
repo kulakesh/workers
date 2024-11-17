@@ -46,6 +46,9 @@ class CreateWorker extends Component
         }else{
             $this->finger_name = 'do-not-delete-finger.png';
         }
+
+        session()->flash('message', 'Worker Biometric Capture Complete');
+        $this->dispatch('move-to-document');
     }
     public function validatePhoto(){
         
@@ -74,6 +77,9 @@ class CreateWorker extends Component
         }
 
         Storage::disk('public')->put('photo/'.$this->photo_name, $data);
+
+        session()->flash('message', 'Worker Photo Capture Complete');
+        $this->dispatch('move-to-biometric');
     }
     public function validateDocuments(){
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
@@ -98,7 +104,9 @@ class CreateWorker extends Component
             $this->uploaded_document_name[$index] = hexdec(uniqid()).'.'.$uploaded_document->getClientOriginalExtension();
             $uploaded_document->storeAs('document/', $this->uploaded_document_name[$index], 'public');
         }
-        
+
+        session()->flash('message', 'Worker Document Upload Complete');
+        $this->dispatch('move-to-review');
     }
     public function addEmployers(){
         $this->validate([
@@ -117,6 +125,10 @@ class CreateWorker extends Component
         $this->employer_name_address = null;
         $this->employer_nature = null;
     }
+    public function submitEmployers(){
+        session()->flash('message', 'Worker Employer Complete');
+        $this->dispatch('move-to-photo');
+    }
     public function removeEmployers($index){
         array_splice($this->employers, $index, 1);
     }
@@ -126,7 +138,7 @@ class CreateWorker extends Component
             'family_member_age' => 'required|numeric',
             'family_member_relation' => 'required',
         ]);
-
+        dd('here');
         array_push($this->family_members, [
             'family_member_name' => $this->family_member_name,
             'family_member_age' => $this->family_member_age,
@@ -136,6 +148,11 @@ class CreateWorker extends Component
         $this->family_member_name = null;
         $this->family_member_age = null;
         $this->family_member_relation = null;
+
+    }
+    public function submitFamilyMember(){
+        session()->flash('message', 'Worker Family Complete');
+        $this->dispatch('move-to-employer');
     }
     public function removeFamilyMember($index){
         array_splice($this->family_members, $index, 1);

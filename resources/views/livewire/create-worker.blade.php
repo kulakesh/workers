@@ -352,7 +352,7 @@
                                         data-previous="steparrow-gen-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                         General</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="button" wire:click="submitFamilyMember()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-employment-info"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
                                 </div>
@@ -431,7 +431,7 @@
                                         data-previous="steparrow-family-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                         Family</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="button" wire:click="submitEmployers()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="pills-photo-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                                 </div>
@@ -767,7 +767,7 @@
             datePattern: ['d', 'm', 'Y']
         });
     }
-
+    // Listners
     document.addEventListener('livewire:init', () => {
         Livewire.on('close-modal', (event) => {
             setTimeout(() => {
@@ -776,10 +776,37 @@
             }, 2000);
         });
         Livewire.on('move-to-family', (event) => {
-            // console.log("move move");
             setTimeout(() => {
                 $("#steparrow-family-info-tab").trigger("click");
-            }, 500);
+            }, 200);
+        });
+        Livewire.on('move-to-employer', (event) => {
+            setTimeout(() => {
+                $("#steparrow-employment-info-tab").trigger("click");
+            }, 200);
+        });
+        Livewire.on('move-to-photo', (event) => {
+            setTimeout(() => {
+                $("#steparrow-photo-info-tab").trigger("click");
+            }, 200);
+        });
+        Livewire.on('move-to-biometric', (event) => {
+            // console.log("move move");
+            setTimeout(() => {
+                $("#steparrow-biometric-info-tab").trigger("click");
+            }, 200);
+        });
+        Livewire.on('move-to-document', (event) => {
+            // console.log("move move");
+            setTimeout(() => {
+                $("#steparrow-document-info-tab").trigger("click");
+            }, 200);
+        });
+        Livewire.on('move-to-review', (event) => {
+            // console.log("move move");
+            setTimeout(() => {
+                $("#steparrow-review-info-tab").trigger("click");
+            }, 200);
         });
     });
 
