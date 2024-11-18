@@ -569,14 +569,62 @@
                                     <h4>Personal Details</h4>
                                     <div class="row">
                                         <div class="col-md-8 col-sm-6">
-                                            <div>Beneficiary Name :  <strong>{{ $name }}</strong></div>
-                                            <div>Father's Name :  <strong>{{ $father }}</strong></div>
-                                            <div>Mother's Name :  <strong>{{ $mother }}</strong></div>
-                                            <div>Spouse's Name :  <strong>{{ $spouse }}</strong></div>
-                                            <div>Gender :  <strong>{{ $gender }}</strong></div>
-                                            <div>Date of Birth :  <strong>{{ $dob }}</strong></div>
-                                            <div>Cast :  <strong>{{ $cast }}</strong></div>
-                                            <div>Tribe's Name :  <strong>{{ $tribe }}</strong></div>
+                                            <div>Beneficiary Name :  <strong>{{ $name }}</strong>
+                                                @error('name')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Father's Name :  <strong>{{ $father }}</strong>
+                                                @error('father')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Mother's Name :  <strong>{{ $mother }}</strong>
+                                                @error('mother')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Spouse's Name :  <strong>{{ $spouse }}</strong>
+                                                @error('spouse')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Gender :  <strong>{{ $gender }}</strong>
+                                                @error('gender')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Date of Birth :  <strong>{{ $dob }}</strong>
+                                                @error('dob')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Cast :  <strong>{{ $cast }}</strong>
+                                                @error('cast')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Tribe's Name :  <strong>{{ $tribe }}</strong>
+                                                @error('tribe')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div class="col-md-4 col-sm-6">
                                             @if($photo_name && file_exists(public_path('storage/photo/') . $photo_name))
@@ -589,31 +637,121 @@
                                         <div class="col-md-8 col-sm-6">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div>City/Village :  <strong>{{ $city_t }}</strong></div>
-                                                    <div>District :  <strong>{{ $district_t }}</strong></div>
-                                                    <div>State :  <strong>{{ $state_t }}</strong></div>
-                                                    <div>Pin Number :  <strong>{{ $pin_t }}</strong></div>
-                                                    <div>Address :  <strong>{{ $address_t }}</strong></div>
+                                                    <div>City/Village :  <strong>{{ $city_t }}</strong>
+                                                        @error('city_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>District :  <strong>{{ $district_t }}</strong>
+                                                        @error('district_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>State :  <strong>{{ $state_t }}</strong>
+                                                        @error('state_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Pin Number :  <strong>{{ $pin_t }}</strong>
+                                                        @error('pin_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Address :  <strong>{{ $address_t }}</strong>
+                                                        @error('address_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                             <h4>Permanent Address</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div>City/Village :  <strong>{{ $city_p }}</strong></div>
-                                                    <div>District :  <strong>{{ $district_p }}</strong></div>
-                                                    <div>State :  <strong>{{ $state_p }}</strong></div>
-                                                    <div>Pin Number :  <strong>{{ $pin_p }}</strong></div>
-                                                    <div>Address :  <strong>{{ $address_p }}</strong></div>
+                                                    <div>City/Village :  <strong>{{ $city_p }}</strong>
+                                                        @error('city_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>District :  <strong>{{ $district_p }}</strong>
+                                                        @error('district_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>State :  <strong>{{ $state_p }}</strong>
+                                                        @error('state_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Pin Number :  <strong>{{ $pin_p }}</strong>
+                                                        @error('pin_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Address :  <strong>{{ $address_p }}</strong>
+                                                        @error('address_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                             <h4>Work Details</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div>Nature of work :  <strong>{{ $nature }}</strong></div>
-                                                    <div>Old serial/registration number :  <strong>{{ $serial }}</strong></div>
-                                                    <div>Date of registration :  <strong>{{ $doe }}</strong></div>
-                                                    <div>Date of retirement :  <strong>{{ $dor }}</strong></div>
-                                                    <div>Anual turnover :  <strong>{{ $turnover }}</strong></div>
+                                                    <div>Nature of work :  <strong>{{ $nature }}</strong>
+                                                        @error('nature')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Old serial/registration number :  <strong>{{ $serial }}</strong>
+                                                        @error('serial')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Date of registration :  <strong>{{ $doe }}</strong>
+                                                        @error('doe')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Date of retirement :  <strong>{{ $dor }}</strong>
+                                                        @error('dor')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Anual turnover :  <strong>{{ $turnover }}</strong>
+                                                        @error('turnover')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -627,8 +765,20 @@
                                     <h4>Nominee details</h4>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div>Nominee Name :  <strong>{{ $nominee }}</strong></div>
-                                            <div>Relation with beneficiary :  <strong>{{ $relation }}</strong></div>
+                                            <div>Nominee Name :  <strong>{{ $nominee }}</strong>
+                                                @error('nominee')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Relation with beneficiary :  <strong>{{ $relation }}</strong>
+                                                @error('relation')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                     <h4>Family Details</h4>
@@ -713,7 +863,7 @@
                                         data-previous="steparrow-upload-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                             Upload</button>
-                                    <button type="button" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="button" wire:click="submitAll()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-finish-info-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
                                 </div>
@@ -729,7 +879,7 @@
                                         </div>
                                     </div>
                                     <h5>Well Done !</h5>
-                                    <p class="text-muted">You have Successfully Signed Up</p>
+                                    <p class="text-muted">You have Successfully Registered</p>
                                 </div>
                             </div>
                             <!-- end tab pane -->
@@ -791,21 +941,23 @@
             }, 200);
         });
         Livewire.on('move-to-biometric', (event) => {
-            // console.log("move move");
             setTimeout(() => {
                 $("#steparrow-biometric-info-tab").trigger("click");
             }, 200);
         });
         Livewire.on('move-to-document', (event) => {
-            // console.log("move move");
             setTimeout(() => {
                 $("#steparrow-document-info-tab").trigger("click");
             }, 200);
         });
         Livewire.on('move-to-review', (event) => {
-            // console.log("move move");
             setTimeout(() => {
                 $("#steparrow-review-info-tab").trigger("click");
+            }, 200);
+        });
+        Livewire.on('move-to-finish', (event) => {
+            setTimeout(() => {
+                $("#steparrow-finish-info-tab").trigger("click");
             }, 200);
         });
     });

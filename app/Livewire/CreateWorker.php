@@ -2,6 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\RegBiomatric;
+use App\Models\RegDocument;
+use App\Models\RegEmployer;
+use App\Models\RegFamily;
+use App\Models\RegPhoto;
 use Livewire\WithFileUploads;
 use App\Models\DocumentHeads;
 use App\Models\Registration;
@@ -31,14 +36,32 @@ class CreateWorker extends Component
 
     public $finger, $finger_name, $finger_template;
     
+    public $documentRule = [], $documentMessage = [], $documentAttributes = [];
+    public function mount()
+    {
+        $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
+        foreach($document_heads as $index => $document_head){
+            if($document_head->type == 'required') {
+                $this->documentRule['documents.'.$index] = 'required';
+                $this->documentMessage['documents.'.$index] = $document_head->name.' is required';
+            }
+            $this->documentRule['uploaded_documents.'.$index] = ($document_head->type == 'required' ? 'required|' : '') . 'mimes:jpeg,png,pdf|max:1024';
+            $this->documentMessage['uploaded_documents.'.$index.'.required'] = 'Select document for '. $document_head->name;
+            $this->documentMessage['uploaded_documents.'.$index.'.mimes'] = 'Only jpeg,png,pdf';
+            $this->documentAttributes['uploaded_documents.'.$index] = $document_head->name;
+        }
+    }
+
+    private $fingerRules= [
+        'finger' => 'required',
+        'finger_template' => 'required'
+    ];
+    private $fingerMessages= [
+        'finger' => 'required',
+        'finger_template' => 'required'
+    ];
     public function validateFinger(){
-        $this->validate([
-			'finger' => 'required',
-			'finger_template' => 'required'
-		],[
-            'finger.required' => 'Capture a finger print',
-            'finger_template.required' => 'Capture a finger print'
-        ]);
+        $this->validate($this->fingerRules, $this->fingerMessages);
         if($this->finger != 'testing'){
             $this->finger_name = hexdec(uniqid()).'.png';
             $data = base64_decode($this->finger);
@@ -50,13 +73,16 @@ class CreateWorker extends Component
         session()->flash('message', 'Worker Biometric Capture Complete');
         $this->dispatch('move-to-document');
     }
+
+    private $photoRules= [
+        'photo' => 'required'
+    ];
+    private $photoMessages= [
+        'photo.required' => 'Start the camera then take a photo'
+    ];
     public function validatePhoto(){
         
-        $this->validate([
-			'photo' => 'required'
-		],[
-            'photo.required' => 'Start the camera then take a photo'
-        ]);
+        $this->validate($this->photoRules, $this->photoMessages);
         $this->photo_name = hexdec(uniqid()).'.png';
         $data = $this->photo;
         if (preg_match('/^data:image\/(\w+);base64,/', $data, $type)) {
@@ -82,22 +108,7 @@ class CreateWorker extends Component
         $this->dispatch('move-to-biometric');
     }
     public function validateDocuments(){
-        $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
-        $rule = [];
-        $message = [];
-        $attributes = [];
-        foreach($document_heads as $index => $document_head){
-            if($document_head->type == 'required') {
-                $rule['documents.'.$index] = 'required';
-                $message['documents.'.$index] = $document_head->name.' is required';
-            }
-            $rule['uploaded_documents.'.$index] = ($document_head->type == 'required' ? 'required|' : '') . 'mimes:jpeg,png,pdf|max:1024';
-            $message['uploaded_documents.'.$index.'.required'] = 'Select document for '. $document_head->name;
-            $message['uploaded_documents.'.$index.'.mimes'] = 'Only jpeg,png,pdf';
-            $attributes['uploaded_documents.'.$index] = $document_head->name;
-        }
-        // dd($rule, $message, $attributes);
-        $this->validate($rule, $message, $attributes);
+        $this->validate($this->documentRule, $this->documentMessage, $this->documentAttributes);
         
         $this->uploaded_document_name = [];
         foreach($this->uploaded_documents as $index => $uploaded_document){
@@ -108,12 +119,14 @@ class CreateWorker extends Component
         session()->flash('message', 'Worker Document Upload Complete');
         $this->dispatch('move-to-review');
     }
+
+    private $employerRule = [
+        'employer_description' => 'required',
+        'employer_name_address' => 'required',
+        'employer_nature' => 'required',
+    ];
     public function addEmployers(){
-        $this->validate([
-            'employer_description' => 'required',
-            'employer_name_address' => 'required',
-            'employer_nature' => 'required',
-        ]);
+        $this->validate($this->employerRule);
 
         array_push($this->employers, [
             'employer_description' => $this->employer_description,
@@ -132,13 +145,14 @@ class CreateWorker extends Component
     public function removeEmployers($index){
         array_splice($this->employers, $index, 1);
     }
+
+    private $familyRule = [
+        'family_member_name' => 'required',
+        'family_member_age' => 'required|numeric',
+        'family_member_relation' => 'required',
+    ];
     public function addFamilyMember(){
-        $this->validate([
-            'family_member_name' => 'required',
-            'family_member_age' => 'required|numeric',
-            'family_member_relation' => 'required',
-        ]);
-        dd('here');
+        $this->validate($this->familyRule);
         array_push($this->family_members, [
             'family_member_name' => $this->family_member_name,
             'family_member_age' => $this->family_member_age,
@@ -178,44 +192,91 @@ class CreateWorker extends Component
     {
         $this->validate($this->generalRules,$this->generalMessages);
 
-        // $create = Registration::create([
-        //     'operator_id' => auth()->user()->id,
-        //     'system_id' => $this->getSystemID(),
-        //     'name' => $this->name,
-        //     'father' => $this->father,
-        //     'mother' => $this->mother,
-        //     'spouse' => $this->spouse,
-        //     'gender' => $this->gender,
-        //     'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
-        //     'cast' => $this->cast,
-        //     'tribe' => $this->tribe,
-        //     'email' => $this->email,
-        //     'phone' => $this->phone,
-        //     'city_t' => $this->city_t,
-        //     'district_t' => $this->district_t,
-        //     'state_t' => $this->state_t,
-        //     'pin_t' => $this->pin_t,
-        //     'address_t' => $this->address_t,
-        //     'city_p' => $this->city_p,
-        //     'district_p' => $this->district_p,
-        //     'state_p' => $this->state_p,
-        //     'pin_p' => $this->pin_p,
-        //     'address_p' => $this->address_p,
-        //     'nature' => $this->nature,
-        //     'serial' => $this->serial,
-        //     'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
-        //     'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
-        //     'turnover' => $this->turnover,
-        //     'nominee' => $this->nominee,
-        //     'relation' => $this->relation,
-        //     'del' => 0
-        // ]);
-
         session()->flash('message', 'Worker General Complete');
         // $this->resetVals();
         $this->dispatch('move-to-family');
     }
+    public function submitAll(){
+        $this->validate($this->generalRules,$this->generalMessages);
+        // $this->validate($this->familyRule);
+        // $this->validate($this->employerRule);
+        $this->validate($this->documentRule, $this->documentMessage, $this->documentAttributes);
+        $this->validate($this->photoRules, $this->photoMessages);
+        $this->validate($this->fingerRules, $this->fingerMessages);
 
+        $worker = Registration::create([
+            'operator_id' => auth()->user()->id,
+            'system_id' => $this->getSystemID(),
+            'name' => $this->name,
+            'father' => $this->father,
+            'mother' => $this->mother,
+            'spouse' => $this->spouse,
+            'gender' => $this->gender,
+            'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
+            'cast' => $this->cast,
+            'tribe' => $this->tribe,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'city_t' => $this->city_t,
+            'district_t' => $this->district_t,
+            'state_t' => $this->state_t,
+            'pin_t' => $this->pin_t,
+            'address_t' => $this->address_t,
+            'city_p' => $this->city_p,
+            'district_p' => $this->district_p,
+            'state_p' => $this->state_p,
+            'pin_p' => $this->pin_p,
+            'address_p' => $this->address_p,
+            'nature' => $this->nature,
+            'serial' => $this->serial,
+            'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
+            'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
+            'turnover' => $this->turnover,
+            'nominee' => $this->nominee,
+            'relation' => $this->relation,
+            'del' => 0
+        ]);
+
+        foreach($this->family_members as $family_member){
+            RegFamily::create([
+                'worker_id' => $worker->id,
+                'name' => $family_member['family_member_name'],
+                'age' => $family_member['family_member_age'],
+                'relation' => $family_member['family_member_relation'],
+            ]);
+        }
+        foreach($this->employers as $employer){
+            RegEmployer::create([
+                'worker_id' => $worker->id,
+                'description' => $employer['employer_description'],
+                'employer' => $employer['employer_name_address'],
+                'nature_of_work' => $employer['employer_nature'],
+            ]);
+        }
+        RegPhoto::create([
+            'worker_id' => $worker->id,
+            'img_path' => $this->photo_name
+        ]);
+        RegBiomatric::create([
+            'worker_id' => $worker->id,
+            'img_path' => $this->finger_name,
+            'template' => $this->finger_template
+        ]);
+
+        $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
+        foreach($document_heads as $index => $document_head){
+            $document_id = array_key_exists($index,$this->documents) ? $this->documents[$index] : 999999;
+            $img_path = array_key_exists($index,$this->uploaded_document_name) ? $this->uploaded_document_name[$index] : '';
+            RegDocument::create([
+                'worker_id' => $worker->id,
+                'document_id' => $document_id,
+                'img_path' => $img_path
+            ]);
+        }
+        session()->flash('message', 'Worker Registration Complete');
+        // $this->resetVals();
+        $this->dispatch('move-to-finish');
+    }
     public function edit(int $id){
         $table = Registration::where('id', $id)->first();
         if($table){
