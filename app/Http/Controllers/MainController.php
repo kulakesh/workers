@@ -42,4 +42,26 @@ class MainController extends Controller
         ];
         return view('admin.main', compact('params'));
     }
+    public function workersReport(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Worker Report',
+            'page_id' => 'worker_report_all'
+
+        ];
+        return view('admin.main', compact('params'));
+    }
+    public function adminIcard(){
+        
+        return view('admin.icard');
+    }
+    public function barcodeIndex($code)
+    {
+        if($code != null) {
+            $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+            $image = $generator->getBarcode($code, $generator::TYPE_CODE_128);
+    
+            return response($image)->header('Content-type','image/png');
+        }
+    }
 }

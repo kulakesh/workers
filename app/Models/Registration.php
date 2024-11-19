@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 class Registration extends Authenticatable
 {
     use HasFactory;
@@ -47,6 +48,22 @@ class Registration extends Authenticatable
     public function operator(): BelongsTo
     {
         return $this->belongsTo(Operator::class)->withDefault();
+    }
+    public function employer(): HasMany
+    {
+        return $this->hasMany(RegEmployer::class, 'worker_id');
+    }
+    public function photo(): HasMany
+    {
+        return $this->hasMany(RegPhoto::class, 'worker_id')->orderBy('id', 'DESC');
+    }
+    public function family(): HasMany
+    {
+        return $this->hasMany(RegBiomatric::class, 'worker_id')->orderBy('id', 'DESC');
+    }
+    public function document(): HasMany
+    {
+        return $this->hasMany(RegDocument::class, 'worker_id');
     }
     protected $attributes = [
         'del' => 0

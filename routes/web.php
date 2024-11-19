@@ -9,6 +9,8 @@ use App\Http\Controllers\AuthController;
 URL::forceScheme('https');
 
 require __DIR__.'/global.php';
+Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
+
 Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',[AuthController::class,'adminIndex'])->name('index');
     Route::post('/',[AuthController::class,'adminLogin'])->name('login');
@@ -28,6 +30,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::get('/district/create',[MainController::class,'createDistrict'])->name('createDistrict');
     Route::get('/settings/documents',[MainController::class,'createDocument'])->name('createDocument');
+    Route::get('/reports/workers',[MainController::class,'workersReport'])->name('workersReport');
+    Route::get('/reports/icard',[MainController::class,'adminIcard'])->name('adminIcard');
 });
 
 Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(function () {

@@ -11,8 +11,8 @@
     <livewire:create-district />
     @elseif($params['page_id'] == 'document')
     <livewire:document-heads-create />
-    @elseif($params['page_id'] == 'variety')
-    <livewire:create-variety  :item_id="$item_id"/>
+    @elseif($params['page_id'] == 'worker_report_all')
+    <livewire:workers-report-all/>
     @endif
 
 @endsection
