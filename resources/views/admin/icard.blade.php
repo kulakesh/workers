@@ -15,93 +15,144 @@
         }
     
         .icard {
-            width: 86mm;
-            height: 54mm;
+            width: 54mm;
+            height: 86mm;
             border: 1px solid black;
             position: relative;
         }
         #bg_img{
-            width: 86mm;
-            height: 54mm;
+            width: 54mm;
+            height: 86mm;
         }
         .image {
-            width: .95in;
-            height: .95in;
+            top:23mm;
+            left:13mm;
             position: absolute;
         }
-        #thumb_image{
-            width: .95in;
-            height: .95in;
+        .image img {
+            height: 26mm;
+            width: 26mm;
+            object-fit: cover;
+            border: 1mm solid white;
+            border-radius: 5mm;
         }
-        .content {
-            width: 2.18in;
-            height: 1.25in;
+        .content-front {
             position: absolute;
-            left: 1.13in;
-            top: .68in;
+            top: 51mm;
+            width: 100%;
         }
-        #barcode {
-            width: 1.4in;
-            height: .3in;
+        .content-front .name{
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .content-front .role{
+            text-align: center;
+            font-size: 10px;
+        }
+        .content-front .table{
+            text-align: center;
+            font-size: 8px;
+            padding-left: 9mm;
+            padding-right: 3mm;
+        }
+        .content-front .real-table{
+            width: 100%;
+            margin-top: 3mm;
+        }
+        .content-front .barcode{
+            text-align: center;
+            margin-top: 4mm;
+        }
+        .content-front .barcode img{
+            height: 6mm;
+        }
+        .content-back {
+            position: absolute;
+            top: 51mm;
+            width: 100%;
+        }
+        .content-back .table{
+            text-align: center;
+            font-size: 8px;
+            padding-left: 9mm;
+            padding-right: 3mm;
+        }
+        .content-back .real-table{
+            width: 100%;
+            margin-top: 18mm;
+        }
+        .content-back .qrcode{
+            position: absolute;
+            top:4mm;
+            left:30mm;
+        }
+        .content-back .qrcode img{
+            height: 18mm;
         }
     </style>
     
 </head>
-<body class="icard-size" style="font-size: 12px;">
+<body class="icard-size">
 
 <section class="sheet2">
     <div class="icard">
-        <img id="bg_img" src="{{ URL::asset('build/images/icard_bg.png') }}" />
+        <img id="bg_img" src="{{ URL::asset('build/images/icard-front.png') }}" />
         <div class="image">
-            <!-- <img id="thumb_img" src="barcode/thumbnail_" /> -->
+            <img id="thumb_img" src="{{ URL::asset('storage/photo/'.$registration->photo->first()->img_path) }}" />
         </div>
-        <div class="content">
-            <table>
-                <tr>
-                    <td>Name </td>
-                    <td><strong>Kishor Goswami</strong> </td>
-                </tr>
-                <tr>
-                    <td>Course </td>
-                    <td><strong>Extra</strong>  </td>
-                </tr>
-                <tr>
-                    <td>Address &nbsp&nbsp</td>
-                    <td><strong>Guwahati</strong>  </td>
-                </tr>
-                <tr>
-                    <td> </td>
-                    <td><img id="barcode" src="/barcode/123456" /> </td>
-                </tr>
-            </table>
+        <div class="content-front">
+            <div class="name">{{ $registration->name }}</div>
+            <div class="role">{{ $registration->nature }}</div>
+            <div class="table">
+                <table class="real-table">
+                    <tr>
+                        <td style="text-align: left; width: 10mm">Reg. No.</td>
+                        <td style="text-align: left">: {{ $registration->system_id }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left; width: 10mm">Phone</td>
+                        <td style="text-align: left">: {{ $registration->phone }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left; vertical-align: text-top; width: 10mm">Address</td>
+                        <td style="text-align: left">: {{ $registration->address_t }} 
+                        {{ $registration->city_t }} 
+                        {{ $registration->district_t }}
+                        {{ $registration->state_t }}    
+                        {{ $registration->pin_t }}    
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="barcode">
+                <img src="/barcode/{{ $registration->system_id }}" />
+            </div>
         </div>
     </div>
     </section>
     <section class="sheet2">
     <div class="icard">
-        <img id="bg_img" src="{{ URL::asset('build/images/icard_bg.png') }}" />
+        <img id="bg_img" src="{{ URL::asset('build/images/icard-back.png') }}" />
         <div class="image">
             <!-- <img id="thumb_img" src="barcode/thumbnail_" /> -->
         </div>
-        <div class="content">
-            <table>
-                <tr>
-                    <td>Name </td>
-                    <td><strong>Lalit Barma</strong> </td>
-                </tr>
-                <tr>
-                    <td>Course </td>
-                    <td><strong>All</strong>  </td>
-                </tr>
-                <tr>
-                    <td>Address &nbsp&nbsp</td>
-                    <td><strong>Dibrugarh</strong>  </td>
-                </tr>
-                <tr>
-                    <td> </td>
-                    <td><img id="barcode" src="/barcode/123456" /> </td>
-                </tr>
-            </table>
+        <div class="content-back">
+            <div class="table">
+                <table class="real-table">
+                    <tr>
+                        <td style="text-align: left; width: 6mm">Join</td>
+                        <td style="text-align: left">: {{ $registration->created_at ? \Carbon\Carbon::parse($registration->created_at)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left; width: 6mm">Expire</td>
+                        <td style="text-align: left">: {{ $registration->dor ? \Carbon\Carbon::parse($registration->dor)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="qrcode">
+                <img src="/qrcode/{{ $registration->system_id }}" />
+            </div>
         </div>
     </div>
     </section>

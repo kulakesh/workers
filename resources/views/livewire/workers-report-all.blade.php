@@ -30,6 +30,7 @@
                     <th>District office</th>
                     <th>City/Village</th>
                     <th>District</th>
+                    <th>Date</th>
                     <th>-</th>
                 </tr>
             </thead>
@@ -43,9 +44,10 @@
                         <td>{{ $item->operator->district->name }}</td>
                         <td>{{ $item->city_t }}</td>
                         <td>{{ $item->district_t }}</td>
+                        <td>{{ $item->created_at ? $item->created_at->format('d M, Y h:i a') : '--' }}</td>
                         <td>
                             <div class="float-end">
-                                <a target="_blank" href="{{ route('admin.adminIcard') }}" class="btn btn-sm btn-primary">
+                                <a target="_blank" href="{{ route('admin.adminIcard', ['id' => $item->id]) }}" class="btn btn-sm btn-primary">
                                     Print
                                 </a>
                             </div>
@@ -54,7 +56,7 @@
                     </tr>
             @empty
                 <tr>
-                    <td class="align-middle text-center" colspan="7">
+                    <td class="align-middle text-center" colspan="8">
                         No results found
                     </td>
                 </tr>

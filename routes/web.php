@@ -10,6 +10,7 @@ URL::forceScheme('https');
 
 require __DIR__.'/global.php';
 Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
+Route::get('/qrcode/{code}',[MainController::class,'qrcodeIndex'])->name('qrcodeIndex');
 
 Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',[AuthController::class,'adminIndex'])->name('index');
@@ -31,7 +32,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('/district/create',[MainController::class,'createDistrict'])->name('createDistrict');
     Route::get('/settings/documents',[MainController::class,'createDocument'])->name('createDocument');
     Route::get('/reports/workers',[MainController::class,'workersReport'])->name('workersReport');
-    Route::get('/reports/icard',[MainController::class,'adminIcard'])->name('adminIcard');
+    Route::get('/reports/icard/{id}',[MainController::class,'adminIcard'])->name('adminIcard');
 });
 
 Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(function () {

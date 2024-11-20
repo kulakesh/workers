@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Registration;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class MainController extends Controller
 {
@@ -51,9 +53,9 @@ class MainController extends Controller
         ];
         return view('admin.main', compact('params'));
     }
-    public function adminIcard(){
-        
-        return view('admin.icard');
+    public function adminIcard($id){
+        $registration = Registration::where('id', $id)->first();
+        return view('admin.icard', compact('registration'));
     }
     public function barcodeIndex($code)
     {
@@ -62,6 +64,14 @@ class MainController extends Controller
             $image = $generator->getBarcode($code, $generator::TYPE_CODE_128);
     
             return response($image)->header('Content-type','image/png');
+        }
+    }
+    public function qrcodeIndex($code)
+    {
+        if($code != null) {
+            $qrCode = QrCode::size(300)->generate($code);
+
+            return response($qrCode)->header('Content-Type', 'image/svg+xml');
         }
     }
 }
