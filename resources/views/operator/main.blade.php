@@ -9,10 +9,10 @@
 
     @if($params['page_id'] == 'worker')
     <livewire:create-worker />
-    @elseif($params['page_id'] == 'item')
-    <livewire:create-item />
-    @elseif($params['page_id'] == 'variety')
-    <livewire:create-variety  :item_id="$item_id"/>
+    @elseif($params['page_id'] == 'worker_report_all')
+    <livewire:workers-report-all for="operator"/>
+    @elseif($params['page_id'] == 'worker-edit')
+    <livewire:create-worker :worker_id="$worker_id"/>
     @endif
 
 @endsection

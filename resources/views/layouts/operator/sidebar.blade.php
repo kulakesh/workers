@@ -54,6 +54,20 @@
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarReports" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarReports">
+                        <i class="bx bx-bell"></i> <span>Report</span>
+                    </a>
+                    <div class="collapse {{ request()->is('admin/reports*') ? 'show' : null }} menu-dropdown" id="sidebarReport">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('operator.workersReport') }}" class="nav-link">Worker Report</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                
             </ul>
         </div>
         <!-- Sidebar -->

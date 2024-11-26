@@ -123,6 +123,18 @@
                                                 />
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="email"
+                                                    placeholder="E-mail"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="phone"
+                                                    placeholder="Phome Number"
+                                                />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -170,7 +182,7 @@
                                         <div class="card-header d-flex justify-content-between align-items-center">
                                             <h5>Permanent Address</h5>
                                             <div>
-                                            <input type="checkbox" id="same_address" name="same_address" value="same">
+                                            <input type="checkbox" wire:model="same_address" wire:change="processMark()" wire:loading.attr="disabled">
                                             <label for="vehicle3"> Same as present address</label>
                                             </div>
                                         </div>

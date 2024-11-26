@@ -9,10 +9,8 @@
 
     @if($params['page_id'] == 'oparator')
     <livewire:create-operator />
-    @elseif($params['page_id'] == 'item')
-    <livewire:create-item />
-    @elseif($params['page_id'] == 'variety')
-    <livewire:create-variety  :item_id="$item_id"/>
+    @elseif($params['page_id'] == 'worker_report_all')
+    <livewire:workers-report-all for="district"/>
     @endif
 
 @endsection

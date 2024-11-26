@@ -47,8 +47,13 @@
                         <td>{{ $item->created_at ? $item->created_at->format('d M, Y h:i a') : '--' }}</td>
                         <td>
                             <div class="float-end">
+                                @if(!$for)
                                 <a target="_blank" href="{{ route('admin.adminIcard', ['id' => $item->id]) }}" class="btn btn-sm btn-primary">
                                     Print
+                                </a>
+                                @endif
+                                <a target="_blank" href="{{ route($for.'.workerEdit', ['id' => Crypt::encrypt($item->id)]) }}" class="btn btn-sm btn-secondary">
+                                    Edit
                                 </a>
                             </div>
                         </td>

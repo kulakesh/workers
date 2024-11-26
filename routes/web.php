@@ -31,7 +31,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 
     Route::get('/district/create',[MainController::class,'createDistrict'])->name('createDistrict');
     Route::get('/settings/documents',[MainController::class,'createDocument'])->name('createDocument');
-    Route::get('/reports/workers',[MainController::class,'workersReport'])->name('workersReport');
+    Route::get('/reports/workers',[MainController::class,'adminWorkersReport'])->name('workersReport');
     Route::get('/reports/icard/{id}',[MainController::class,'adminIcard'])->name('adminIcard');
 });
 
@@ -40,10 +40,13 @@ Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(fun
     Route::get('/logout',[AuthController::class,'districtLogout'])->name('logout');
 
     Route::get('/oparator/create',[MainController::class,'createOparator'])->name('createOparator');
+    Route::get('/reports/workers',[MainController::class,'districtWorkersReport'])->name('workersReport');
 });
 Route::middleware(['auth:operator'])->prefix('op')->name('operator.')->group(function () {
     Route::get('/dashboard',[DashboardController::class,'operatorDashboard'])->name('dashboard');
     Route::get('/logout',[AuthController::class,'operatorLogout'])->name('logout');
 
     Route::get('/workers/create',[MainController::class,'createWorker'])->name('createWorker');
+    Route::get('/reports/workers',[MainController::class,'operatorWorkersReport'])->name('workersReport');
+    Route::get('/workers/edit/{id}',[MainController::class,'workerEdit'])->name('workerEdit');
 });

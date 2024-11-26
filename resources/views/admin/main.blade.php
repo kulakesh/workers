@@ -12,7 +12,7 @@
     @elseif($params['page_id'] == 'document')
     <livewire:document-heads-create />
     @elseif($params['page_id'] == 'worker_report_all')
-    <livewire:workers-report-all/>
+    <livewire:workers-report-all for="admin"/>
     @endif
 
 @endsection

@@ -21,6 +21,8 @@ class CreateWorker extends Component
 
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $cast, $tribe, $email, $phone, $city_t, $district_t, $state_t, $pin_t, $address_t, $city_p, $district_p, $state_p, $pin_p, $address_p, $nature, $serial, $doe, $dor, $turnover, $nominee, $relation, $del;
 
+    public bool $same_address = false;
+
     public $family_member_name, $family_member_age, $family_member_relation;
     public $family_members = [];
 
@@ -37,7 +39,7 @@ class CreateWorker extends Component
     public $finger, $finger_name, $finger_template;
     
     public $documentRule = [], $documentMessage = [], $documentAttributes = [];
-    public function mount()
+    public function mount($worker_id = null)
     {
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         foreach($document_heads as $index => $document_head){
@@ -49,6 +51,10 @@ class CreateWorker extends Component
             $this->documentMessage['uploaded_documents.'.$index.'.required'] = 'Select document for '. $document_head->name;
             $this->documentMessage['uploaded_documents.'.$index.'.mimes'] = 'Only jpeg,png,pdf';
             $this->documentAttributes['uploaded_documents.'.$index] = $document_head->name;
+        }
+
+        if($worker_id){
+            $this->edit($worker_id);
         }
     }
 
@@ -196,6 +202,33 @@ class CreateWorker extends Component
         // $this->resetVals();
         $this->dispatch('move-to-family');
     }
+    public function processMark()
+    {
+        if ($this->same_address) {
+            $this->same();
+        } else {
+            $this->notSame();
+        }
+    }
+    public function same()
+    {
+        $this->city_p = $this->city_t;
+        $this->district_p = $this->district_t;
+        $this->state_p = $this->state_t;
+        $this->pin_p = $this->pin_t;
+        $this->address_p = $this->address_t;
+
+    }
+
+    public function notSame()
+    {
+        $this->city_p = null;
+        $this->district_p = null;
+        $this->state_p = null;
+        $this->pin_p = null;
+        $this->address_p = null;
+
+    }
     public function submitAll(){
         $this->validate($this->generalRules,$this->generalMessages);
         // $this->validate($this->familyRule);
@@ -311,6 +344,21 @@ class CreateWorker extends Component
             $this->relation = $table->relation;
         }else{
             return abort(404, 'Not found');
+        }
+
+        foreach(RegFamily::where('worker_id', $this->id)->get() as $family){
+            array_push($this->family_members, [
+                'family_member_name' => $family->name,
+                'family_member_age' => $family->age,
+                'family_member_relation' => $family->relation,
+            ]);
+        }
+        foreach(RegEmployer::where('worker_id', $this->id)->get() as $employer){
+            array_push($this->employers, [
+                'employer_description' => $employer->description,
+                'employer_name_address' => $employer->employer,
+                'employer_nature' => $employer->nature_of_work,
+            ]);
         }
     }
     public function generalUpdate()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Crypt;
 
 class MainController extends Controller
 {
@@ -44,7 +45,7 @@ class MainController extends Controller
         ];
         return view('admin.main', compact('params'));
     }
-    public function workersReport(){
+    public function adminWorkersReport(){
         $params = [
             'page_group' => 'Report',
             'page_name' => 'Worker Report',
@@ -52,6 +53,35 @@ class MainController extends Controller
 
         ];
         return view('admin.main', compact('params'));
+    }
+    public function operatorWorkersReport(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Worker Report',
+            'page_id' => 'worker_report_all'
+
+        ];
+        return view('operator.main', compact('params'));
+    }
+    public function districtWorkersReport(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Worker Report',
+            'page_id' => 'worker_report_all'
+
+        ];
+        return view('district.main', compact('params'));
+    }
+    public function workerEdit($id){
+        $worker_id = Crypt::decrypt($id);
+        $params = [
+            'page_group' => 'Workers',
+            'page_name' => 'Edit Worker',
+            'page_id' => 'worker-edit',
+            'worker_id' => $worker_id
+
+        ];
+        return view('operator.main', compact('params', 'worker_id'));
     }
     public function adminIcard($id){
         $registration = Registration::where('id', $id)->first();
