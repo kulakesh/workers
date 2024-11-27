@@ -16,6 +16,10 @@ class RegEmployer extends Model
         'description',
         'employer',
         'nature_of_work',
+        'del'
+    ];
+    protected $attributes = [
+        'del' => 0
     ];
     public function worker(): BelongsTo
     {

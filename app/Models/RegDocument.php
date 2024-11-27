@@ -15,6 +15,10 @@ class RegDocument extends Model
         'worker_id',
         'document_id',
         'img_path',
+        'del'
+    ];
+    protected $attributes = [
+        'del' => 0
     ];
     public function worker(): BelongsTo
     {

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('employer');
             $table->text('nature_of_work');
+            $table->smallInteger('del');
             $table->timestamps();
         });
     }

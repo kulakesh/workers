@@ -71,7 +71,9 @@ class CreateWorker extends Component
         if($this->finger != 'testing'){
             $this->finger_name = hexdec(uniqid()).'.png';
             $data = base64_decode($this->finger);
-            Storage::disk('public')->put('biometric/'.$this->finger_name, $data);
+            if(file_exists(public_path('biometric/') . $this->finger_name)){
+                Storage::disk('public')->put('biometric/'.$this->finger_name, $data);
+            }
         }else{
             $this->finger_name = 'do-not-delete-finger.png';
         }
@@ -107,8 +109,9 @@ class CreateWorker extends Component
         } else {
             throw new \Exception('did not match data URI with image data');
         }
-
-        Storage::disk('public')->put('photo/'.$this->photo_name, $data);
+        if(file_exists(public_path('photo/') . $this->photo_name)){
+            Storage::disk('public')->put('photo/'.$this->photo_name, $data);
+        }
 
         session()->flash('message', 'Worker Photo Capture Complete');
         $this->dispatch('move-to-biometric');
@@ -119,7 +122,9 @@ class CreateWorker extends Component
         $this->uploaded_document_name = [];
         foreach($this->uploaded_documents as $index => $uploaded_document){
             $this->uploaded_document_name[$index] = hexdec(uniqid()).'.'.$uploaded_document->getClientOriginalExtension();
-            $uploaded_document->storeAs('document/', $this->uploaded_document_name[$index], 'public');
+            if(file_exists(public_path('document/') . $this->uploaded_document_name[$index])){
+                $uploaded_document->storeAs('document/', $this->uploaded_document_name[$index], 'public');
+            }
         }
 
         session()->flash('message', 'Worker Document Upload Complete');
@@ -346,19 +351,36 @@ class CreateWorker extends Component
             return abort(404, 'Not found');
         }
 
-        foreach(RegFamily::where('worker_id', $this->id)->get() as $family){
+        foreach(RegFamily::where('worker_id', $this->id)->whereDel(0)->get() as $family){
             array_push($this->family_members, [
                 'family_member_name' => $family->name,
                 'family_member_age' => $family->age,
                 'family_member_relation' => $family->relation,
             ]);
         }
-        foreach(RegEmployer::where('worker_id', $this->id)->get() as $employer){
+        foreach(RegEmployer::where('worker_id', $this->id)->whereDel(0)->get() as $employer){
             array_push($this->employers, [
                 'employer_description' => $employer->description,
                 'employer_name_address' => $employer->employer,
                 'employer_nature' => $employer->nature_of_work,
             ]);
+        }
+        
+        $photo = RegPhoto::where('worker_id', $this->id)->orderBy('id')->first();
+        if($photo){
+            $this->photo_name = $photo->img_path;
+        }
+        
+        $finger = RegBiomatric::where('worker_id', $this->id)->orderBy('id')->first();
+        if($finger){
+            $this->finger_name = $finger->img_path;
+            $this->finger_template = $finger->emplate;
+        }
+
+        $documents = RegDocument::where('worker_id', $this->id)->orderBy('document_id')->whereDel(0)->get();
+        foreach($documents as $index => $document){
+            $this->documents[$index] = $document->document_id;
+            $this->uploaded_document_name[$index] = $document->img_path;
         }
     }
     public function generalUpdate()

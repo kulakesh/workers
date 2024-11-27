@@ -503,7 +503,7 @@
                                                 {{ $message }}
                                             </div>
                                             @enderror
-                                            <img id="finger-print" src="" wire:ignore.self />
+                                            <img id="finger-print" src="@if($finger_name){{ asset('storage/biometric/'. $finger_name)}}@endif" wire:ignore.self />
                                         </div>
                                     </div>
                                 </div>

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name',200);
             $table->decimal('age');
             $table->string('relation',20);
+            $table->smallInteger('del');
             $table->timestamps();
         });
     }

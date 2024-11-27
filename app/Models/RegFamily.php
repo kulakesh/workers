@@ -16,6 +16,10 @@ class RegFamily extends Model
         'name',
         'age',
         'relation',
+        'del'
+    ];
+    protected $attributes = [
+        'del' => 0
     ];
     public function worker(): BelongsTo
     {
