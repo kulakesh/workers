@@ -20,6 +20,10 @@ class RegDocument extends Model
     protected $attributes = [
         'del' => 0
     ];
+    public function document(): BelongsTo
+    {
+        return $this->belongsTo(Documents::class)->withDefault();
+    }
     public function worker(): BelongsTo
     {
         return $this->belongsTo(Registration::class)->withDefault();

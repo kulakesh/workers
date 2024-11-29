@@ -549,7 +549,7 @@
                                                     @enderror
                                                     </td>
                                                     <td>
-                                                    <input type="file" wire:model="uploaded_documents.{{$index}}" accept="image/png, image/jpeg, application/pdf" class="form-select" />
+                                                    <input type="file" wire:model="uploaded_documents.{{$index}}" wire:change="doNothig" accept="image/png, image/jpeg, application/pdf" class="form-select" />
                                                     @error('uploaded_documents.'.$index)
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -632,6 +632,20 @@
                                             </div>
                                             <div>Tribe's Name :  <strong>{{ $tribe }}</strong>
                                                 @error('tribe')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>E-mail :  <strong>{{ $email }}</strong>
+                                                @error('email')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Phone Number :  <strong>{{ $phone }}</strong>
+                                                @error('phone')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -875,9 +889,9 @@
                                         data-previous="steparrow-upload-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                             Upload</button>
-                                    <button type="button" wire:click="submitAll()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="button" wire:click="@if(!$edit_mode) submitAll() @else updateAll()@endif" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-finish-info-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Complete Enrollment</button>
                                 </div>
                             </div>
                             <!-- end tab pane -->
@@ -1026,6 +1040,7 @@
 
     //finger print
     $('#captureFinger').click(function () {
+        @this.set('finger_captured', true);
         if(!navigator.userAgent.includes('Windows')){
             console.log('testing from other os');
             @this.set('finger', 'testing');
