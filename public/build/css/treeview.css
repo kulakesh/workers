@@ -1,0 +1,228 @@
+
+.network-tree-panel .network-tree-stucture {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    margin-bottom: 20px; }
+  .network-tree-panel .network-tree-stucture ul {
+    padding-top: 6px;
+    position: relative;
+    padding-left: 0;
+    width: 100%; }
+  .network-tree-panel .network-tree-stucture ul ul:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 3px solid #939598;
+    width: 0;
+    height: 6px; }
+  .network-tree-panel .network-tree-stucture li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 10px 0 0;
+    width: 50%; }
+  .network-tree-panel .network-tree-stucture li:before, .network-tree-panel .network-tree-stucture li:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 2px solid #939598;
+    width: 50%;
+    height: 6px; }
+  .network-tree-panel .network-tree-stucture li:after {
+    right: auto;
+    left: 50%;
+    border-left: 3px solid #939598; }
+  .network-tree-panel .network-tree-stucture li:only-child::after, .network-tree-panel .network-tree-stucture li:only-child::before {
+    display: none; }
+  .network-tree-panel .network-tree-stucture li:only-child {
+    padding-top: 0; }
+  .network-tree-panel .network-tree-stucture li:first-child::before, .network-tree-panel .network-tree-stucture li:last-child::after {
+    border: 0 none; }
+  .network-tree-panel .network-tree-stucture li:last-child::before {
+    border-right: 3px solid #939598; }
+  .treenode i {
+    position: relative;
+    display: inline-block;
+    font-size: 40px;
+    /*height: 100px;*/
+    text-decoration: none;
+    overflow-wrap: break-word;
+    line-height: 15px;
+    padding-top: 10px; 
+    background-repeat: no-repeat;
+    background-position: -409px top; }
+  .network-tree-panel .network-tree-stucture li a.user-packet span.user-name {
+    /*                    display: inline-block;
+            height: 30px;
+            overflow: hidden;*/
+    /*                    display: inline-block;
+                                max-width: 100%;*/ }
+  .network-tree-panel .network-tree-stucture > ul > li {
+    width: 100%; }
+  
+  @media (max-width: 1800px) {
+      .network-tree-panel .network-tree-stucture li a.user-packet {
+          background-image: url("../img/tree-structure-small.png");
+          width: 55px;
+          /*height: 81px;*/
+          padding-top: 80px;
+      }
+  
+      .network-tree-panel .user-type-77 {
+          background-size: auto 81px;
+      }
+  }
+  
+  @media (max-width: 320px) {
+      .fix-box-height .well.box hr.display-custom {
+          display: block;
+      }
+  
+      .accordion-heading .row > div {
+          justify-content: center;
+      }
+  
+          .accordion-heading .row > div .mobile-center {
+              float: none;
+              margin: 0 auto;
+              margin-bottom: 15px;
+          }
+  
+          .accordion-heading .row > div.text-left, .accordion-heading .address-wrap .row > div.text, .address-wrap .accordion-heading .row > div.text {
+              justify-content: center;
+          }
+  
+          .accordion-heading .row > div.text-right, .accordion-heading .panel.list-group-item .list-group-item-text .row > div.custom, .panel.list-group-item .list-group-item-text .accordion-heading .row > div.custom, .accordion-heading .address-wrap .row > div.custom, .address-wrap .accordion-heading .row > div.custom, .accordion-heading .panel-progress .row > div.text, .panel-progress .accordion-heading .row > div.text, .accordion-heading .panel.panel-arrow .list-group-item > .wrap > div .sub-group .row > div.custom, .panel.panel-arrow .list-group-item > .wrap > div .sub-group .accordion-heading .row > div.custom, .accordion-heading .panel.panel-arrow .list-group-item > .wrap > div .sub-group .row > div.number, .panel.panel-arrow .list-group-item > .wrap > div .sub-group .accordion-heading .row > div.number {
+              justify-content: center;
+          }
+  
+      .accordion-heading .row .item:first-child {
+          margin-top: 20px;
+      }
+  
+      .accordion-heading .row .item:first-child,
+      .accordion-heading .row .item-last .row > div {
+          margin-bottom: 15px;
+      }
+  
+      .accordion-heading > row > div {
+          width: 100%;
+      }
+  
+      .tooltip-icon {
+          top: 44px;
+      }
+  
+      .network-tree-panel .network-tree-stucture li a.user-packet {
+          background-image: url("../img/tree-structure-smaller.png");
+          width: 30px;
+          padding-top: 44px;
+          font-size: 10px;
+      }
+      
+  }
+  
+  .fa-info-circle{
+      color:#10cbed;
+  }
+  
+  .user-id, .user-name{
+      margin:0;
+      padding:0;
+  }
+  
+  .user-name{
+      color:#ea1654;
+      font-weight:600;
+      font-size:0.9em;
+  }
+  
+  .notavailable{
+      color:#fe7627;
+      font-weight:400;
+      font-size:0.8em;
+  }
+  
+  .text-package-Join{
+      color:#816b24;
+      text-shadow:1px 1px #265608;
+  }
+  
+  
+  .text-package-A{
+      color:#0cae1e;
+      text-shadow:1px 1px #265608;
+  }
+  
+  .text-package-B{
+      color:#18e02e;
+      text-shadow:1px 1px #2c5612;
+  }
+  
+  .text-package-C{
+      color:#f50fce;
+      text-shadow:1px 1px #000;
+  }
+  
+  .text-package-D{
+      color:#816b24;
+      text-shadow:1px 1px #000;
+  }
+  
+  .text-package-E{
+      color:#27bfcf;
+      text-shadow:1px 1px #000;
+  }
+  
+  .text-package-F{
+      color:#fe7627;
+      text-shadow:1px 1px #000;
+  }
+  
+  
+  .text-package-G{
+      color:#fbbe14;
+      text-shadow:1px 1px #000;
+  }
+  
+  
+  
+  .package-icon{
+      font-size:2em;
+      margin:5px;
+  }
+  @media only screen and (min-width: 1224px) {
+    div#pop-up {
+              display: none;
+              position: fixed;
+              width: 350px;
+              padding: 10px;
+              background: #f9f3f3;
+              color: #000000;
+              border: 1px solid #b91919;
+              font-size: 90%;
+              left:50%;
+              top:300px;
+          }
+          
+  }
+  
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {            
+      div#pop-up {
+              display: none;
+              position: fixed;
+              width: 350px;
+              padding: 10px;
+              background: #f9f3f3;
+              color: #000000;
+              border: 1px solid #b91919;
+              font-size: 90%;
+      left:10%;
+      top:100px;
+      }
+  } 
