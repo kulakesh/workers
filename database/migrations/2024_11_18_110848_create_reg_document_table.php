@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('worker_id');
             $table->integer('document_id');
             $table->string('img_path');
+            $table->smallInteger('del');
             $table->timestamps();
         });
     }
