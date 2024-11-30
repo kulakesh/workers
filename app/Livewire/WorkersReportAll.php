@@ -26,20 +26,29 @@ class WorkersReportAll extends Component
             return $q->where('name', 'like', '%'.$this->search.'%')
             ->orWhere('address_t', 'like', '%'.$this->search.'%');
         })
+        ->orderByDesc('id')
         ->whereDel(0);
-        if($this->for == 'operator'){
-            $items = $items->where('operator_id', auth()->user()->id)
-            ->paginate(10);
-        }elseif($this->for == 'district'){
-            $items = $items->whereIn('operator_id', function ($query) {
-				$query->select('id')
-				->from('operators')
-				->where('districti_id', auth()->user()->id);
-			})
-            ->paginate(10);
-        }else{
-            $items = $items->paginate(10);
+        
+        switch ($this->for) {
+            case 'operator':
+                $items = $items->where('operator_id', auth()->user()->id)
+                ->paginate(10);
+                break;
+
+            case 'district':
+                $items = $items->whereIn('operator_id', function ($query) {
+                    $query->select('id')
+                    ->from('operators')
+                    ->where('districti_id', auth()->user()->id);
+                })
+                ->paginate(10);
+                break;
+            
+            default:
+                $items = $items->paginate(10);
+                break;
         }
+
         return view('livewire.workers-report-all', compact('items'));
     }
 }
