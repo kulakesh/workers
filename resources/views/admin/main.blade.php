@@ -13,6 +13,8 @@
     <livewire:document-heads-create />
     @elseif($params['page_id'] == 'worker_report_all')
     <livewire:workers-report-all for="admin"/>
+    @elseif($params['page_id'] == 'worker-edit')
+    <livewire:create-worker :worker_id="$worker_id"/>
     @endif
 
 @endsection

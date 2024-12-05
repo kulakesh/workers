@@ -72,7 +72,29 @@ class MainController extends Controller
         ];
         return view('district.main', compact('params'));
     }
-    public function workerEdit($id){
+    public function adminWorkerEdit($id){
+        $worker_id = Crypt::decrypt($id);
+        $params = [
+            'page_group' => 'Workers',
+            'page_name' => 'Edit Worker',
+            'page_id' => 'worker-edit',
+            'worker_id' => $worker_id
+
+        ];
+        return view('admin.main', compact('params', 'worker_id'));
+    }
+    public function districtWorkerEdit($id){
+        $worker_id = Crypt::decrypt($id);
+        $params = [
+            'page_group' => 'Workers',
+            'page_name' => 'Edit Worker',
+            'page_id' => 'worker-edit',
+            'worker_id' => $worker_id
+
+        ];
+        return view('district.main', compact('params', 'worker_id'));
+    }
+    public function operatorWorkerEdit($id){
         $worker_id = Crypt::decrypt($id);
         $params = [
             'page_group' => 'Workers',
