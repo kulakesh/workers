@@ -47,7 +47,7 @@
                         <td>{{ $item->created_at ? $item->created_at->format('d M, Y h:i a') : '--' }}</td>
                         <td>
                             <div class="float-end">
-                                @if(!$for)
+                                @if($for == 'admin')
                                 <a target="_blank" href="{{ route('admin.adminIcard', ['id' => $item->id]) }}" class="btn btn-sm btn-primary">
                                     Print
                                 </a>
