@@ -16,7 +16,7 @@
                                     <button class="nav-link" id="steparrow-family-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-family-info" type="button"
                                         role="tab" aria-controls="steparrow-family-info"
-                                        aria-selected="false" wire:ignore.self>Family</button>
+                                        aria-selected="false" wire:ignore.self>Nominee</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-employment-info-tab"
@@ -266,25 +266,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="card">
-                                        <div class="card-header"><h5>Nominee details</h5></div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="nominee"
-                                                    placeholder="Nominee Name"
-                                                />
-                                                </div>
-                                                <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="relation"
-                                                    label="Relationship"
-                                                    placeholder="Relation with beneficiary"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
                                     <button type="submit" class="btn btn-success btn-label right ms-auto nexttab nexttab"
@@ -295,67 +276,77 @@
                             </div>
                             <!-- end tab pane -->
 
+
                             <div class="tab-pane fade" id="steparrow-family-info" role="tabpanel"
                                 aria-labelledby="steparrow-family-info-tab" wire:ignore.self>
                                 <div>
-                                    <h4>Family</h4>
+                                    <h4>Nominee</h4>
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr class="table-primary">
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Age</th>
+                                                <th>Date of birth</th>
                                                 <th>Relation</th>
-                                                <th>-</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <form wire:submit.prevent="addFamilyMember">
                                             <tr>
-                                                <td></td>
+                                                <td>1</td>
                                                 
                                                 <td>
-                                                    <input type="text" class="form-control" name="family_member_name" wire:model="family_member_name" placeholder="Family member name">
-                                                    @error('family_member_name')
+                                                    <input type="text" class="form-control" name="nominee_name1" wire:model="nominee_name1" placeholder="Nominee 1 name">
+                                                    @error('nominee_name1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
                                                     @enderror
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="family_member_age" wire:model="family_member_age" placeholder="Family member age">
-                                                    @error('family_member_age')
+                                                    <input type="text" class="form-control" name="nominee_dob1" id="nominee_dob1" wire:model="nominee_dob1" placeholder="Nominee 1 DOB">
+                                                    @error('nominee_dob1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
                                                     @enderror
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="family_member_relation" wire:model="family_member_relation" placeholder="Relation with Family member">
-                                                    @error('family_member_relation')
+                                                    <input type="text" class="form-control" name="nominee_relation1" wire:model="nominee_relation1" placeholder="Nominee 1 Relation">
+                                                    @error('nominee_relation1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
                                                     @enderror
                                                 </td>
-                                                <td><button type="submit" class="btn btn-primary">Add</button></td>
                                             </tr>
-                                            </form>
-                                            @forelse ($family_members as $family_member)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $family_member['family_member_name'] }}</td>
-                                                    <td>{{ $family_member['family_member_age'] }}</td>
-                                                    <td>{{ $family_member['family_member_relation'] }}</td>
-                                                    <td><button class="btn btn-danger btn-sm" wire:click="removeFamilyMember({{$loop->index}})">Remove</button></td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td class="align-middle text-center" colspan="5">
-                                                        No results found
-                                                    </td>
-                                                </tr>
-                                            @endforelse
+                                            <tr>
+                                                <td>2</td>
+                                                
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_name2" wire:model="nominee_name2" placeholder="Nominee 2 name">
+                                                    @error('nominee_name2')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_dob2" id="nominee_dob2" wire:model="nominee_dob2" placeholder="Nominee 2 DOB">
+                                                    @error('nominee_dob2')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_relation2" wire:model="nominee_relation2" placeholder="Nominee 2 Relation">
+                                                    @error('nominee_relation2')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -364,12 +355,12 @@
                                         data-previous="steparrow-gen-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
                                         General</button>
-                                    <button type="button" wire:click="submitFamilyMember()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                    <button type="button" wire:click="validateNominee()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="steparrow-employment-info"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Next</button>
                                 </div>
                             </div>
-                            <!-- end tab pane -->
+
 
                             <div class="tab-pane fade" id="steparrow-employment-info" role="tabpanel"
                                 aria-labelledby="steparrow-employment-info-tab" wire:ignore.self>
@@ -382,6 +373,7 @@
                                                 <th>Description</th>
                                                 <th>Employer</th>
                                                 <th>Nature of work</th>
+                                                <th>Document</th>
                                                 <th>-</th>
                                             </tr>
                                         </thead>
@@ -417,6 +409,14 @@
                                                     </div>
                                                     @enderror
                                                 </td>
+                                                <td>
+                                                    <input type="file" wire:model="employer_document" wire:change="doNothig" accept="image/png, image/jpeg, application/pdf" class="form-select" />
+                                                    @error('employer_document')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
                                                 <td><button type="submit" class="btn btn-primary">Add</button></td>
                                             </tr>
                                             </form>
@@ -426,6 +426,7 @@
                                                     <td>{{ $employer['employer_description'] }}</td>
                                                     <td>{{ $employer['employer_name_address'] }}</td>
                                                     <td>{{ $employer['employer_nature'] }}</td>
+                                                    <td><a target="_blank" href="{{ asset('storage/employer/'.$employer['employer_document_name']) }}">View</a></td>
                                                     <td><button class="btn btn-danger btn-sm" wire:click="removeEmployers({{$loop->index}})">Remove</button></td>
                                                 </tr>
                                             @empty
@@ -442,7 +443,7 @@
                                     <button type="button" class="btn btn-light btn-label previestab"
                                         data-previous="steparrow-family-info-tab"><i
                                             class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
-                                        Family</button>
+                                        Nominee</button>
                                     <button type="button" wire:click="submitEmployers()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
                                         data-nexttab="pills-photo-tab"><i
                                             class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
@@ -788,26 +789,7 @@
                                         </div>
                                     </div>
                                     
-                                    <h4>Nominee details</h4>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div>Nominee Name :  <strong>{{ $nominee }}</strong>
-                                                @error('nominee')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
-                                            </div>
-                                            <div>Relation with beneficiary :  <strong>{{ $relation }}</strong>
-                                                @error('relation')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h4>Family Details</h4>
+                                    <h4>Nominee Details</h4>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <table class="table table-bordered">
@@ -815,25 +797,23 @@
                                                     <tr class="table-primary">
                                                         <th>#</th>
                                                         <th>Name</th>
-                                                        <th>Age</th>
+                                                        <th>Date of Birth</th>
                                                         <th>Relation</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @forelse ($family_members as $family_member)
-                                                        <tr>
-                                                            <td>{{ $loop->iteration }}</td>
-                                                            <td>{{ $family_member['family_member_name'] }}</td>
-                                                            <td>{{ $family_member['family_member_age'] }}</td>
-                                                            <td>{{ $family_member['family_member_relation'] }}</td>
-                                                        </tr>
-                                                    @empty
-                                                        <tr>
-                                                            <td class="align-middle text-center" colspan="4">
-                                                                No results found
-                                                            </td>
-                                                        </tr>
-                                                    @endforelse
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>{{ $nominee_name1 }}</td>
+                                                        <td>{{ $nominee_dob1 }}</td>
+                                                        <td>{{ $nominee_relation1 }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>{{ $nominee_name2 }}</td>
+                                                        <td>{{ $nominee_dob2 }}</td>
+                                                        <td>{{ $nominee_relation2 }}</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -848,6 +828,7 @@
                                                         <th>Description</th>
                                                         <th>Employer</th>
                                                         <th>Nature of work</th>
+                                                        <th>Document</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -857,6 +838,7 @@
                                                             <td>{{ $employer['employer_description'] }}</td>
                                                             <td>{{ $employer['employer_name_address'] }}</td>
                                                             <td>{{ $employer['employer_nature'] }}</td>
+                                                            <td><a target="_blank" href="{{ asset('storage/employer/'.$employer['employer_document_name']) }}">View</a></td>
                                                         </tr>
                                                     @empty
                                                         <tr>
@@ -938,6 +920,20 @@
     }
     if (document.querySelector("#dor")) {
         var cleaveDate = new Cleave('#dor', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
+    if (document.querySelector("#nominee_dob1")) {
+        var cleaveDate = new Cleave('#nominee_dob1', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
+    if (document.querySelector("#nominee_dob2")) {
+        var cleaveDate = new Cleave('#nominee_dob2', {
             date: true,
             delimiter: '/',
             datePattern: ['d', 'm', 'Y']

@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reg_employer', function (Blueprint $table) {
+        Schema::create('reg_nominee', function (Blueprint $table) {
             $table->id();
             $table->integer('worker_id');
-            $table->text('description');
-            $table->string('employer');
-            $table->text('nature_of_work');
-            $table->string('img_path');
+            $table->string('nominee_name1',200);
+            $table->date('nominee_dob1')->nullable();
+            $table->string('nominee_relation1',20);
+            $table->string('nominee_name2',200)->nullable();
+            $table->date('nominee_dob2')->nullable();
+            $table->string('nominee_relation2',20)->nullable();
             $table->smallInteger('del');
             $table->timestamps();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reg_employer');
+        Schema::dropIfExists('reg_nominee');
     }
 };

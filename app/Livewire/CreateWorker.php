@@ -6,6 +6,7 @@ use App\Models\RegBiomatric;
 use App\Models\RegDocument;
 use App\Models\RegEmployer;
 use App\Models\RegFamily;
+use App\Models\RegNominee;
 use App\Models\RegPhoto;
 use Livewire\WithFileUploads;
 use App\Models\DocumentHeads;
@@ -25,9 +26,10 @@ class CreateWorker extends Component
     public bool $same_address = false;
 
     public $family_member_name, $family_member_age, $family_member_relation;
-    public $family_members = [];
 
-    public $employer_description, $employer_name_address, $employer_nature;
+    public $nominee_name1, $nominee_dob1, $nominee_relation1, $nominee_name2, $nominee_dob2, $nominee_relation2;
+
+    public $employer_description, $employer_name_address, $employer_nature, $employer_document, $employer_document_name;
     public $employers = [];
 
     public $documents = [];
@@ -143,24 +145,33 @@ class CreateWorker extends Component
         session()->flash('message', 'Worker Document Upload Complete');
         $this->dispatch('move-to-review');
     }
-
+    
     private $employerRule = [
         'employer_description' => 'required',
         'employer_name_address' => 'required',
         'employer_nature' => 'required',
+        'employer_document' => 'required|mimes:jpeg,png,pdf|max:1024',
     ];
     public function addEmployers(){
         $this->validate($this->employerRule);
+
+        $this->employer_document_name = hexdec(uniqid()).'.'.$this->employer_document->getClientOriginalExtension();
+        if(!file_exists(public_path('employer/') . $this->employer_document_name)){
+            $this->employer_document->storeAs('employer/', $this->employer_document_name, 'public');
+        }
 
         array_push($this->employers, [
             'employer_description' => $this->employer_description,
             'employer_name_address' => $this->employer_name_address,
             'employer_nature' => $this->employer_nature,
+            'employer_document_name' => $this->employer_document_name
         ]);
 
         $this->employer_description = null;
         $this->employer_name_address = null;
         $this->employer_nature = null;
+        $this->employer_document = null;
+        $this->employer_document_name = null;
     }
     public function submitEmployers(){
         session()->flash('message', 'Worker Employer Complete');
@@ -169,31 +180,25 @@ class CreateWorker extends Component
     public function removeEmployers($index){
         array_splice($this->employers, $index, 1);
     }
-
-    private $familyRule = [
-        'family_member_name' => 'required',
-        'family_member_age' => 'required|numeric',
-        'family_member_relation' => 'required',
+    private $nomineeRule = [
+        'nominee_name1' => 'required',
+        'nominee_dob1' => 'required|date_format:d/m/Y',
+        'nominee_relation1' => 'required',
+        'nominee_dob2' => 'nullable|date_format:d/m/Y',
     ];
-    public function addFamilyMember(){
-        $this->validate($this->familyRule);
-        array_push($this->family_members, [
-            'family_member_name' => $this->family_member_name,
-            'family_member_age' => $this->family_member_age,
-            'family_member_relation' => $this->family_member_relation,
-        ]);
-
-        $this->family_member_name = null;
-        $this->family_member_age = null;
-        $this->family_member_relation = null;
-
-    }
-    public function submitFamilyMember(){
-        session()->flash('message', 'Worker Family Complete');
+    private $nomineeMessage = [
+        'nominee_name1.required' => 'Nominee name required',
+        'nominee_dob1.required' => 'Nominee DOB required',
+        'nominee_relation1.required' => 'Nominee Relation required',
+        'nominee_dob1.date_format' => 'No a valid Format',
+        'nominee_dob2.date_format' => 'No a valid Format',
+    ];
+    public function validateNominee(){
+        $this->validate($this->nomineeRule, $this->nomineeMessage);
+        
+        session()->flash('message', 'Worker Nominee Complete');
         $this->dispatch('move-to-employer');
-    }
-    public function removeFamilyMember($index){
-        array_splice($this->family_members, $index, 1);
+
     }
     private $generalRules = [
         'name' => 'required',
@@ -217,7 +222,6 @@ class CreateWorker extends Component
         $this->validate($this->generalRules,$this->generalMessages);
 
         session()->flash('message', 'Worker General Complete');
-        // $this->resetVals();
         $this->dispatch('move-to-family');
     }
     public function processMark()
@@ -249,6 +253,7 @@ class CreateWorker extends Component
     }
     public function submitAll(){
         $this->validate($this->generalRules,$this->generalMessages);
+        $this->validate($this->nomineeRule, $this->nomineeMessage);
         $this->validate($this->documentRule, $this->documentMessage, $this->documentAttributes);
         $this->validate($this->photoRules, $this->photoMessages);
         $this->validate($this->fingerRules, $this->fingerMessages);
@@ -286,20 +291,24 @@ class CreateWorker extends Component
             'del' => 0
         ]);
 
-        foreach($this->family_members as $family_member){
-            RegFamily::create([
-                'worker_id' => $worker->id,
-                'name' => $family_member['family_member_name'],
-                'age' => $family_member['family_member_age'],
-                'relation' => $family_member['family_member_relation'],
-            ]);
-        }
+        RegNominee::create([
+            'worker_id' => $worker->id,
+            'nominee_name1' => $this->nominee_name1,
+            'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
+            'nominee_relation1' => $this->nominee_relation1,
+            'nominee_name2' => $this->nominee_name2,
+            'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
+            'nominee_relation2' => $this->nominee_relation2,
+            'del' => 0
+        ]);
+
         foreach($this->employers as $employer){
             RegEmployer::create([
                 'worker_id' => $worker->id,
                 'description' => $employer['employer_description'],
                 'employer' => $employer['employer_name_address'],
                 'nature_of_work' => $employer['employer_nature'],
+                'img_path' => $employer['employer_document_name'],
             ]);
         }
         RegPhoto::create([
@@ -323,7 +332,6 @@ class CreateWorker extends Component
             ]);
         }
         session()->flash('message', 'Worker Registration Complete');
-        // $this->resetVals();
         $this->dispatch('move-to-finish');
     }
     public function edit(int $id){
@@ -362,18 +370,22 @@ class CreateWorker extends Component
             return abort(404, 'Not found');
         }
 
-        foreach(RegFamily::where('worker_id', $this->id)->whereDel(0)->get() as $family){
-            array_push($this->family_members, [
-                'family_member_name' => $family->name,
-                'family_member_age' => $family->age,
-                'family_member_relation' => $family->relation,
-            ]);
+        $nominee = RegNominee::where('worker_id', $this->id)->whereDel(0)->first();
+        if($nominee){
+            $this->nominee_name1 = $nominee->nominee_name1;
+            $this->nominee_dob1 = $nominee->nominee_dob1 ? Carbon::parse($nominee->nominee_dob1)->format('d/m/Y') : null;
+            $this->nominee_relation1 = $nominee->nominee_relation1;
+            $this->nominee_name2 = $nominee->nominee_name2;
+            $this->nominee_dob2 = $nominee->nominee_dob2 ? Carbon::parse($nominee->nominee_dob2)->format('d/m/Y') : null;
+            $this->nominee_relation2 = $nominee->nominee_relation2;
         }
+
         foreach(RegEmployer::where('worker_id', $this->id)->whereDel(0)->get() as $employer){
             array_push($this->employers, [
                 'employer_description' => $employer->description,
                 'employer_name_address' => $employer->employer,
                 'employer_nature' => $employer->nature_of_work,
+                'employer_document_name' => $employer->img_path,
             ]);
         }
         
@@ -430,16 +442,19 @@ class CreateWorker extends Component
             'nominee' => $this->nominee,
             'relation' => $this->relation,
         ]);
-
-        RegFamily::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
-        foreach($this->family_members as $family_member){
-            RegFamily::create([
-                'worker_id' => $this->id,
-                'name' => $family_member['family_member_name'],
-                'age' => $family_member['family_member_age'],
-                'relation' => $family_member['family_member_relation'],
-            ]);
-        }
+        RegNominee::where('worker_id', $this->id)->update([
+            'del' => 1
+        ]);
+        RegNominee::create([
+            'worker_id' => $this->id,
+            'nominee_name1' => $this->nominee_name1,
+            'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
+            'nominee_relation1' => $this->nominee_relation1,
+            'nominee_name2' => $this->nominee_name2,
+            'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
+            'nominee_relation2' => $this->nominee_relation2,
+            'del' => 0
+        ]);
 
         RegEmployer::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
         foreach($this->employers as $employer){
@@ -448,6 +463,7 @@ class CreateWorker extends Component
                 'description' => $employer['employer_description'],
                 'employer' => $employer['employer_name_address'],
                 'nature_of_work' => $employer['employer_nature'],
+                'img_path' => $employer['employer_document_name'],
             ]);
         }
         if(!RegPhoto::where('worker_id', $this->id)->where('img_path',$this->photo_name)->exists()){
@@ -489,54 +505,12 @@ class CreateWorker extends Component
         }
 
         session()->flash('message', 'Worker Registration Complete');
-        // $this->resetVals();
         $this->dispatch('move-to-finish');
     }
     public function delete(int $id){
         $this->id = $id;
     }
-    public function destroy(){
-        $delete = Registration::where('id',$this->id)->update([
-            "del" => 1
-        ]);
-        session()->flash('message', 'Record Deleted');
-        $this->resetVals();
-        $this->dispatch('close-modal');
-    }
-    public function closeModal()
-    {
-        $this->resetVals();
-    }
-    public function resetVals(){
-        $this->system_id = null;
-        $this->name = null;
-        $this->father = null;
-        $this->mother = null;
-        $this->spouse = null;
-        $this->gender = null;
-        $this->dob = null;
-        $this->cast = null;
-        $this->tribe = null;
-        $this->email = null;
-        $this->phone = null;
-        $this->city_t = null;
-        $this->district_t = null;
-        $this->state_t = null;
-        $this->pin_t = null;
-        $this->address_t = null;
-        $this->city_p = null;
-        $this->district_p = null;
-        $this->state_p = null;
-        $this->pin_p = null;
-        $this->address_p = null;
-        $this->nature = null;
-        $this->serial = null;
-        $this->doe = null;
-        $this->dor = null;
-        $this->turnover = null;
-        $this->nominee = null;
-        $this->relation = null;
-    }
+
     private function getSystemID(){
         $number = time(); 
         $isUsed =  Registration::where('system_id', $number)->first();

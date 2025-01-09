@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RegEmployer extends Model
+class RegNominee extends Model
 {
     use HasFactory;
-    protected $table = 'reg_employer';
+    protected $table = 'reg_nominee';
 
     protected $fillable = [
         'worker_id',
-        'description',
-        'employer',
-        'nature_of_work',
-        'img_path',
+        'nominee_name1',
+        'nominee_dob1',
+        'nominee_relation1',
+        'nominee_name2',
+        'nominee_dob2',
+        'nominee_relation2',
         'del'
     ];
     protected $attributes = [
