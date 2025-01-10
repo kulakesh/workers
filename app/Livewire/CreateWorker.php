@@ -20,7 +20,7 @@ class CreateWorker extends Component
 {
     use WithFileUploads;
 
-    public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $cast, $tribe, $email, $phone, $city_t, $district_t, $state_t, $pin_t, $address_t, $city_p, $district_p, $state_p, $pin_p, $address_p, $nature, $serial, $doe, $dor, $turnover, $nominee, $relation, $del;
+    public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $city_t, $district_t, $state_t, $pin_t, $address_t, $city_p, $district_p, $state_p, $pin_p, $address_p, $nature, $serial, $doe, $dor, $turnover, $nominee, $relation, $del;
 
     public $edit_mode = false;
     public bool $same_address = false;
@@ -267,6 +267,7 @@ class CreateWorker extends Component
             'spouse' => $this->spouse,
             'gender' => $this->gender,
             'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
+            'marital' => $this->marital,
             'cast' => $this->cast,
             'tribe' => $this->tribe,
             'email' => $this->email,
@@ -345,6 +346,7 @@ class CreateWorker extends Component
             $this->spouse = $table->spouse;
             $this->gender = $table->gender;
             $this->dob = $table->dob ? Carbon::parse($table->dob)->format('d/m/Y') : null;
+            $this->marital = $table->marital;
             $this->cast = $table->cast;
             $this->tribe = $table->tribe;
             $this->email = $table->email;
@@ -420,6 +422,7 @@ class CreateWorker extends Component
             'spouse' => $this->spouse,
             'gender' => $this->gender,
             'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
+            'marital' => $this->marital,
             'cast' => $this->cast,
             'tribe' => $this->tribe,
             'email' => $this->email,

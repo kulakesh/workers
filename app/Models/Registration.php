@@ -18,6 +18,7 @@ class Registration extends Authenticatable
         'name',
         'father',
         'mother',
+        'marital',
         'spouse',
         'gender',
         'dob',

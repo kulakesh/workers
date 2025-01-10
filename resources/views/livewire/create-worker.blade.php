@@ -85,12 +85,36 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
+                                                <label for="marital" class="form-label ">Marital status</label>
+                                                <select name="marital" id="marital" wire:model="marital" class="form-select" aria-label="Marital">
+                                                    <option selected="">Select status</option>
+                                                    <option value="Married" @if(old('marital')=='Married') selected="selected" @endif>Married</option>
+                                                    <option value="Unmarried" @if(old('marital')=='Unmarried') selected="selected" @endif>Unmarried</option>
+                                                </select>
+                                                @error('marital')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="spouse"
+                                                    label="Spouse's Name (if married)"
                                                     placeholder="Spouse's Name"
                                                 />
                                                 </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="spouse" class="form-label ">Gender</label>
+                                                <x-input-wire name="dob"
+                                                    label="Date of Birth"
+                                                    placeholder="DD/MM/YYYY"
+                                                    required
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <label for="gender" class="form-label ">Gender</label>
+                                                <span class="required">*</span>
                                                 <select name="gender" id="gender" wire:model="gender" class="form-select" aria-label="Gender">
                                                     <option selected="">Select Gender</option>
                                                     <option value="Male" @if(old('gender')=='Male') selected="selected" @endif>Male</option>
@@ -105,19 +129,12 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-12 col-xl-4">
-                                                <x-input-wire name="dob"
-                                                    label="Date of Birth"
-                                                    placeholder="DD/MM/YYYY"
-                                                    required
-                                                />
-                                                </div>
-                                                <div class="col-md-12 col-xl-4">
+                                                <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="cast"
                                                     placeholder="Cast"
                                                 />
                                                 </div>
-                                                <div class="col-md-12 col-xl-4">
+                                                <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="tribe"
                                                     placeholder="Tribe's Name"
                                                 />
@@ -258,7 +275,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="turnover"
-                                                    label="Anual turnover"
+                                                    label="Anual income"
                                                     placeholder="0.00"
                                                 />
                                                 </div>
@@ -603,6 +620,13 @@
                                                 </div>
                                                 @enderror
                                             </div>
+                                            <div>Marital Status :  <strong>{{ $marital }}</strong>
+                                                @error('marital')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
                                             <div>Spouse's Name :  <strong>{{ $spouse }}</strong>
                                                 @error('spouse')
                                                 <div class="invalid-feedback">
@@ -772,7 +796,7 @@
                                                         </div>
                                                         @enderror
                                                     </div>
-                                                    <div>Anual turnover :  <strong>{{ $turnover }}</strong>
+                                                    <div>Anual income :  <strong>{{ $turnover }}</strong>
                                                         @error('turnover')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
