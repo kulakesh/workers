@@ -16,9 +16,11 @@ class RegNominee extends Model
         'nominee_name1',
         'nominee_dob1',
         'nominee_relation1',
+        'nominee_address1',
         'nominee_name2',
         'nominee_dob2',
         'nominee_relation2',
+        'nominee_address2',
         'del'
     ];
     protected $attributes = [

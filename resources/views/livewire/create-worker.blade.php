@@ -86,10 +86,13 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="marital" class="form-label ">Marital status</label>
+                                                <span class="required">*</span>
                                                 <select name="marital" id="marital" wire:model="marital" class="form-select" aria-label="Marital">
                                                     <option selected="">Select status</option>
                                                     <option value="Married" @if(old('marital')=='Married') selected="selected" @endif>Married</option>
                                                     <option value="Unmarried" @if(old('marital')=='Unmarried') selected="selected" @endif>Unmarried</option>
+                                                    <option value="Widowed" @if(old('marital')=='Widowed') selected="selected" @endif>Widowed</option>
+                                                    <option value="Other" @if(old('marital')=='Other') selected="selected" @endif>Other</option>
                                                 </select>
                                                 @error('marital')
                                                 <div class="invalid-feedback">
@@ -147,9 +150,19 @@
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="phone"
-                                                    placeholder="Phome Number"
-                                                />
+                                                    <div class="mb-3">
+                                                        <label for="phone" class="form-label @error('phone') text-danger @enderror">Phone</label>
+                                                        <span class="required">*</span>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" id="basic-addon1">+91</span>
+                                                            <input type="text" name="phone" id="phone" wire:model="phone" class="form-control @error('phone') is-invalid @enderror" placeholder="Phone Number" autocomplete="off" value="">
+                                                        </div>
+                                                        @error('phone')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,8 +266,8 @@
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="serial"
-                                                    label="Serial number"
-                                                    placeholder="Old serial/registration number"
+                                                    label="ESI/PF numbers"
+                                                    placeholder="ESI/PF numbers"
                                                     />
                                                 </div>
                                             </div>
@@ -278,6 +291,95 @@
                                                     label="Anual income"
                                                     placeholder="0.00"
                                                 />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="total_years"
+                                                    label="Total years of service"
+                                                    placeholder="0"
+                                                />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-header"><h5>Current Employer Details</h5></div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="est_name"
+                                                    label="Name"
+                                                    placeholder="Establishment name"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="est_reg_no"
+                                                    label="Registration number"
+                                                    placeholder="Establishment registration number"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-12">
+                                                <x-input-wire name="est_address"
+                                                    label="Address"
+                                                    placeholder="Establishment address"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="employer_name"
+                                                    label="Employer Name"
+                                                    placeholder="Employer Name"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-12">
+                                                <x-input-wire name="employer_address"
+                                                    label="Employer Address"
+                                                    placeholder="Employer Address"
+                                                />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <label>
+                                                If the applicant is already a member of any other welfare board, the name of such boards and registration number of the applicant.
+                                                </label>
+
+                                                <label>
+                                                    <input type="radio" wire:model="other_welfare" value="yes" />
+                                                    Yes
+                                                </label>
+                                                <label>
+                                                    <input type="radio" wire:model="other_welfare" value="no" />
+                                                    No
+                                                </label>
+
+                                                @error('other_welfare')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="welfare_name"
+                                                    label="Welfare board name (if yes)"
+                                                    placeholder="Welfare board name"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="welfare_reg_no"
+                                                    label="Welfare registration number (if yes)"
+                                                    placeholder="Welfare board registration number"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -305,6 +407,7 @@
                                                 <th>Name</th>
                                                 <th>Date of birth</th>
                                                 <th>Relation</th>
+                                                <th>Address</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -320,7 +423,8 @@
                                                     @enderror
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="nominee_dob1" id="nominee_dob1" wire:model="nominee_dob1" placeholder="Nominee 1 DOB">
+                                                    <input type="text" class="form-control" name="nominee_dob1" id="nominee_dob1" wire:model="nominee_dob1" placeholder="Nominee 1 DOB (DD/MM/YYYY)">
+                                                    <span class="text-primary" id="nomineeAge1"></span>
                                                     @error('nominee_dob1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -330,6 +434,14 @@
                                                 <td>
                                                     <input type="text" class="form-control" name="nominee_relation1" wire:model="nominee_relation1" placeholder="Nominee 1 Relation">
                                                     @error('nominee_relation1')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_address1" wire:model="nominee_address1" placeholder="Nominee 1 Address">
+                                                    @error('nominee_address1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -348,7 +460,8 @@
                                                     @enderror
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" name="nominee_dob2" id="nominee_dob2" wire:model="nominee_dob2" placeholder="Nominee 2 DOB">
+                                                    <input type="text" class="form-control" name="nominee_dob2" id="nominee_dob2" wire:model="nominee_dob2" placeholder="Nominee 2 DOB (DD/MM/YYYY)">
+                                                    <span class="text-primary" id="nomineeAge2"></span>
                                                     @error('nominee_dob2')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -358,6 +471,14 @@
                                                 <td>
                                                     <input type="text" class="form-control" name="nominee_relation2" wire:model="nominee_relation2" placeholder="Nominee 2 Relation">
                                                     @error('nominee_relation2')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_address2" wire:model="nominee_address2" placeholder="Nominee 2 Address">
+                                                    @error('nominee_address2')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -448,7 +569,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td class="align-middle text-center" colspan="5">
+                                                    <td class="align-middle text-center" colspan="6">
                                                         No results found
                                                     </td>
                                                 </tr>
@@ -775,7 +896,7 @@
                                                         </div>
                                                         @enderror
                                                     </div>
-                                                    <div>Old serial/registration number :  <strong>{{ $serial }}</strong>
+                                                    <div>ESI/PF numbers :  <strong>{{ $serial }}</strong>
                                                         @error('serial')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -805,6 +926,73 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <h4>Current Employer Details</h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div>Establishment name :  <strong>{{ $est_name }}</strong>
+                                                        @error('est_name')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Establishment registration number :  <strong>{{ $est_reg_no }}</strong>
+                                                        @error('est_reg_no')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Establishment address :  <strong>{{ $est_address }}</strong>
+                                                        @error('est_address')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Employer Name :  <strong>{{ $employer_name }}</strong>
+                                                        @error('employer_name')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Employer Address :  <strong>{{ $employer_address }}</strong>
+                                                        @error('employer_address')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <divr class="row mt-2">
+                                                <div>
+                                                <label class="mb-0">
+                                                If the applicant is already a member of any other welfare board : <strong>{{ $other_welfare }}</strong>
+                                                </label>
+                                                @error('other_welfare')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                                </div>
+                                                <div>Welfare board name :  <strong>{{ $welfare_name }}</strong>
+                                                    @error('welfare_name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div>Welfare board registration number :  <strong>{{ $welfare_reg_no }}</strong>
+                                                    @error('welfare_reg_no')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                            </divr>
+
                                         </div>
                                         <div class="col-md-4 col-sm-6">
                                             @if($finger_name && file_exists(public_path('storage/biometric/') . $finger_name))
@@ -823,6 +1011,7 @@
                                                         <th>Name</th>
                                                         <th>Date of Birth</th>
                                                         <th>Relation</th>
+                                                        <th>Address</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -831,12 +1020,14 @@
                                                         <td>{{ $nominee_name1 }}</td>
                                                         <td>{{ $nominee_dob1 }}</td>
                                                         <td>{{ $nominee_relation1 }}</td>
+                                                        <td>{{ $nominee_address1 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>2</td>
                                                         <td>{{ $nominee_name2 }}</td>
                                                         <td>{{ $nominee_dob2 }}</td>
                                                         <td>{{ $nominee_relation2 }}</td>
+                                                        <td>{{ $nominee_address2 }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -963,6 +1154,22 @@
             datePattern: ['d', 'm', 'Y']
         });
     }
+    $('#nominee_dob1').blur(function () {
+        let age = calculateAge($('#nominee_dob1').val());
+        if(age > 0){
+            $('#nomineeAge1').html(age + ' years')
+        }else{
+            $('#nomineeAge1').html('')
+        }
+    });
+    $('#nominee_dob2').blur(function () {
+        let age = calculateAge($('#nominee_dob2').val());
+        if(age > 0){
+            $('#nomineeAge2').html(age + ' years')
+        }else{
+            $('#nomineeAge2').html('')
+        }
+    });
     // Listners
     document.addEventListener('livewire:init', () => {
         Livewire.on('close-modal', (event) => {

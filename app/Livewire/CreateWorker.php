@@ -20,14 +20,19 @@ class CreateWorker extends Component
 {
     use WithFileUploads;
 
-    public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $city_t, $district_t, $state_t, $pin_t, $address_t, $city_p, $district_p, $state_p, $pin_p, $address_p, $nature, $serial, $doe, $dor, $turnover, $nominee, $relation, $del;
+    public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, 
+    $city_t, $district_t, $state_t, $pin_t, $address_t, 
+    $city_p, $district_p, $state_p, $pin_p, $address_p, 
+    $nature, $serial, $doe, $dor, $turnover, 
+    $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
+    $nominee, $relation, $del;
 
     public $edit_mode = false;
     public bool $same_address = false;
 
     public $family_member_name, $family_member_age, $family_member_relation;
 
-    public $nominee_name1, $nominee_dob1, $nominee_relation1, $nominee_name2, $nominee_dob2, $nominee_relation2;
+    public $nominee_name1, $nominee_dob1, $nominee_relation1, $nominee_address1, $nominee_name2, $nominee_dob2, $nominee_relation2, $nominee_address2;
 
     public $employer_description, $employer_name_address, $employer_nature, $employer_document, $employer_document_name;
     public $employers = [];
@@ -201,21 +206,27 @@ class CreateWorker extends Component
 
     }
     private $generalRules = [
-        'name' => 'required',
+        'name' => 'required|string|max:150',
         'gender' => 'required|in:Male,Female,Other',
+        'marital' => 'required|in:Married,Unmarried,Widowed,Other',
+        'spouse' => 'required_if:marital,Married|max:150',
         'dob' => 'required|date_format:d/m/Y',
         'email' => 'nullable|email',
-        'phone' => 'nullable|digits:10',
+        'phone' => 'required|digits:10',
         'pin_t' => 'nullable|digits:6',
         'pin_p' => 'nullable|digits:6',
         'doe' => 'nullable|date_format:d/m/Y',
         'dor' => 'nullable|date_format:d/m/Y',
-        'turnover' => 'nullable|numeric'
+        'turnover' => 'nullable|numeric',
+        'other_welfare' => 'nullable|in:yes,no',
+        'welfare_name' => 'required_if:other_welfare,yes|max:225',
+        'welfare_reg_no' => 'required_if:other_welfare,yes|max:100',
     ];
     private $generalMessages = [
         'dob.date_format' => 'Must match the format DD/MM/YYYY',
         'doe.date_format' => 'Must match the format DD/MM/YYYY',
-        'dor.date_format' => 'Must match the format DD/MM/YYYY'
+        'dor.date_format' => 'Must match the format DD/MM/YYYY',
+        'other_welfare' => 'Select yes or no',
     ];
     public function generalValidate() 
     {
@@ -287,6 +298,15 @@ class CreateWorker extends Component
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
             'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
             'turnover' => $this->turnover,
+            'total_years' => $this->total_years,
+            'est_name' => $this->est_name,
+            'est_reg_no' => $this->est_reg_no,
+            'est_address' => $this->est_address,
+            'employer_name' => $this->employer_name,
+            'employer_address' => $this->employer_address,
+            'other_welfare' => $this->other_welfare,
+            'welfare_name' => $this->welfare_name,
+            'welfare_reg_no' => $this->welfare_reg_no,
             'nominee' => $this->nominee,
             'relation' => $this->relation,
             'del' => 0
@@ -297,9 +317,11 @@ class CreateWorker extends Component
             'nominee_name1' => $this->nominee_name1,
             'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
             'nominee_relation1' => $this->nominee_relation1,
+            'nominee_address1' => $this->nominee_address1,
             'nominee_name2' => $this->nominee_name2,
             'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
             'nominee_relation2' => $this->nominee_relation2,
+            'nominee_address2' => $this->nominee_address2,
             'del' => 0
         ]);
 
@@ -366,6 +388,15 @@ class CreateWorker extends Component
             $this->doe = $table->doe ? Carbon::parse($table->doe)->format('d/m/Y') : null;
             $this->dor = $table->dor ? Carbon::parse($table->dor)->format('d/m/Y') : null;
             $this->turnover = $table->turnover;
+            $this->total_years = $table->total_years;
+            $this->est_name = $table->est_name;
+            $this->est_reg_no = $table->est_reg_no;
+            $this->est_address = $table->est_address;
+            $this->employer_name = $table->employer_name;
+            $this->employer_address = $table->employer_address;
+            $this->other_welfare = $table->other_welfare;
+            $this->welfare_name = $table->welfare_name;
+            $this->welfare_reg_no = $table->welfare_reg_no;
             $this->nominee = $table->nominee;
             $this->relation = $table->relation;
         }else{
@@ -377,9 +408,11 @@ class CreateWorker extends Component
             $this->nominee_name1 = $nominee->nominee_name1;
             $this->nominee_dob1 = $nominee->nominee_dob1 ? Carbon::parse($nominee->nominee_dob1)->format('d/m/Y') : null;
             $this->nominee_relation1 = $nominee->nominee_relation1;
+            $this->nominee_address1 = $nominee->nominee_address1;
             $this->nominee_name2 = $nominee->nominee_name2;
             $this->nominee_dob2 = $nominee->nominee_dob2 ? Carbon::parse($nominee->nominee_dob2)->format('d/m/Y') : null;
             $this->nominee_relation2 = $nominee->nominee_relation2;
+            $this->nominee_address2 = $nominee->nominee_address2;
         }
 
         foreach(RegEmployer::where('worker_id', $this->id)->whereDel(0)->get() as $employer){
@@ -442,6 +475,15 @@ class CreateWorker extends Component
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
             'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
             'turnover' => $this->turnover,
+            'total_years' => $this->total_years,
+            'est_name' => $this->est_name,
+            'est_reg_no' => $this->est_reg_no,
+            'est_address' => $this->est_address,
+            'employer_name' => $this->employer_name,
+            'employer_address' => $this->employer_address,
+            'other_welfare' => $this->other_welfare,
+            'welfare_name' => $this->welfare_name,
+            'welfare_reg_no' => $this->welfare_reg_no,
             'nominee' => $this->nominee,
             'relation' => $this->relation,
         ]);
@@ -453,9 +495,11 @@ class CreateWorker extends Component
             'nominee_name1' => $this->nominee_name1,
             'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
             'nominee_relation1' => $this->nominee_relation1,
+            'nominee_address1' => $this->nominee_address1,
             'nominee_name2' => $this->nominee_name2,
             'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
             'nominee_relation2' => $this->nominee_relation2,
+            'nominee_address2' => $this->nominee_address2,
             'del' => 0
         ]);
 
@@ -528,3 +572,6 @@ class CreateWorker extends Component
         return view('livewire.create-worker', compact('document_heads'));
     }
 }
+
+// ALTER TABLE `registration` ADD `total_years` INT NULL DEFAULT NULL AFTER `turnover`, ADD `est_name` VARCHAR(225) NULL DEFAULT NULL AFTER `total_years`, ADD `est_reg_no` VARCHAR(100) NULL DEFAULT NULL AFTER `est_name`, ADD `est_address` VARCHAR(225) NULL DEFAULT NULL AFTER `est_reg_no`, ADD `employer_name` VARCHAR(150) NULL DEFAULT NULL AFTER `est_address`, ADD `employer_address` VARCHAR(225) NULL DEFAULT NULL AFTER `employer_name`, ADD `other_welfare` VARCHAR(5) NULL DEFAULT NULL AFTER `employer_address`, ADD `welfare_name` VARCHAR(255) NULL DEFAULT NULL AFTER `other_welfare`, ADD `welfare_reg_no` VARCHAR(100) NULL DEFAULT NULL AFTER `welfare_name`;
+// ALTER TABLE `reg_nominee` ADD `nominee_address1` VARCHAR(225) NULL DEFAULT NULL AFTER `nominee_relation1`, ADD `nominee_address2` VARCHAR(225) NULL DEFAULT NULL AFTER `nominee_relation2`; 

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 
-URL::forceScheme('https');
+// URL::forceScheme('https');
 
 require __DIR__.'/global.php';
 Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
