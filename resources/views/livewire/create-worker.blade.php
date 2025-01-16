@@ -1057,7 +1057,7 @@
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td class="align-middle text-center" colspan="4">
+                                                            <td class="align-middle text-center" colspan="5">
                                                                 No results found
                                                             </td>
                                                         </tr>
@@ -1072,7 +1072,14 @@
                                         @foreach($document_heads as $index => $document_head)
                                             <div>
                                                 {{ $document_head->name }} 
-                                                @if(array_key_exists($index,$documents)) - {{ $document_head->docs->where('id',$documents[$index])->first()->name }} @endif
+                                                @if(array_key_exists($index,$documents))  
+                                                    @php
+                                                    $doc_name = $document_head->docs->where('id',$documents[$index])->first();
+                                                    @endphp
+                                                    @if($doc_name)
+                                                    - {{ $doc_name->name }}
+                                                    @endif
+                                                @endif
                                                 @if(array_key_exists($index,$uploaded_document_name)) 
                                                     - <a target="_blank" href="{{ asset('storage/document/'.$uploaded_document_name[$index]) }}">View</a>
                                                 @endif
