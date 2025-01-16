@@ -1080,7 +1080,7 @@
                                                     - {{ $doc_name->name }}
                                                     @endif
                                                 @endif
-                                                @if(array_key_exists($index,$uploaded_document_name)) 
+                                                @if(array_key_exists($index,$uploaded_document_name) && $uploaded_document_name[$index] != '') 
                                                     - <a target="_blank" href="{{ asset('storage/document/'.$uploaded_document_name[$index]) }}">View</a>
                                                 @endif
                                             </div>
