@@ -34,7 +34,7 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span>Menu</span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('admin.dashboard') }}" role="button"
+                    <a class="nav-link menu-link" href="{{ route('operator.dashboard') }}" role="button"
                         aria-expanded="false">
                         <i class="ri-apps-2-line"></i> <span>Dashboard</span>
                     </a>
@@ -45,7 +45,7 @@
                         aria-expanded="false" aria-controls="sidebarWorkers">
                         <i class="bx bx-bell"></i> <span>Workers</span>
                     </a>
-                    <div class="collapse {{ request()->is('admin/workers*') ? 'show' : null }} menu-dropdown" id="sidebarWorkers">
+                    <div class="collapse {{ request()->is('op/workers*') ? 'show' : null }} menu-dropdown" id="sidebarWorkers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('operator.createWorker') }}" class="nav-link">Enroll</a>
@@ -59,7 +59,7 @@
                         aria-expanded="false" aria-controls="sidebarReports">
                         <i class="bx bx-bell"></i> <span>Report</span>
                     </a>
-                    <div class="collapse {{ request()->is('admin/reports*') ? 'show' : null }} menu-dropdown" id="sidebarReport">
+                    <div class="collapse {{ request()->is('op/reports*') ? 'show' : null }} menu-dropdown" id="sidebarReport">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('operator.workersReport') }}" class="nav-link">Worker Report</a>

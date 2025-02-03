@@ -13,14 +13,14 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p class="fw-medium text-white-50 mb-0">Label</p>
-                        <h2 class="mt-4 ff-secondary fw-semibold text-white">0</h2>
-                        <a href="" class="btn btn-secondary btn-sm">View</a>
+                        <p class="fw-medium text-white-50 mb-0">My Enrolements</p>
+                        <h2 class="mt-4 ff-secondary fw-semibold text-white">{{ $entries }}</h2>
+                        <a href="{{ route('operator.workersReport') }}" class="btn btn-secondary btn-sm">View</a>
                     </div>
                     <div>
                         <div class="avatar-sm flex-shrink-0">
                             <span class="avatar-title bg-white bg-opacity-25 rounded-circle fs-2 material-shadow">
-                                <i class="bx bxs-wallet text-white"></i>
+                                <i class="bx bxs-user-badge text-white"></i>
                             </span>
                         </div>
                     </div>

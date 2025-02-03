@@ -9,6 +9,11 @@ use App\Http\Controllers\AuthController;
 // URL::forceScheme('https');
 
 require __DIR__.'/global.php';
+
+Route::get('/', function () {
+    return view('website.home');
+})->name('website.home');
+
 Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
 Route::get('/qrcode/{code}',[MainController::class,'qrcodeIndex'])->name('qrcodeIndex');
 

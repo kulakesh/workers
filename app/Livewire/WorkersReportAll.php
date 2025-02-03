@@ -39,7 +39,7 @@ class WorkersReportAll extends Component
                 $items = $items->whereIn('operator_id', function ($query) {
                     $query->select('id')
                     ->from('operators')
-                    ->where('districti_id', auth()->user()->id);
+                    ->where('district_id', auth()->user()->id);
                 })
                 ->paginate(10);
                 break;
