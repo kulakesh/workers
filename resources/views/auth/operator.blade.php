@@ -53,7 +53,6 @@
                                 <div class="p-2 mt-4">
                                     <form action="{{ route('operator.login') }}" method="post">
                                     @csrf
-                                    @method('post')
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
                                             <input type="text" name="username" class="form-control" id="username" required autofocus>
