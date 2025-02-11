@@ -1,4 +1,5 @@
 <div>
+    <x-loading-indicator />
     <div class="row">
         <div class="col-md-12 col-xl-8 offset-2">
             <div class="card">

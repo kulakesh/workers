@@ -10,6 +10,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ URL::asset('build/images/logo-sm.png') }}">
     @include('layouts.head-css')
+    @stack('styles')
 </head>
 
 <body>
