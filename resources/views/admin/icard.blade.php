@@ -29,7 +29,7 @@
             left:13mm;
             position: absolute;
             font-size: 8px;
-            color: #07173c;
+            color: black;
         }
         .image {
             top:23mm;
