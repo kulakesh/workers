@@ -24,6 +24,13 @@
             width: 54mm;
             height: 86mm;
         }
+        .reg_id {
+            top:20mm;
+            left:13mm;
+            position: absolute;
+            font-size: 8px;
+            color: brown;
+        }
         .image {
             top:23mm;
             left:13mm;
@@ -69,13 +76,13 @@
         }
         .content-back {
             position: absolute;
-            top: 51mm;
+            top: 15mm;
             width: 100%;
         }
         .content-back .table{
             text-align: center;
             font-size: 8px;
-            padding-left: 9mm;
+            padding-left: 5mm;
             padding-right: 3mm;
         }
         .content-back .real-table{
@@ -84,8 +91,8 @@
         }
         .content-back .qrcode{
             position: absolute;
-            top:4mm;
-            left:30mm;
+            top:47mm;
+            left:3mm;
         }
         .content-back .qrcode img{
             height: 18mm;
@@ -98,6 +105,14 @@
 <section class="sheet2">
     <div class="icard">
         <img id="bg_img" src="{{ URL::asset('build/images/icard-front.png') }}" />
+        <div class="reg_id">
+            <table class="real-table">
+                <tr>
+                    <td style="text-align: left; width: 10mm">Reg. No.</td>
+                    <td style="text-align: left">: {{ $registration->system_id }}</td>
+                </tr>
+            </table>
+        </div>
         <div class="image">
             <img id="thumb_img" src="{{ URL::asset('storage/photo/'.$registration->photo->first()->img_path) }}" />
         </div>
@@ -107,11 +122,11 @@
             <div class="table">
                 <table class="real-table">
                     <tr>
-                        <td style="text-align: left; width: 10mm">Reg. No.</td>
-                        <td style="text-align: left">: {{ $registration->system_id }}</td>
+                        <td style="text-align: left; width: 10mm">Father's Name</td>
+                        <td style="text-align: left">: {{ $registration->father }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left; width: 10mm">Phone</td>
+                        <td style="text-align: left; width: 10mm">Contact No</td>
                         <td style="text-align: left">: {{ $registration->phone }}</td>
                     </tr>
                     <tr>
@@ -141,12 +156,27 @@
             <div class="table">
                 <table class="real-table">
                     <tr>
-                        <td style="text-align: left; width: 6mm">Join</td>
-                        <td style="text-align: left">: {{ $registration->created_at ? \Carbon\Carbon::parse($registration->created_at)->format('d/m/Y') : '--' }}</td>
+                        <td style="text-align: left"><strong>Blood Group</strong> : {{ $registration->bg }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left; width: 6mm">Expire</td>
-                        <td style="text-align: left">: {{ $registration->dor ? \Carbon\Carbon::parse($registration->dor)->format('d/m/Y') : '--' }}</td>
+                        <td style="text-align: left"><strong>DOB</strong> : {{ $registration->dob ? \Carbon\Carbon::parse($registration->dob)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Year of appointment</strong> : {{ $registration->doe ? \Carbon\Carbon::parse($registration->doe)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Valid up to</strong> : {{ $registration->dor ? \Carbon\Carbon::parse($registration->dor)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Expire</strong> : {{ $registration->dor ? \Carbon\Carbon::parse($registration->dor)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Parmanent Address</strong> : {{ $registration->address_t }} 
+                        {{ $registration->city_t }} 
+                        {{ $registration->district_t }}
+                        {{ $registration->state_t }}    
+                        {{ $registration->pin_t }}    
+                        </td>
                     </tr>
                 </table>
             </div>

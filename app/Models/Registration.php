@@ -26,6 +26,7 @@ class Registration extends Authenticatable
         'tribe',
         'email',
         'phone',
+        'bg',
         'city_t',
         'district_t',
         'state_t',

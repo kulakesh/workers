@@ -166,6 +166,14 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="bg"
+                                                    label="Blood group"
+                                                    placeholder="Blood Group"
+                                                />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -793,6 +801,13 @@
                                             </div>
                                             <div>Phone Number :  <strong>{{ $phone }}</strong>
                                                 @error('phone')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div>Blood Group :  <strong>{{ $bg }}</strong>
+                                                @error('bg')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>

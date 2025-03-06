@@ -20,7 +20,7 @@ class CreateWorker extends Component
 {
     use WithFileUploads;
 
-    public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, 
+    public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $bg,
     $city_t, $district_t, $state_t, $pin_t, $address_t, 
     $city_p, $district_p, $state_p, $pin_p, $address_p, 
     $nature, $serial, $doe, $dor, $turnover, 
@@ -213,6 +213,7 @@ class CreateWorker extends Component
         'dob' => 'required|date_format:d/m/Y',
         'email' => 'nullable|email',
         'phone' => 'required|digits:10',
+        'bg' => 'nullable|max:10',
         'pin_t' => 'nullable|digits:6',
         'pin_p' => 'nullable|digits:6',
         'doe' => 'nullable|date_format:d/m/Y',
@@ -283,6 +284,7 @@ class CreateWorker extends Component
             'tribe' => $this->tribe,
             'email' => $this->email,
             'phone' => $this->phone,
+            'bg' => $this->bg,
             'city_t' => $this->city_t,
             'district_t' => $this->district_t,
             'state_t' => $this->state_t,
@@ -373,6 +375,7 @@ class CreateWorker extends Component
             $this->tribe = $table->tribe;
             $this->email = $table->email;
             $this->phone = $table->phone;
+            $this->bg = $table->bg;
             $this->city_t = $table->city_t;
             $this->district_t = $table->district_t;
             $this->state_t = $table->state_t;
@@ -460,6 +463,7 @@ class CreateWorker extends Component
             'tribe' => $this->tribe,
             'email' => $this->email,
             'phone' => $this->phone,
+            'bg' => $this->bg,
             'city_t' => $this->city_t,
             'district_t' => $this->district_t,
             'state_t' => $this->state_t,
