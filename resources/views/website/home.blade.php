@@ -44,9 +44,9 @@ APBOCWWB
                         <div class="row justify-content-center">
                             <div class="col-lg-8 col-sm-10">
                                 <div class="text-center mt-lg-5 pt-5">
-                                    <h1 class="display-6 fw-semibold mb-3 lh-base">Arunachal Pradesh Building and
+                                    <h1 class="display-6 fw-semibold mb-3 lh-base">Arunachal Pradesh Building &
                                             Construction Workers Welfare
-                                            Board <span class="text-success">APBOCWWB </span></h1>
+                                            Board <span class="text-success">APB&OCWWB </span></h1>
                                     <p class="lead text-muted lh-base">A system to register workers with unique IDs and issue ID cards
                                         which enhances site safety, security and efficiency.</p>
 
