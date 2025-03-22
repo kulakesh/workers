@@ -43,7 +43,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarWorkers" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarWorkers">
-                        <i class="bx bx-bell"></i> <span>Workers</span>
+                        <i class="bx bx-bell"></i> <span>Registration</span>
                     </a>
                     <div class="collapse {{ request()->is('op/workers*') ? 'show' : null }} menu-dropdown" id="sidebarWorkers">
                         <ul class="nav nav-sm flex-column">

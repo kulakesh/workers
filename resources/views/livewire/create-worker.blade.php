@@ -1,7 +1,8 @@
 <div>
     <x-loading-indicator />
     <div class="row">
-        <div class="col-md-12 col-xl-8 offset-2">
+        <div class="col-md-12"> 
+            <!-- col-xl-8 offset-2 -->
             <div class="card">
                 <div class="card-body">
                         
@@ -207,10 +208,18 @@
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="district_t"
-                                                    label="District"
-                                                    placeholder="District"
-                                                    />
+                                                <label for="name" class="form-label ">District </label>
+                                                <select name="district_t" id="district_t" wire:model="district_t" class="form-select" aria-label="District">
+                                                    <option selected="">Select District</option>
+                                                    @foreach ($district_names as $district_name)
+                                                    <option value="{{ $district_name->name }}">{{ $district_name->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('district_t')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -253,10 +262,18 @@
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="district_p"
-                                                    label="District"
-                                                    placeholder="District"
-                                                    />
+                                                <label for="name" class="form-label ">District</label>
+                                                <select name="district_p" id="district_p" wire:model="district_p" class="form-select" aria-label="District">
+                                                    <option selected="">Select District</option>
+                                                    @foreach ($district_names as $district_name)
+                                                    <option value="{{ $district_name->name }}">{{ $district_name->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('district_p')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -287,10 +304,12 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="aadhaar"
-                                                    label="AADHAAR"
-                                                    placeholder="AADHAAR"
-                                                />
+                                                <input type="text" name="aadhaar" id="aadhaar" wire:model="aadhaar" class="form-control" placeholder="AADHAAR" autocomplete="off" required="">
+                                                @error('aadhaar')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                             </div>
                                             <div class="row">

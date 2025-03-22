@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\DistrictNames;
 use App\Models\RegBenefit;
 use App\Models\RegBiomatric;
 use App\Models\RegDocument;
@@ -641,8 +642,9 @@ class CreateWorker extends Component
     }
     public function render()
     {
+        $district_names = DistrictNames::orderBy('name')->get();
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
-        return view('livewire.create-worker', compact('document_heads'));
+        return view('livewire.create-worker', compact('document_heads','district_names'));
     }
 }
 
