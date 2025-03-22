@@ -37,6 +37,7 @@ class Registration extends Authenticatable
         'state_p',
         'pin_p',
         'address_p',
+        'aadhaar',
         'nature',
         'serial',
         'doe',

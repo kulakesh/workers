@@ -41,24 +41,27 @@ APBOCWWB
                 <section class="section pb-0 hero-section" id="hero">
                     <div class="bg-overlay bg-overlay-pattern"></div>
                     <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8 col-sm-10">
-                                <div class="text-center mt-lg-5 pt-5">
-                                    <h1 class="display-6 fw-semibold mb-3 lh-base">Arunachal Pradesh Building & Others
-                                            Construction Workers Welfare
-                                            Board <span class="text-success">APB&OCWWB </span></h1>
-                                    <p class="lead text-muted lh-base">A system to register workers with unique IDs and issue ID cards
-                                        which enhances site safety, security and efficiency.</p>
-
-                                    <div class="d-flex gap-2 justify-content-center mt-4">
-                                        <a href="/admin" class="btn btn-primary">Admin</a>
-                                        <a href="/select-district" class="btn btn-danger">District</a>
-                                        <!-- <a href="/op" class="btn btn-success">Operator</a> -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-2">Select District</h4>
+                                <div class="row">
+                                    @foreach ($district_names as $district_name)
+                                    <div class="col-lg-3 mb-2">
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop{{ $district_name->id }}" type="button" class="btn btn btn-soft-primary waves-effect waves-light dropdown-toggle material-shadow-none" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{ $district_name->name }}
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop{{ $district_name->id }}">
+                                                <li><a class="dropdown-item" href="/dt">RO Login</a></li>
+                                                <li><a class="dropdown-item" href="/op">Operator Login</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
+                                    @endforeach
+                                    
                                 </div>
                             </div>
                         </div>
-                        <!-- end row -->
                     </div>
                     <!-- end container -->
                     

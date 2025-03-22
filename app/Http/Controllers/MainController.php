@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DistrictNames;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -125,5 +126,9 @@ class MainController extends Controller
 
             return response($qrCode)->header('Content-Type', 'image/svg+xml');
         }
+    }
+    public function selectDistrict(){
+        $district_names = DistrictNames::orderBy('name')->get();
+        return view('website.select-district', compact('district_names'));
     }
 }

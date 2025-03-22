@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\District;
+use App\Models\DistrictNames;
 use Livewire\WithPagination;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +12,7 @@ class CreateDistrict extends Component
 {
     use WithPagination;
 
-    public $id, $name, $contact_person, $designation, $email, $phone, $state, $address, $pin, $username, $password, $del;
+    public $id, $district_id, $name, $contact_person, $designation, $email, $phone, $state, $address, $pin, $username, $password, $del;
  
     public $search = '';
 
@@ -19,6 +20,7 @@ class CreateDistrict extends Component
     {
         $this->validate([
             'name' => 'required',
+            'district_id' => 'required',
             'email' => 'nullable|email',
             'phone' => 'nullable|digits:10',
             'username' => 'required|alpha_num|min:5|max:20|unique:districts',
@@ -27,6 +29,7 @@ class CreateDistrict extends Component
 
         $create = District::create([
             'name' => $this->name,
+            'district_id' => $this->district_id,
             'contact_person' => $this->contact_person,
             'designation' => $this->designation,
             'email' => $this->email,
@@ -48,6 +51,7 @@ class CreateDistrict extends Component
         if($table){
             $this->id = $table->id;
             $this->name = $table->name;
+            $this->district_id = $table->district_id;
             $this->contact_person = $table->contact_person;
             $this->designation = $table->designation;
             $this->email = $table->email;
@@ -64,6 +68,7 @@ class CreateDistrict extends Component
     {
         $this->validate([
             'name' => 'required',
+            'district_id' => 'required',
             'email' => 'nullable|email',
             'phone' => 'nullable|digits:10',
             'username' => 'required|alpha_num|min:5|max:20|unique:districts,username,'.$this->id,
@@ -72,6 +77,7 @@ class CreateDistrict extends Component
         $update = District::where('id', $this->id);
         $update->update([
             'name' => $this->name,
+            'district_id' => $this->district_id,
             'contact_person' => $this->contact_person,
             'designation' => $this->designation,
             'email' => $this->email,
@@ -113,6 +119,7 @@ class CreateDistrict extends Component
     public function resetVals(){
         $this->id = null;
         $this->name = null;
+        $this->district_id = null;
         $this->contact_person = null;
         $this->designation = null;
         $this->email = null;
@@ -130,6 +137,9 @@ class CreateDistrict extends Component
         })
         ->whereDel(0)
         ->paginate(10);
-        return view('livewire.create-district',compact('items'));
+
+        $district_names = DistrictNames::orderBy('name')->get();
+
+        return view('livewire.create-district',compact('items', 'district_names'));
     }
 }

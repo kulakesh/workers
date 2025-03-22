@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModals">Add District</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModals">Add RO</button>
         
             </div>
             <div class="col-sm-12 col-md-6">
@@ -24,7 +24,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 overflow-hidden">
                 <div class="modal-header p-3">
-                    <h4 class="card-title mb-0">Add District</h4>
+                    <h4 class="card-title mb-0">Add RO</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal" aria-label="Close"></button>
                 </div>
                 <div class="hide-me-after-done pb-3">
@@ -39,9 +39,24 @@
                         <div class="row">
                             <div class="col-6">
                                 <x-input-wire name="name"
-                                    placeholder="District Name"
+                                    label="RO Name"
+                                    placeholder="RO Name"
                                     required
                                 />
+                                <div class="mb-3">
+                                    <label for="name" class="form-label ">District  <span class="required">*</span></label>
+                                    <select name="district_id" id="district_id" wire:model="district_id" class="form-select" aria-label="District">
+                                        <option selected="">Select District</option>
+                                        @foreach ($district_names as $district_name)
+                                        <option value="{{ $district_name->id }}">{{ $district_name->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('district_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                                 <x-input-wire name="contact_person"
                                     label="Contact Person"
                                     placeholder="Contact Person Name"
@@ -147,7 +162,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content border-0 overflow-hidden">
                 <div class="modal-header p-3">
-                    <h4 class="card-title mb-0">Add Category</h4>
+                    <h4 class="card-title mb-0">Add RO</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal" aria-label="Close"></button>
                 </div>
                 <div class="hide-me-after-done pb-3">
@@ -165,6 +180,20 @@
                                     placeholder="District Name"
                                     required
                                 />
+                                <div class="mb-3">
+                                    <label for="name" class="form-label ">District <span class="required">*</span></label>
+                                    <select name="district_id" id="district_id" wire:model="district_id" class="form-select" aria-label="District">
+                                        <option selected="">Select District</option>
+                                        @foreach ($district_names as $district_name)
+                                        <option value="{{ $district_name->id }}">{{ $district_name->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('district_id')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                                 <x-input-wire name="contact_person"
                                     label="Contact Person"
                                     placeholder="Contact Person Name"

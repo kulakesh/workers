@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('districts', function (Blueprint $table) {
             $table->id();
             $table->string('name',100);
+            $table->integer('district_id');
             $table->string('contact_person',150)->nullable();
             $table->string('designation',100)->nullable();
             $table->string('email',150)->nullable();

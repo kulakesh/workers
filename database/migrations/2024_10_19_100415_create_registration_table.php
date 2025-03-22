@@ -35,6 +35,7 @@ return new class extends Migration
             $table->string('state_p',50)->nullable();
             $table->string('pin_p',10)->nullable();
             $table->string('address_p',150)->nullable();
+            $table->string('aadhaar',20)->nullable();
             $table->string('nature',150)->nullable();// nature of work
             $table->string('serial',50)->nullable();// old serial number
             $table->date('doe')->nullable();// date of enrollment

@@ -13,6 +13,7 @@ require __DIR__.'/global.php';
 Route::get('/', function () {
     return view('website.home');
 })->name('website.home');
+Route::get('/select-district',[MainController::class,'selectDistrict'])->name('selectDistrict');
 
 Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
 Route::get('/qrcode/{code}',[MainController::class,'qrcodeIndex'])->name('qrcodeIndex');

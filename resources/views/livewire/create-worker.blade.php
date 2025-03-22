@@ -26,6 +26,12 @@
                                         aria-selected="false" wire:ignore.self>Employment</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="steparrow-benefits-info-tab"
+                                        data-bs-toggle="pill" data-bs-target="#steparrow-benefits-info" type="button"
+                                        role="tab" aria-controls="steparrow-benefits-info"
+                                        aria-selected="false" wire:ignore.self>Benefits</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-photo-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-photo-info" type="button"
                                         role="tab" aria-controls="steparrow-photo-info"
@@ -121,9 +127,9 @@
                                                 <span class="required">*</span>
                                                 <select name="gender" id="gender" wire:model="gender" class="form-select" aria-label="Gender">
                                                     <option selected="">Select Gender</option>
-                                                    <option value="Male" @if(old('gender')=='Male') selected="selected" @endif>Male</option>
-                                                    <option value="Female" @if(old('gender')=='Female') selected="selected" @endif>Female</option>
-                                                    <option value="Other" @if(old('gender')=='Other') selected="selected" @endif>Other</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Other">Other</option>
                                                 </select>
                                                 @error('gender')
                                                 <div class="invalid-feedback">
@@ -168,10 +174,23 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="bg"
-                                                    label="Blood group"
-                                                    placeholder="Blood Group"
-                                                />
+                                                <label for="gender" class="form-label ">Blood Group</label>
+                                                <select name="bg" id="bg" wire:model="bg" class="form-select" aria-label="Blood Group">
+                                                    <option selected="">Select Blood Group</option>
+                                                    <option value="A+">A+</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="B-">B-</option>
+                                                    <option value="AB+">AB+</option>
+                                                    <option value="AB-">AB-</option>
+                                                    <option value="O+">O+</option>
+                                                    <option value="O-">O-</option>
+                                                </select>
+                                                @error('gender')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -266,6 +285,14 @@
                                     <div class="card">
                                         <div class="card-header"><h5>Work Details</h5></div>
                                         <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="aadhaar"
+                                                    label="AADHAAR"
+                                                    placeholder="AADHAAR"
+                                                />
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="nature"
@@ -598,6 +625,104 @@
                             </div>
                             <!-- end tab pane -->
 
+
+                            <div class="tab-pane fade" id="steparrow-benefits-info" role="tabpanel"
+                                aria-labelledby="steparrow-benefits-info-tab" wire:ignore.self>
+                                <div>
+                                    <h4>Benefits Received</h4>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="table-primary">
+                                                <th>#</th>
+                                                <th>Name of sanctioned Benefit</th>
+                                                <th>Date of sanction</th>
+                                                <th>Amount of sanction</th>
+                                                <th>Cheque no & date</th>
+                                                <th>Name of bank & branch</th>
+                                                <th>-</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <form wire:submit.prevent="addBenefit">
+                                            <tr>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <input type="text" class="form-control" name="benefit_name" wire:model="benefit_name" placeholder="Name of sanctioned Benefit">
+                                                    @error('benefit_name')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="benefit_date" id="benefit_date" wire:model="benefit_date" placeholder="(DD/MM/YYYY)">
+                                                    @error('benefit_date')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control" name="benefit_amount" wire:model="benefit_amount" placeholder="if any">
+                                                    @error('benefit_amount')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="benefit_cheque" wire:model="benefit_cheque" placeholder="if any">
+                                                    @error('benefit_cheque')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="benefit_bank" wire:model="benefit_bank" placeholder="if any">
+                                                    @error('benefit_bank')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+
+                                                <td><button type="submit" class="btn btn-primary">Add</button></td>
+                                            </tr>
+                                            </form>
+                                            @forelse ($benefits as $benefit)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $benefit['benefit_name'] }}</td>
+                                                    <td>{{ $benefit['benefit_date'] }}</td>
+                                                    <td>{{ $benefit['benefit_amount'] }}</td>
+                                                    <td>{{ $benefit['benefit_cheque'] }}</td>
+                                                    <td>{{ $benefit['benefit_bank'] }}</td>
+                                                    <td><button class="btn btn-danger btn-sm" wire:click="removeBenefit({{$loop->index}})">Remove</button></td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td class="align-middle text-center" colspan="6">
+                                                        No results found
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex align-items-start gap-3 mt-4">
+                                    <button type="button" class="btn btn-light btn-label previestab"
+                                        data-previous="steparrow-family-info-tab"><i
+                                            class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i> Back to
+                                        Nominee</button>
+                                    <button type="button" wire:click="submitBenefits()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                        data-nexttab="pills-photo-tab"><i
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                </div>
+                            </div>
+                            <!-- end tab pane -->
+
                             <div class="tab-pane fade" id="steparrow-photo-info" role="tabpanel"
                                 aria-labelledby="steparrow-photo-info-tab" wire:ignore.self>
                                 <div>
@@ -905,6 +1030,13 @@
                                             <h4>Work Details</h4>
                                             <div class="row">
                                                 <div class="col-md-12">
+                                                    <div>AADHAAR :  <strong>{{ $aadhaar }}</strong>
+                                                        @error('aadhaar')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                     <div>Nature of work :  <strong>{{ $nature }}</strong>
                                                         @error('nature')
                                                         <div class="invalid-feedback">
@@ -1082,6 +1214,41 @@
                                             </table>
                                         </div>
                                     </div>
+                                    <h4>Benefit Details</h4>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-primary">
+                                                        <th>#</th>
+                                                        <th>Name of sanctioned Benefit</th>
+                                                        <th>Date of sanction</th>
+                                                        <th>Amount of sanction</th>
+                                                        <th>Cheque no & date</th>
+                                                        <th>Name of bank & branch</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @forelse ($benefits as $benefit)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $benefit['benefit_name'] }}</td>
+                                                            <td>{{ $benefit['benefit_date'] }}</td>
+                                                            <td>{{ $benefit['benefit_amount'] }}</td>
+                                                            <td>{{ $benefit['benefit_cheque'] }}</td>
+                                                            <td>{{ $benefit['benefit_bank'] }}</td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td class="align-middle text-center" colspan="5">
+                                                                No results found
+                                                            </td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                     <h4>Documents</h4>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -1177,6 +1344,13 @@
             datePattern: ['d', 'm', 'Y']
         });
     }
+    if (document.querySelector("#benefit_date")) {
+        var cleaveDate = new Cleave('#benefit_date', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
     $('#nominee_dob1').blur(function () {
         let age = calculateAge($('#nominee_dob1').val());
         if(age > 0){
@@ -1209,6 +1383,11 @@
         Livewire.on('move-to-employer', (event) => {
             setTimeout(() => {
                 $("#steparrow-employment-info-tab").trigger("click");
+            }, 200);
+        });
+        Livewire.on('move-to-benefits', (event) => {
+            setTimeout(() => {
+                $("#steparrow-benefits-info-tab").trigger("click");
             }, 200);
         });
         Livewire.on('move-to-photo', (event) => {

@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\RegBenefit;
 use App\Models\RegBiomatric;
 use App\Models\RegDocument;
 use App\Models\RegEmployer;
@@ -23,7 +24,7 @@ class CreateWorker extends Component
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $bg,
     $city_t, $district_t, $state_t, $pin_t, $address_t, 
     $city_p, $district_p, $state_p, $pin_p, $address_p, 
-    $nature, $serial, $doe, $dor, $turnover, 
+    $aadhaar, $nature, $serial, $doe, $dor, $turnover, 
     $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
     $nominee, $relation, $del;
 
@@ -36,6 +37,9 @@ class CreateWorker extends Component
 
     public $employer_description, $employer_name_address, $employer_nature, $employer_document, $employer_document_name;
     public $employers = [];
+    
+    public $benefit_name, $benefit_date, $benefit_amount, $benefit_cheque, $benefit_bank;
+    public $benefits = [];
 
     public $documents = [];
     public $uploaded_documents = [];
@@ -178,7 +182,36 @@ class CreateWorker extends Component
         $this->employer_document = null;
         $this->employer_document_name = null;
     }
+
     public function submitEmployers(){
+        session()->flash('message', 'Worker Employer Complete');
+        $this->dispatch('move-to-benefits');
+    }
+
+    private $benefitRule = [
+        'benefit_name' => 'required',
+        'benefit_date' => 'required',
+        'benefit_amount' => 'nullable|min:1',
+    ];
+    public function addBenefit(){
+        $this->validate($this->benefitRule);
+
+        array_push($this->benefits, [
+            'benefit_name' => $this->benefit_name,
+            'benefit_date' => $this->benefit_date,
+            'benefit_amount' => $this->benefit_amount,
+            'benefit_cheque' => $this->benefit_cheque,
+            'benefit_bank' => $this->benefit_bank
+        ]);
+
+        $this->benefit_name = null;
+        $this->benefit_date = null;
+        $this->benefit_amount = null;
+        $this->benefit_cheque = null;
+        $this->benefit_bank = null;
+    }
+
+    public function submitBenefits(){
         session()->flash('message', 'Worker Employer Complete');
         $this->dispatch('move-to-photo');
     }
@@ -216,6 +249,7 @@ class CreateWorker extends Component
         'bg' => 'nullable|max:10',
         'pin_t' => 'nullable|digits:6',
         'pin_p' => 'nullable|digits:6',
+        'aadhaar' => 'required|digits:12',
         'doe' => 'nullable|date_format:d/m/Y',
         'dor' => 'nullable|date_format:d/m/Y',
         'turnover' => 'nullable|numeric',
@@ -295,6 +329,7 @@ class CreateWorker extends Component
             'state_p' => $this->state_p,
             'pin_p' => $this->pin_p,
             'address_p' => $this->address_p,
+            'aadhaar' => $this->aadhaar,
             'nature' => $this->nature,
             'serial' => $this->serial,
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
@@ -336,6 +371,17 @@ class CreateWorker extends Component
                 'img_path' => $employer['employer_document_name'],
             ]);
         }
+        foreach($this->benefits as $benefit){
+            RegBenefit::create([
+                'worker_id' => $worker->id,
+                'name' => $benefit['benefit_name'],
+                'dob' => $benefit['benefit_date'] ? Carbon::createFromFormat('d/m/Y', $benefit['benefit_date'])->format('Y-m-d') : null,
+                'amount' => $benefit['benefit_amount'],
+                'cheque' => $benefit['benefit_cheque'],
+                'bank' => $benefit['benefit_bank'],
+            ]);
+        }
+
         RegPhoto::create([
             'worker_id' => $worker->id,
             'img_path' => $this->photo_name
@@ -386,6 +432,7 @@ class CreateWorker extends Component
             $this->state_p = $table->state_p;
             $this->pin_p = $table->pin_p;
             $this->address_p = $table->address_p;
+            $this->aadhaar = $table->aadhaar;
             $this->nature = $table->nature;
             $this->serial = $table->serial;
             $this->doe = $table->doe ? Carbon::parse($table->doe)->format('d/m/Y') : null;
@@ -424,6 +471,15 @@ class CreateWorker extends Component
                 'employer_name_address' => $employer->employer,
                 'employer_nature' => $employer->nature_of_work,
                 'employer_document_name' => $employer->img_path,
+            ]);
+        }
+        foreach(RegBenefit::where('worker_id', $this->id)->whereDel(0)->get() as $benefit){
+            array_push($this->benefits, [
+                'benefit_name' => $benefit->name,
+                'benefit_date' => $benefit->dob ? Carbon::parse($benefit->dob)->format('d/m/Y') : null,
+                'benefit_amount' => $benefit->amount,
+                'benefit_cheque' => $benefit->cheque,
+                'benefit_bank' => $benefit->bank,
             ]);
         }
         
@@ -474,6 +530,7 @@ class CreateWorker extends Component
             'state_p' => $this->state_p,
             'pin_p' => $this->pin_p,
             'address_p' => $this->address_p,
+            'aadhaar' => $this->aadhaar,
             'nature' => $this->nature,
             'serial' => $this->serial,
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
@@ -515,6 +572,18 @@ class CreateWorker extends Component
                 'employer' => $employer['employer_name_address'],
                 'nature_of_work' => $employer['employer_nature'],
                 'img_path' => $employer['employer_document_name'],
+            ]);
+        }
+
+        RegBenefit::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
+        foreach($this->benefits as $benefit){
+            RegBenefit::create([
+                'worker_id' => $this->id,
+                'name' => $benefit['benefit_name'],
+                'dob' => $benefit['benefit_date'] ? Carbon::createFromFormat('d/m/Y', $benefit['benefit_date'])->format('Y-m-d') : null,
+                'amount' => $benefit['benefit_amount'],
+                'cheque' => $benefit['benefit_cheque'],
+                'bank' => $benefit['benefit_bank'],
             ]);
         }
         if(!RegPhoto::where('worker_id', $this->id)->where('img_path',$this->photo_name)->exists()){

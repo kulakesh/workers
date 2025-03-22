@@ -13,6 +13,7 @@ class District extends Authenticatable
 
     protected $fillable = [
         'name',
+        'district_id',
         'contact_person',
         'designation',
         'email',
