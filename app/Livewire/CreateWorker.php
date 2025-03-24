@@ -23,8 +23,8 @@ class CreateWorker extends Component
     use WithFileUploads;
 
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $bg,
-    $city_t, $district_t, $state_t, $pin_t, $address_t, 
-    $city_p, $district_p, $state_p, $pin_p, $address_p, 
+    $city_t, $district_t, $state_t, $pin_t, $po_t, $ps_t, $address_t, 
+    $city_p, $district_p, $state_p, $pin_p, $po_p, $ps_p, $address_p, 
     $aadhaar, $nature, $serial, $doe, $dor, $turnover, 
     $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
     $nominee, $relation, $del;
@@ -285,6 +285,8 @@ class CreateWorker extends Component
         $this->district_p = $this->district_t;
         $this->state_p = $this->state_t;
         $this->pin_p = $this->pin_t;
+        $this->po_p = $this->po_t;
+        $this->ps_p = $this->ps_t;
         $this->address_p = $this->address_t;
 
     }
@@ -295,6 +297,8 @@ class CreateWorker extends Component
         $this->district_p = null;
         $this->state_p = null;
         $this->pin_p = null;
+        $this->po_p = null;
+        $this->ps_p = null;
         $this->address_p = null;
 
     }
@@ -324,11 +328,15 @@ class CreateWorker extends Component
             'district_t' => $this->district_t,
             'state_t' => $this->state_t,
             'pin_t' => $this->pin_t,
+            'po_t' => $this->po_t,
+            'ps_t' => $this->ps_t,
             'address_t' => $this->address_t,
             'city_p' => $this->city_p,
             'district_p' => $this->district_p,
             'state_p' => $this->state_p,
             'pin_p' => $this->pin_p,
+            'po_p' => $this->po_p,
+            'ps_p' => $this->ps_p,
             'address_p' => $this->address_p,
             'aadhaar' => $this->aadhaar,
             'nature' => $this->nature,
@@ -427,11 +435,15 @@ class CreateWorker extends Component
             $this->district_t = $table->district_t;
             $this->state_t = $table->state_t;
             $this->pin_t = $table->pin_t;
+            $this->po_t = $table->po_t;
+            $this->ps_t = $table->ps_t;
             $this->address_t = $table->address_t;
             $this->city_p = $table->city_p;
             $this->district_p = $table->district_p;
             $this->state_p = $table->state_p;
             $this->pin_p = $table->pin_p;
+            $this->po_p = $table->po_p;
+            $this->ps_p = $table->ps_p;
             $this->address_p = $table->address_p;
             $this->aadhaar = $table->aadhaar;
             $this->nature = $table->nature;
@@ -525,11 +537,15 @@ class CreateWorker extends Component
             'district_t' => $this->district_t,
             'state_t' => $this->state_t,
             'pin_t' => $this->pin_t,
+            'po_t' => $this->po_t,
+            'ps_t' => $this->ps_t,
             'address_t' => $this->address_t,
             'city_p' => $this->city_p,
             'district_p' => $this->district_p,
             'state_p' => $this->state_p,
             'pin_p' => $this->pin_p,
+            'po_p' => $this->po_p,
+            'ps_p' => $this->ps_p,
             'address_p' => $this->address_p,
             'aadhaar' => $this->aadhaar,
             'nature' => $this->nature,

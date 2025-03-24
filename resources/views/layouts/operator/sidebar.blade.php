@@ -62,7 +62,7 @@
                     <div class="collapse {{ request()->is('op/reports*') ? 'show' : null }} menu-dropdown" id="sidebarReport">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('operator.workersReport') }}" class="nav-link">Worker Report</a>
+                                <a href="{{ route('operator.workersReport') }}" class="nav-link">Registration Report</a>
                             </li>
                         </ul>
                     </div>

@@ -237,6 +237,20 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="po_t"
+                                                    label="Post Office"
+                                                    placeholder="Post Office"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="ps_t"
+                                                    label="Police Station"
+                                                    placeholder="Police Station"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <x-input-wire name="address_t"
                                                     label="Address"
                                                     placeholder="Address"
@@ -287,6 +301,20 @@
                                                 <x-input-wire name="pin_p"
                                                     label="Pin"
                                                     placeholder="Pin number"
+                                                />
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="po_p"
+                                                    label="Post Office"
+                                                    placeholder="Post Office"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="ps_p"
+                                                    label="Police Station"
+                                                    placeholder="Police Station"
                                                 />
                                                 </div>
                                             </div>
@@ -997,6 +1025,20 @@
                                                         </div>
                                                         @enderror
                                                     </div>
+                                                    <div>Post Office :  <strong>{{ $po_t }}</strong>
+                                                        @error('po_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Police Station :  <strong>{{ $ps_t }}</strong>
+                                                        @error('ps_t')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                     <div>Address :  <strong>{{ $address_t }}</strong>
                                                         @error('address_t')
                                                         <div class="invalid-feedback">
@@ -1032,6 +1074,20 @@
                                                     </div>
                                                     <div>Pin Number :  <strong>{{ $pin_p }}</strong>
                                                         @error('pin_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Post Office :  <strong>{{ $po_p }}</strong>
+                                                        @error('po_p')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div>Police Station :  <strong>{{ $ps_p }}</strong>
+                                                        @error('ps_p')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>

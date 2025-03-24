@@ -29,11 +29,15 @@ return new class extends Migration
             $table->string('district_t',50)->nullable();
             $table->string('state_t',50)->nullable();
             $table->string('pin_t',10)->nullable();
+            $table->string('po_t',50)->nullable();
+            $table->string('ps_t',50)->nullable();
             $table->string('address_t',150)->nullable();
             $table->string('city_p',50)->nullable();
             $table->string('district_p',50)->nullable();
             $table->string('state_p',50)->nullable();
             $table->string('pin_p',10)->nullable();
+            $table->string('po_p',50)->nullable();
+            $table->string('ps_p',50)->nullable();
             $table->string('address_p',150)->nullable();
             $table->string('aadhaar',20)->nullable();
             $table->string('nature',150)->nullable();// nature of work
