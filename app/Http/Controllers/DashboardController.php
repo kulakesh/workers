@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\District;
+use App\Models\Operator;
 use App\Models\Registration;
+use App\Models\User;
+use App\SMS;
+use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class DashboardController extends Controller{
 
@@ -27,5 +33,69 @@ class DashboardController extends Controller{
         ->count();
         return view('operator.dashboard', compact('entries'));
     }
+    public function opChangePasswordIndex(){
+        return view('operator.password');
+    }
+    public function opChangePasswordCreate(Request $request){
+        $request->validate([
+			'current_password' => ['required', function ($attribute, $value, $fail) {
+				if (!Hash::check($value,auth()->user()->password)) {
+					return $fail(__('The current password is incorrect.'));
+				}
+			}],
+			'password' => ['required','confirmed', Password::min(6)]
+		]);
+
+		$record = Operator::where('id',auth()->user()->id)->first();
+
+		$record->update([
+			'password' => Hash::make($request->password)
+		]);
+
+		return redirect(route('operator.ChangePasswordIndex'))->with('success', 'Password Changed Successfully');
+    }
+    public function dtChangePasswordIndex(){
+        return view('district.password');
+    }
+    public function dtChangePasswordCreate(Request $request){
+        $request->validate([
+			'current_password' => ['required', function ($attribute, $value, $fail) {
+				if (!Hash::check($value,auth()->user()->password)) {
+					return $fail(__('The current password is incorrect.'));
+				}
+			}],
+			'password' => ['required','confirmed', Password::min(6)]
+		]);
+
+		$record = District::where('id',auth()->user()->id)->first();
+
+		$record->update([
+			'password' => Hash::make($request->password)
+		]);
+
+		return redirect(route('district.ChangePasswordIndex'))->with('success', 'Password Changed Successfully');
+    }
+    public function adminChangePasswordIndex(){
+        return view('admin.password');
+    }
+    public function adminChangePasswordCreate(Request $request){
+        $request->validate([
+			'current_password' => ['required', function ($attribute, $value, $fail) {
+				if (!Hash::check($value,auth()->user()->password)) {
+					return $fail(__('The current password is incorrect.'));
+				}
+			}],
+			'password' => ['required','confirmed', Password::min(6)]
+		]);
+
+		$record = User::where('id',auth()->user()->id)->first();
+
+		$record->update([
+			'password' => Hash::make($request->password)
+		]);
+
+		return redirect(route('admin.ChangePasswordIndex'))->with('success', 'Password Changed Successfully');
+    }
+
 
 }

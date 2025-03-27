@@ -47,6 +47,7 @@ return new class extends Migration
             $table->decimal('turnover')->nullable();
             $table->string('nominee',150)->nullable();
             $table->string('relation',150)->nullable();
+            $table->smallInteger('approval');
             $table->smallInteger('del');
             $table->timestamps();
         });

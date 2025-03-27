@@ -30,6 +30,7 @@
                     <th>District office</th>
                     <th>City/Village</th>
                     <th>District</th>
+                    <th>RO Review</th>
                     <th>Date</th>
                     <th>-</th>
                 </tr>
@@ -44,6 +45,15 @@
                         <td>{{ $item->operator->district->name }}</td>
                         <td>{{ $item->city_t }}</td>
                         <td>{{ $item->district_t }}</td>
+                        <td>
+                        @if($item->approval == 1)
+                            <span class="badge bg-success">Approved</span>
+                        @elseif($item->approval == 2)
+                            <span class="badge bg-danger">Rejected</span>
+                        @else
+                            <span class="badge bg-warning">Pending</span>
+                        @endif
+                        </td>
                         <td>{{ $item->created_at ? $item->created_at->format('d M, Y h:i a') : '--' }}</td>
                         <td>
                             <div class="float-end">
@@ -61,7 +71,7 @@
                     </tr>
             @empty
                 <tr>
-                    <td class="align-middle text-center" colspan="8">
+                    <td class="align-middle text-center" colspan="9">
                         No results found
                     </td>
                 </tr>

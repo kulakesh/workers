@@ -58,6 +58,7 @@ class Registration extends Authenticatable
         'welfare_reg_no',
         'nominee',
         'relation',
+        'approval',
         'del'
     ];
 
@@ -82,6 +83,7 @@ class Registration extends Authenticatable
         return $this->hasMany(RegDocument::class, 'worker_id');
     }
     protected $attributes = [
+        'approval' => 0,
         'del' => 0
     ];
 }

@@ -1315,7 +1315,7 @@
                                                         </tr>
                                                     @empty
                                                         <tr>
-                                                            <td class="align-middle text-center" colspan="5">
+                                                            <td class="align-middle text-center" colspan="6">
                                                                 No results found
                                                             </td>
                                                         </tr>
@@ -1368,7 +1368,80 @@
                                     </div>
                                     <h5>Well Done !</h5>
                                     <p class="text-muted">You have Successfully Registered</p>
+                                    @if($id)
+                                    <button type="button" wire:click="sendsms()" class="btn btn-success">
+                                        <i class="ri-mail-send-line"></i>
+                                        Send SMS
+                                    </button>
+                                    <p class="text-primary">{{ $smsreply }}</p>
+                                    @endif
                                 </div>
+                                @if(auth()->guard('district')->check())
+                                <div class="card mt-3" style="background-color: beige;">
+                                    <div class="card-body">
+                                        <h4 class="card-title text-center mb-2">
+                                            @if($approval == 1)
+                                                <span class="text-success">Approved previously</span>
+                                            @elseif($approval == 2)
+                                                <span class="text-danger">Rejected previously</span>
+                                            @else
+
+                                            @endif
+                                        </h4>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <form wire:submit.prevent="approveWorker">
+                                                    <div class="row mb-3">
+                                                        <h4>Approval</h4>
+                                                        <div class="col-12">
+                                                            <label for="approvalChecked">
+                                                            <input type="checkbox" name="approvalChecked" id="approvalChecked" wire:model="approvalChecked">
+                                                            I, RO {{ auth()->user()->name }}, confirm that I have reviewed all submitted data and documents for accuracy and authenticity. I approve the registration for further processing
+                                                            </label>
+                                                            @error('approvalChecked')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                        <button type="submit" class="btn btn-success">
+                                                            Approve
+                                                        </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="col-lg-6">
+                                            <form wire:submit.prevent="rejectWorker">
+                                                <div class="row mb-3">
+                                                    <h4>Rejection</h4>
+                                                    <div class="col-12">
+                                                        <label class="form-label">Rejection Reason</label>
+                                                        <input type="text" name="rejection_reason" id="rejection_reason" wire:model="rejection_reason" class="form-control">
+                                                        @error('rejection_reason')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Reject
+                                                    </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @endif
                             </div>
                             <!-- end tab pane -->
 

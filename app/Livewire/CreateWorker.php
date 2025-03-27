@@ -10,6 +10,8 @@ use App\Models\RegEmployer;
 use App\Models\RegFamily;
 use App\Models\RegNominee;
 use App\Models\RegPhoto;
+use App\Models\Rejection;
+use App\SMS;
 use Livewire\WithFileUploads;
 use App\Models\DocumentHeads;
 use App\Models\Registration;
@@ -52,6 +54,11 @@ class CreateWorker extends Component
     public $finger_captured, $finger, $finger_name, $finger_template;
     
     public $documentRule = [], $documentMessage = [], $documentAttributes = [];
+
+    public $smsreply;
+
+    public $approval, $approvalChecked, $rejection_reason;
+
     public function mount($worker_id = null)
     {
         if($worker_id){
@@ -462,6 +469,7 @@ class CreateWorker extends Component
             $this->welfare_reg_no = $table->welfare_reg_no;
             $this->nominee = $table->nominee;
             $this->relation = $table->relation;
+            $this->approval = $table->approval;
         }else{
             return abort(404, 'Not found');
         }
@@ -512,6 +520,12 @@ class CreateWorker extends Component
             $this->documents[$index] = $document->document_id;
             $this->uploaded_document_name[$index] = $document->img_path;
         }
+
+        $approval = Rejection::where('worker_id', $this->id)->whereDel(0)->first();
+        if($approval){
+            $this->rejection_reason = $approval->reason;
+        }
+
     }
     public function updateAll()
     {
@@ -648,6 +662,66 @@ class CreateWorker extends Component
         $this->id = $id;
     }
 
+    public function sendsms(){
+        if(!$this->id){
+            return;
+        }
+        $name = substr($this->name, 0, 18);
+
+        $sms = new SMS();
+        $sms->phone($this->phone);
+        $sms->message("Dear {$name}, your worker registration for APB&OCWWB submitted. Acknowledgement no: {$this->system_id}. You'll be notified after verification - TR INFRA");
+        $sms->templet('1707174299382719181');
+        $sms->send();
+
+        $this->smsreply = $sms->reply();
+    }
+    public function approveWorker(){
+        if(!$this->id){
+            return;
+        }
+        $this->validate([
+            'approvalChecked' => 'required|accepted'
+        ],[
+            'approvalChecked' => 'Consent require, please tick the check box'
+        ]);
+
+        Rejection::where('worker_id', $this->id)->update([
+            'del' => 1
+        ]);
+
+        Registration::where('id', $this->id)->update([
+            'approval' => 1
+        ]);
+
+        $this->approval = 1;
+        
+    }
+    public function rejectWorker(){
+        if(!$this->id){
+            return;
+        }
+        $this->validate([
+            'rejection_reason' => 'required|alpha_num|min:5'
+        ]);
+        
+        Rejection::where('worker_id', $this->id)->update([
+            'del' => 1
+        ]);
+        Registration::where('id', $this->id)->update([
+            'approval' => 2
+        ]);
+
+        $rejection = new Rejection();
+        $rejection->worker_id = $this->id;
+        $rejection->rejected_by = 'RO';
+        $rejection->district_id = auth()->user()->id;
+        $rejection->reason = $this->rejection_reason;
+        $rejection->save();
+
+        $this->approval = 2;
+        
+    }
     private function getSystemID(){
         $number = time(); 
         $isUsed =  Registration::where('system_id', $number)->first();

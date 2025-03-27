@@ -34,6 +34,8 @@ Route::middleware('guest:operator')->prefix('op')->name('operator.')->group(func
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard',[DashboardController::class,'adminDashboard'])->name('dashboard');
     Route::get('/logout',[AuthController::class,'adminLogout'])->name('logout');
+    Route::get('/change-password',[DashboardController::class,'adminChangePasswordIndex'])->name('ChangePasswordIndex');
+    Route::post('/change-password',[DashboardController::class,'adminChangePasswordCreate'])->name('ChangePasswordCreate');
 
     Route::get('/district/create',[MainController::class,'createDistrict'])->name('createDistrict');
     Route::get('/settings/documents',[MainController::class,'createDocument'])->name('createDocument');
@@ -45,6 +47,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
 Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(function () {
     Route::get('/dashboard',[DashboardController::class,'districtDashboard'])->name('dashboard');
     Route::get('/logout',[AuthController::class,'districtLogout'])->name('logout');
+    Route::get('/change-password',[DashboardController::class,'dtChangePasswordIndex'])->name('ChangePasswordIndex');
+    Route::post('/change-password',[DashboardController::class,'dtChangePasswordCreate'])->name('ChangePasswordCreate');
 
     Route::get('/oparator/create',[MainController::class,'createOparator'])->name('createOparator');
     Route::get('/reports/workers',[MainController::class,'districtWorkersReport'])->name('workersReport');
@@ -53,6 +57,8 @@ Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(fun
 Route::middleware(['auth:operator'])->prefix('op')->name('operator.')->group(function () {
     Route::get('/dashboard',[DashboardController::class,'operatorDashboard'])->name('dashboard');
     Route::get('/logout',[AuthController::class,'operatorLogout'])->name('logout');
+    Route::get('/change-password',[DashboardController::class,'opChangePasswordIndex'])->name('ChangePasswordIndex');
+    Route::post('/change-password',[DashboardController::class,'opChangePasswordCreate'])->name('ChangePasswordCreate');
 
     Route::get('/workers/create',[MainController::class,'createWorker'])->name('createWorker');
     Route::get('/reports/workers',[MainController::class,'operatorWorkersReport'])->name('workersReport');

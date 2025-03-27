@@ -125,6 +125,7 @@ class CreateOperator extends Component
         $items = Operator::when($this->search, function($q){
             return $q->where('name', 'like', '%'.$this->search.'%')->orWhere('contact_person', 'like', '%'.$this->search.'%');
         })
+        ->where('district_id', auth()->user()->id)
         ->whereDel(0)
         ->paginate(10);
         return view('livewire.create-operator',compact('items'));
