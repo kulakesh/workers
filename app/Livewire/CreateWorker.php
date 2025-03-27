@@ -702,7 +702,7 @@ class CreateWorker extends Component
             return;
         }
         $this->validate([
-            'rejection_reason' => 'required|alpha_num|min:5'
+            'rejection_reason' => 'required|min:5'
         ]);
         
         Rejection::where('worker_id', $this->id)->update([
