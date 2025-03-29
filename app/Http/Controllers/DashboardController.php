@@ -25,7 +25,16 @@ class DashboardController extends Controller{
         })
         ->whereDel(0)
         ->count();
-        return view('district.dashboard', compact('entries'));
+
+        $approvals = Registration::whereIn('operator_id', function ($query) {
+            $query->select('id')
+            ->from('operators')
+            ->where('district_id', auth()->user()->id);
+        })
+        ->where('approval', 0)
+        ->whereDel(0)
+        ->count();
+        return view('district.dashboard', compact('entries', 'approvals'));
     }
     public function operatorDashboard(){
         $entries = Registration::where('operator_id', auth()->user()->id)

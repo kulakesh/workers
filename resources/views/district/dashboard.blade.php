@@ -29,6 +29,27 @@
         </div>
     </div> 
 
+    <div class="col-xl-3 col-md-6">
+        <div class="card card-animate bg-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="fw-medium text-white-50 mb-0">Pending Approvals</p>
+                        <h2 class="mt-4 ff-secondary fw-semibold text-white">{{ $approvals }}</h2>
+                        <a href="{{ route('district.workersReportApproval') }}" class="btn btn-secondary btn-sm">View</a>
+                    </div>
+                    <div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-white bg-opacity-25 rounded-circle fs-2 material-shadow">
+                                <i class="bx bxs-user-badge text-white"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+
 </div>
 
 @endsection

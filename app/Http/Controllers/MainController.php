@@ -73,6 +73,15 @@ class MainController extends Controller
         ];
         return view('district.main', compact('params'));
     }
+    public function districtWorkersReportApproval(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Worker Report',
+            'page_id' => 'worker_report_approval'
+
+        ];
+        return view('district.main', compact('params'));
+    }
     public function adminWorkerEdit($id){
         $worker_id = Crypt::decrypt($id);
         $params = [

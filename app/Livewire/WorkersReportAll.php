@@ -10,12 +10,13 @@ class WorkersReportAll extends Component
 {
     use WithPagination;
 
-    public $for = null;
+    public $for, $approval_only = false;
     public $search = '';
 
-    public function mount($for = null)
+    public function mount($for = null, $approval_only = null)
     {
         $this->for = $for;
+        $this->approval_only = $approval_only;
     }
     public function doNothig(){
         //nothing
@@ -28,6 +29,10 @@ class WorkersReportAll extends Component
         })
         ->orderByDesc('id')
         ->whereDel(0);
+
+        if($this->approval_only){
+            $items = $items->where('approval', 0);
+        }
         
         switch ($this->for) {
             case 'operator':
