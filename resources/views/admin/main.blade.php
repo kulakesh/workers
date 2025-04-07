@@ -11,6 +11,8 @@
     <livewire:create-district />
     @elseif($params['page_id'] == 'document')
     <livewire:document-heads-create />
+    @elseif($params['page_id'] == 'benefit')
+    <livewire:benefits-create />
     @elseif($params['page_id'] == 'worker_report_all')
     <livewire:workers-report-all for="admin"/>
     @elseif($params['page_id'] == 'worker-edit')

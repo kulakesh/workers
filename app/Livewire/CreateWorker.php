@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Benefit;
 use App\Models\DistrictNames;
 use App\Models\RegBenefit;
 use App\Models\RegBiomatric;
@@ -193,9 +194,11 @@ class CreateWorker extends Component
 
     public function submitEmployers(){
         session()->flash('message', 'Worker Employer Complete');
-        $this->dispatch('move-to-benefits');
+        $this->dispatch('move-to-photo');
     }
-
+    public function removeEmployers($index){
+        array_splice($this->employers, $index, 1);
+    }
     private $benefitRule = [
         'benefit_name' => 'required',
         'benefit_date' => 'required',
@@ -221,10 +224,10 @@ class CreateWorker extends Component
 
     public function submitBenefits(){
         session()->flash('message', 'Worker Employer Complete');
-        $this->dispatch('move-to-photo');
+        $this->dispatch('move-to-review');
     }
-    public function removeEmployers($index){
-        array_splice($this->employers, $index, 1);
+    public function removeBenefit($index){
+        array_splice($this->benefits, $index, 1);
     }
     private $nomineeRule = [
         'nominee_name1' => 'required',
@@ -734,7 +737,8 @@ class CreateWorker extends Component
     {
         $district_names = DistrictNames::orderBy('name')->get();
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
-        return view('livewire.create-worker', compact('document_heads','district_names'));
+        $benefit_names = Benefit::whereDel(0)->orderBy('name')->get();
+        return view('livewire.create-worker', compact('document_heads','district_names', 'benefit_names'));
     }
 }
 

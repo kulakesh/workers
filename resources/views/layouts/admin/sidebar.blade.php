@@ -78,6 +78,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.createDocument') }}" class="nav-link">Documents</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.createBenefits') }}" class="nav-link">Benefits</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
