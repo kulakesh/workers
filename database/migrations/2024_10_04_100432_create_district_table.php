@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',100);
             $table->integer('district_id');
+            $table->string('ro_code',5);
             $table->string('contact_person',150)->nullable();
             $table->string('designation',100)->nullable();
             $table->string('email',150)->nullable();

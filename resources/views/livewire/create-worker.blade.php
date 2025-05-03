@@ -332,6 +332,9 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
+                                                <label for="nature" class="form-label ">
+                                                    AADHAAR
+                                                </label>
                                                 <input type="text" name="aadhaar" id="aadhaar" wire:model="aadhaar" class="form-control" placeholder="AADHAAR" autocomplete="off" required="">
                                                 @error('aadhaar')
                                                 <div class="invalid-feedback">

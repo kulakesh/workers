@@ -12,7 +12,7 @@ class CreateDistrict extends Component
 {
     use WithPagination;
 
-    public $id, $district_id, $name, $contact_person, $designation, $email, $phone, $state, $address, $pin, $username, $password, $del;
+    public $id, $district_id, $ro_code, $name, $contact_person, $designation, $email, $phone, $state, $address, $pin, $username, $password, $del;
  
     public $search = '';
 
@@ -21,6 +21,7 @@ class CreateDistrict extends Component
         $this->validate([
             'name' => 'required',
             'district_id' => 'required',
+            'ro_code' => 'required|min:3|max:3|unique:districts,ro_code',
             'email' => 'nullable|email',
             'phone' => 'nullable|digits:10',
             'username' => 'required|alpha_num|min:5|max:20|unique:districts',
@@ -30,6 +31,7 @@ class CreateDistrict extends Component
         $create = District::create([
             'name' => $this->name,
             'district_id' => $this->district_id,
+            'ro_code' => strtoupper($this->ro_code),
             'contact_person' => $this->contact_person,
             'designation' => $this->designation,
             'email' => $this->email,
@@ -52,6 +54,7 @@ class CreateDistrict extends Component
             $this->id = $table->id;
             $this->name = $table->name;
             $this->district_id = $table->district_id;
+            $this->ro_code = $table->ro_code;
             $this->contact_person = $table->contact_person;
             $this->designation = $table->designation;
             $this->email = $table->email;
@@ -69,6 +72,7 @@ class CreateDistrict extends Component
         $this->validate([
             'name' => 'required',
             'district_id' => 'required',
+            'ro_code' => 'required|min:3|max:3|unique:districts,ro_code,'.$this->id,
             'email' => 'nullable|email',
             'phone' => 'nullable|digits:10',
             'username' => 'required|alpha_num|min:5|max:20|unique:districts,username,'.$this->id,
@@ -78,6 +82,7 @@ class CreateDistrict extends Component
         $update->update([
             'name' => $this->name,
             'district_id' => $this->district_id,
+            'ro_code' => strtoupper($this->ro_code),
             'contact_person' => $this->contact_person,
             'designation' => $this->designation,
             'email' => $this->email,
@@ -120,6 +125,7 @@ class CreateDistrict extends Component
         $this->id = null;
         $this->name = null;
         $this->district_id = null;
+        $this->ro_code = null;
         $this->contact_person = null;
         $this->designation = null;
         $this->email = null;

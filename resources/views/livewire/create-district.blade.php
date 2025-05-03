@@ -57,6 +57,11 @@
                                     </div>
                                     @enderror
                                 </div>
+                                <x-input-wire name="ro_code"
+                                    label="RO Code"
+                                    placeholder="3 Characters Only"
+                                    required
+                                />
                                 <x-input-wire name="contact_person"
                                     label="Contact Person"
                                     placeholder="Contact Person Name"
@@ -114,7 +119,8 @@
                     <th>#</th>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>District Name</th>
+                    <th>RO Code</th>
+                    <th>RO Name</th>
                     <th>Contact Person</th>
                     <th>Email</th>
                     <th>Phone</th>
@@ -128,6 +134,7 @@
                         <td>{{ ($items->currentpage()-1) * $items->perpage() + $loop->index + 1 }}</td>
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->username }}</td>
+                        <td>{{ $item->ro_code }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->contact_person }}</td>
                         <td>{{ $item->email }}</td>
@@ -177,7 +184,7 @@
                     <div class="row">
                             <div class="col-6">
                                 <x-input-wire name="name"
-                                    placeholder="District Name"
+                                    placeholder="RO Name"
                                     required
                                 />
                                 <div class="mb-3">
@@ -194,6 +201,11 @@
                                     </div>
                                     @enderror
                                 </div>
+                                <x-input-wire name="ro_code"
+                                    label="RO Code"
+                                    placeholder="3 Characters Only"
+                                    required
+                                />
                                 <x-input-wire name="contact_person"
                                     label="Contact Person"
                                     placeholder="Contact Person Name"
