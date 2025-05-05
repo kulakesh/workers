@@ -27,14 +27,18 @@ return new class extends Migration
             $table->string('phone',20)->nullable();
             $table->string('city_t',50)->nullable();
             $table->string('district_t',50)->nullable();
+            $table->integer('district_t_code');
             $table->string('state_t',50)->nullable();
+            $table->integer('state_t_code');
             $table->string('pin_t',10)->nullable();
             $table->string('po_t',50)->nullable();
             $table->string('ps_t',50)->nullable();
             $table->string('address_t',150)->nullable();
             $table->string('city_p',50)->nullable();
             $table->string('district_p',50)->nullable();
+            $table->integer('district_p_code');
             $table->string('state_p',50)->nullable();
+            $table->integer('state_p_code');
             $table->string('pin_p',10)->nullable();
             $table->string('po_p',50)->nullable();
             $table->string('ps_p',50)->nullable();

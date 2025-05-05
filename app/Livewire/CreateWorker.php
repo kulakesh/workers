@@ -12,6 +12,7 @@ use App\Models\RegFamily;
 use App\Models\RegNominee;
 use App\Models\RegPhoto;
 use App\Models\Rejection;
+use App\Models\StateDistricts;
 use App\SMS;
 use Livewire\WithFileUploads;
 use App\Models\DocumentHeads;
@@ -32,6 +33,7 @@ class CreateWorker extends Component
     $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
     $nominee, $relation, $del;
 
+    public $state_districts_t = [], $state_districts_p = [];
     public $edit_mode = false;
     public bool $same_address = false;
 
@@ -80,7 +82,14 @@ class CreateWorker extends Component
         }
         
     }
-
+    public function state_change_t()
+    {
+       $this->state_districts_t = StateDistricts::select('district_name')->where('state_name', $this->state_t)->orderBy('district_name')->get();
+    }
+    public function state_change_p()
+    {
+       $this->state_districts_p = StateDistricts::select('district_name')->where('state_name', $this->state_p)->orderBy('district_name')->get();
+    }
     private $fingerRules= [
         'finger' => 'required',
         'finger_template' => 'required'
@@ -258,7 +267,11 @@ class CreateWorker extends Component
         'email' => 'nullable|email',
         'phone' => 'required|digits:10',
         'bg' => 'nullable|max:10',
+        'district_t' => 'required',
+        'state_t' => 'required',
         'pin_t' => 'nullable|digits:6',
+        'district_p' => 'required',
+        'state_p' => 'required',
         'pin_p' => 'nullable|digits:6',
         'aadhaar' => 'required|digits:12',
         'doe' => 'nullable|date_format:d/m/Y',
@@ -735,10 +748,11 @@ class CreateWorker extends Component
     }
     public function render()
     {
-        $district_names = DistrictNames::orderBy('name')->get();
+        $district_names = StateDistricts::select('district_name')->where('state_code', 12)->orderBy('district_name')->get();
+        $state_names = StateDistricts::select('state_name')->orderBy('state_name')->distinct()->get();
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         $benefit_names = Benefit::whereDel(0)->orderBy('name')->get();
-        return view('livewire.create-worker', compact('document_heads','district_names', 'benefit_names'));
+        return view('livewire.create-worker', compact('document_heads', 'state_names', 'district_names', 'benefit_names'));
     }
 }
 

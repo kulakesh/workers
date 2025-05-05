@@ -202,17 +202,27 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="city_t"
-                                                    label="City/Village"
-                                                    placeholder="City/Village"
-                                                />
+                                                <label for="name" class="form-label ">State</label>
+                                                <span class="required">*</span>
+                                                <select name="state_t" id="state_t" wire:model="state_t" wire:change="state_change_t" class="form-select" aria-label="State">
+                                                    <option selected="">Select State</option>
+                                                    @foreach ($state_names as $state_name)
+                                                    <option value="{{ $state_name->state_name }}">{{ $state_name->state_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('state_t')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="name" class="form-label ">District </label>
+                                                <span class="required">*</span>
                                                 <select name="district_t" id="district_t" wire:model="district_t" class="form-select" aria-label="District">
                                                     <option selected="">Select District</option>
-                                                    @foreach ($district_names as $district_name)
-                                                    <option value="{{ $district_name->name }}">{{ $district_name->name }}</option>
+                                                    @foreach ($state_districts_t as $state_district)
+                                                    <option value="{{ $state_district['district_name'] }}">{{ $state_district['district_name'] }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('district_t')
@@ -224,9 +234,9 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="state_t"
-                                                    label="State"
-                                                    placeholder="Arunachal"
+                                                <x-input-wire name="city_t"
+                                                    label="City/Village"
+                                                    placeholder="City/Village"
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
@@ -270,17 +280,27 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="city_p"
-                                                    label="City/Village"
-                                                    placeholder="City/Village"
-                                                />
+                                                <label for="name" class="form-label ">State</label>
+                                                <span class="required">*</span>
+                                                <select name="state_p" id="state_p" wire:model="state_p" wire:change="state_change_p" class="form-select" aria-label="State">
+                                                    <option selected="">Select State</option>
+                                                    @foreach ($state_names as $state_name)
+                                                    <option value="{{ $state_name->state_name }}">{{ $state_name->state_name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('state_p')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="name" class="form-label ">District</label>
+                                                <span class="required">*</span>
                                                 <select name="district_p" id="district_p" wire:model="district_p" class="form-select" aria-label="District">
                                                     <option selected="">Select District</option>
-                                                    @foreach ($district_names as $district_name)
-                                                    <option value="{{ $district_name->name }}">{{ $district_name->name }}</option>
+                                                    @foreach ($state_districts_p as $state_district)
+                                                    <option value="{{ $state_district['district_name'] }}">{{ $state_district['district_name'] }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('district_p')
@@ -292,9 +312,9 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="state_p"
-                                                    label="State"
-                                                    placeholder="Arunachal"
+                                                <x-input-wire name="city_p"
+                                                    label="City/Village"
+                                                    placeholder="City/Village"
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
