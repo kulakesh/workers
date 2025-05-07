@@ -12,6 +12,7 @@ use App\Models\RegFamily;
 use App\Models\RegNominee;
 use App\Models\RegPhoto;
 use App\Models\Rejection;
+use App\Models\Renewals;
 use App\Models\StateDistricts;
 use App\SMS;
 use Livewire\WithFileUploads;
@@ -47,6 +48,7 @@ class CreateWorker extends Component
     public $benefit_name, $benefit_date, $benefit_amount, $benefit_cheque, $benefit_bank;
     public $benefits = [];
 
+    public $payment_years, $payment_amount, $payment_mode, $payment_ref_no, $payment_date, $payment_document, $payment_document_name, $payment_photo, $payment_photo_name;
     public $documents = [];
     public $uploaded_documents = [];
 
@@ -62,11 +64,72 @@ class CreateWorker extends Component
 
     public $approval, $approvalChecked, $rejection_reason;
 
+
+    public function submitPayment(){
+        $this->validate([
+            'payment_years' => 'required|numeric|in:1,2,3',
+            'payment_mode' => 'required',
+            'payment_ref_no' => 'required',
+            'payment_date' => 'required|date_format:d M Y',
+            'payment_document' => 'nullable|mimes:jpeg,png,pdf|max:1024',
+        ]);
+        
+        if($this->payment_document){
+            $this->payment_document_name = hexdec(uniqid()).'.'.$this->payment_document->getClientOriginalExtension();
+            if(!file_exists(public_path('payment/') . $this->payment_document_name)){
+                $this->payment_document->storeAs('payment/', $this->payment_document_name, 'public');
+            }
+        }
+        if($this->payment_photo){
+            $this->payment_photo_name = hexdec(uniqid()).'.png';
+            $data = $this->payment_photo;
+            if (preg_match('/^data:image\/(\w+);base64,/', $data, $type)) {
+                $data = substr($data, strpos($data, ',') + 1);
+                $type = strtolower($type[1]); // jpg, png, gif
+            
+                if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                    throw new \Exception('invalid image type');
+                }
+                $data = str_replace( ' ', '+', $data );
+                $data = base64_decode($data);
+            
+                if ($data === false) {
+                    throw new \Exception('base64_decode failed');
+                }
+            } else {
+                throw new \Exception('did not match data URI with image data');
+            }
+            if(!file_exists(public_path('payment/') . $this->payment_photo_name)){
+                Storage::disk('public')->put('photo/'.$this->payment_photo_name, $data);
+            }
+        }
+        $renewal = Renewals::create([
+            'worker_id' => $this->id,
+            'payment_years' => $this->payment_years,
+            'payment_amount' => $this->payment_amount,
+            'payment_mode' => $this->payment_mode,
+            'payment_ref_no' => $this->payment_ref_no,
+            'payment_date' => Carbon::createFromFormat('d M Y', $this->payment_date)->format('Y-m-d'),
+            'doc_path' => $this->payment_document_name,
+            'img_path' => $this->payment_photo_name,
+            'approval' => 0
+        ]);
+
+        session()->flash('message', 'Renewal payment complete, require Approval');
+        $this->dispatch('payment-done');
+    }
+    public function payment_year_change()
+    {
+        $this->payment_amount = $this->payment_years * 240;
+    }
     public function mount($worker_id = null)
     {
         if($worker_id){
             $this->edit_mode = true;
             $this->edit($worker_id);
+            if(isset($_REQUEST['done']) || isset($_REQUEST['edit'])){
+                $this->dispatch('move-to-finish');
+            }
         }
 
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
@@ -434,8 +497,10 @@ class CreateWorker extends Component
                 'img_path' => $img_path
             ]);
         }
-        session()->flash('message', 'Worker Registration Complete');
-        $this->dispatch('move-to-finish');
+
+        return redirect()->to(route('operator.workerEdit', ['id' => encrypt($worker->id), 'done' => 1]));
+        // session()->flash('message', 'Worker Registration Complete');
+        // $this->dispatch('move-to-finish');
     }
     public function edit(int $id){
         $table = Registration::where('id', $id)->first();
@@ -455,15 +520,17 @@ class CreateWorker extends Component
             $this->phone = $table->phone;
             $this->bg = $table->bg;
             $this->city_t = $table->city_t;
-            $this->district_t = $table->district_t;
             $this->state_t = $table->state_t;
+            $this->state_change_t();
+            $this->district_t = $table->district_t;
             $this->pin_t = $table->pin_t;
             $this->po_t = $table->po_t;
             $this->ps_t = $table->ps_t;
             $this->address_t = $table->address_t;
             $this->city_p = $table->city_p;
-            $this->district_p = $table->district_p;
             $this->state_p = $table->state_p;
+            $this->state_change_p();
+            $this->district_p = $table->district_p;
             $this->pin_p = $table->pin_p;
             $this->po_p = $table->po_p;
             $this->ps_p = $table->ps_p;
@@ -671,8 +738,10 @@ class CreateWorker extends Component
             }
         }
 
-        session()->flash('message', 'Worker Registration Complete');
-        $this->dispatch('move-to-finish');
+        return redirect()->to(route('operator.workerEdit', ['id' => encrypt($this->id), 'edit' => 1]));
+
+        // session()->flash('message', 'Worker Registration Complete');
+        // $this->dispatch('move-to-finish');
     }
     public function delete(int $id){
         $this->id = $id;

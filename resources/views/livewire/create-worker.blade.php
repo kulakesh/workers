@@ -62,6 +62,12 @@
                                         role="tab" aria-controls="steparrow-benefits-info"
                                         aria-selected="false" wire:ignore.self>Benefits</button>
                                 </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="steparrow-payment-info-tab"
+                                        data-bs-toggle="pill" data-bs-target="#steparrow-payment-info" type="button"
+                                        role="tab" aria-controls="steparrow-payment-info"
+                                        aria-selected="false" wire:ignore.self>Renewal</button>
+                                </li>
                             </ul>
                         </div>
 
@@ -352,9 +358,8 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="nature" class="form-label ">
-                                                    AADHAAR
-                                                </label>
+                                                <label for="nature" class="form-label ">AADHAAR</label>
+                                                <span class="required">*</span>
                                                 <input type="text" name="aadhaar" id="aadhaar" wire:model="aadhaar" class="form-control" placeholder="AADHAAR" autocomplete="off" required="">
                                                 @error('aadhaar')
                                                 <div class="invalid-feedback">
@@ -1286,7 +1291,7 @@
 
                             <div class="tab-pane fade" id="steparrow-finish-info" role="tabpanel" wire:ignore.self>
                                 <div class="text-center">
-
+                                    @if(isset($_REQUEST['done']))
                                     <div class="avatar-md mt-5 mb-4 mx-auto">
                                         <div class="avatar-title bg-light text-success display-4 rounded-circle">
                                             <i class="ri-checkbox-circle-fill"></i>
@@ -1294,6 +1299,21 @@
                                     </div>
                                     <h5>Well Done !</h5>
                                     <p class="text-muted">You have Successfully Registered</p>
+                                    @elseif(isset($_REQUEST['edit']))
+                                    <div class="avatar-md mt-5 mb-4 mx-auto">
+                                        <div class="avatar-title bg-light text-warning display-4 rounded-circle">
+                                            <i class="ri-checkbox-circle-fill"></i>
+                                        </div>
+                                    </div>
+                                    <h5>Updated Successfully</h5>
+                                    @else
+                                    <div class="avatar-md mt-5 mb-4 mx-auto">
+                                        <div class="avatar-title bg-light text-default display-4 rounded-circle">
+                                            <i class="ri-error-warning-line"></i>
+                                        </div>
+                                    </div>
+                                    <p>Go to Review and click Complete Enrollment</p>
+                                    @endif
                                     @if($id)
                                     <button type="button" wire:click="sendsms()" class="btn btn-success">
                                         <i class="ri-mail-send-line"></i>
@@ -1473,6 +1493,146 @@
                             </div>
                             <!-- end tab pane -->
 
+                            <div class="tab-pane fade" id="steparrow-payment-info" role="tabpanel"
+                                aria-labelledby="steparrow-payment-info-tab" wire:ignore.self>
+                                <form wire:submit.prevent="generalValidate">
+                                    <div>
+                                        <div class="card">
+                                            <div class="card-header"><h5>Payment Details</h5></div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Renewal Year(s)</label>
+                                                    <span class="required">*</span>
+                                                    <select id="payment_years" wire:model="payment_years" wire:change="payment_year_change()" class="form-select" aria-label="Years">
+                                                        <option selected="">Select Renewal Years</option>
+                                                        <option value="1" @if(old('payment_years')=='1') selected="selected" @endif>1 Year</option>
+                                                        <option value="2" @if(old('payment_years')=='2') selected="selected" @endif>2 Year</option>
+                                                        <option value="3" @if(old('payment_years')=='3') selected="selected" @endif>3 Year</option>
+                                                    </select>
+                                                    @error('payment_years')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                    </div>
+
+                                                    <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Payable Amount</label>
+                                                    <input type="text" id="payment_amount" wire:model="payment_amount" class="form-control" placeholder="{{ $payment_amount }}" autocomplete="off" value="{{ $payment_amount }}" disabled="true">
+                                                    </div>
+                                            </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Payment Mode</label>
+                                                    <span class="required">*</span>
+                                                    <select id="payment_mode" wire:model="payment_mode" class="form-select" aria-label="Mode">
+                                                        <option selected="">Select Payment Mode</option>
+                                                        <option value="UPI" @if(old('payment_mode')=='UPI') selected="selected" @endif>UPI (PhonePay, Google Pay etc..)</option>
+                                                        <option value="NEFT" @if(old('payment_mode')=='NEFT') selected="selected" @endif>NEFT</option>
+                                                        <option value="RTGS" @if(old('payment_mode')=='RTGS') selected="selected" @endif>RTGS</option>
+                                                        <option value="Challan" @if(old('payment_mode')=='Challan') selected="selected" @endif>Challan</option>  
+                                                    </select>
+                                                    @error('payment_mode')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                    </div>
+
+                                                    <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Refference Number (UPI transaction ID, Ref. No, Challan number etc..)</label>
+                                                    <span class="required">*</span>
+                                                    <input type="text" id="payment_ref_no" wire:model="payment_ref_no" class="form-control" placeholder="Payment Refference Number" autocomplete="off">
+                                                    @error('payment_ref_no')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Payment Date</label>
+                                                    <span class="required">*</span>
+                                                    <input type="text" id="payment_date" wire:model="payment_date" class="form-control flatpickr-input" 
+                                                    data-provider="flatpickr" data-date-format="d M Y"
+                                                    readonly="readonly" placeholder="Payment Date" autocomplete="off" readonly="" />
+                                                    @error('payment_date')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Upload Payment Receipt</label>
+                                                    <input type="file" wire:model="payment_document" wire:change="doNothig" accept="image/png, image/jpeg, application/pdf" class="form-select" />
+                                                    @error('payment_document')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-header"><h5>Take Image</h5></div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <button class="btn btn-primary" id="startWebcamPayment">Start Camera</button>
+                                                            <button class="btn btn-danger" id="stoptWebcamPayment">Stop Camera</button>
+                                                            <button class="btn btn-warning" id="takePhotoPayment">Take Image</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6 col-sm-12">
+                                                            <video width=400 height=400 id="videoPayment" controls autoplay></video>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12">
+                                                            @error('payment_photo')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                            @enderror
+                                                            <canvas style="border:1px solid black;" id="myCanvasPayment" width="400" height="300"></canvas>  
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                
+                                <div class="d-flex align-items-start gap-3 mt-4">
+                                    <button type="button" wire:click="submitPayment()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                        data-nexttab="pills-photo-tab"><i
+                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                </div>
+                                <div id="messageModals" class="modal fade" tabindex="-1" aria-hidden="true" wire:ignore.self>
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content border-0 overflow-hidden">
+                                            <div class="modal-header p-3">
+                                                <h4 class="card-title mb-0">Message</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            
+                                            <div class="modal-body">
+                                                <h4>
+                                                @if(session()->has('message'))
+                                                {{ session('message') }}
+                                                @endif
+                                                </h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                            </div>
+                            <!-- end tab pane -->
+
 
                         </div>
                         <!-- end tab content -->
@@ -1485,6 +1645,7 @@
 @section('script')
 <script src="{{ URL::asset('build/js/pages/form-wizard.init.js') }}"></script>
 <script src="{{ URL::asset('build/libs/cleave.js/cleave.min.js') }}"></script>
+<script src="{{ URL::asset('build/libs/flatpickr/flatpickr.min.js') }}"></script>   
 <script>
     if (document.querySelector("#dob")) {
         var cleaveDate = new Cleave('#dob', {
@@ -1592,6 +1753,9 @@
                 $("#steparrow-finish-info-tab").trigger("click");
             }, 200);
         });
+        Livewire.on('payment-done', (event) => {
+            $("#messageModals").modal('show');
+        });
     });
 
     ////Photo scripts
@@ -1600,15 +1764,16 @@
                              navigator.mozGetUserMedia ||
                              navigator.msGetUserMedia);
 
-    var video, webcamStream;
-    var canvas, ctx;
+    var video, canvas, ctx;
+    var videoPayment,canvasPayment, ctxPayment;
 
     $(document).ready(function () {
         canvas = document.getElementById("myCanvas");
         ctx = canvas.getContext('2d');
+        canvasPayment = document.getElementById("myCanvasPayment");
+        ctxPayment = canvasPayment.getContext('2d');
     });
     $('#startWebcam').click(function () {
-        console.log(navigator.getUserMedia);
         if (navigator.getUserMedia) {
            navigator.getUserMedia (
               // constraints
@@ -1619,9 +1784,8 @@
 
               // successCallback
               function(localMediaStream) {
-                video = document.querySelector('video');
+                video = document.getElementById('video');
                  video.srcObject=localMediaStream;
-                 // webcamStream = localMediaStream;
               },
 
               // errorCallback
@@ -1642,6 +1806,41 @@
         var dataURL = canvas.toDataURL();
         @this.set('photo', dataURL);
         video.srcObject=null;
+    });
+
+    $('#startWebcamPayment').click(function () {
+        if (navigator.getUserMedia) {
+           navigator.getUserMedia (
+              // constraints
+              {
+                 video: true,
+                 audio: false
+              },
+
+              // successCallback
+              function(localMediaStream) {
+                videoPayment = document.getElementById('videoPayment');
+                 videoPayment.srcObject=localMediaStream;
+              },
+
+              // errorCallback
+              function(err) {
+                 console.log("The following error occured: " + err);
+              }
+           );
+        } else {
+           console.log("getUserMedia not supported");
+        }  
+    });
+
+    $('#stoptWebcamPayment').click(function () {
+        videoPayment.srcObject=null;
+    });
+    $('#takePhotoPayment').click(function () {
+        ctxPayment.drawImage(videoPayment, 0, 0, canvasPayment.width, canvasPayment.height);
+        var dataURL = canvasPayment.toDataURL();
+        @this.set('payment_photo', dataURL);
+        videoPayment.srcObject=null;
     });
 
     //finger print
