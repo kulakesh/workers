@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Accountant;
 use App\Models\District;
 use App\Models\Operator;
 use App\Models\Registration;
+use App\Models\Renewals;
 use App\Models\User;
 use App\SMS;
 use Hash;
@@ -41,6 +43,31 @@ class DashboardController extends Controller{
         ->whereDel(0)
         ->count();
         return view('operator.dashboard', compact('entries'));
+    }
+    public function accountantDashboard(){
+        $entries = Renewals::whereDel(0)->whereApproval(0)->count();
+        return view('accountant.dashboard', compact('entries'));
+    }
+    public function acChangePasswordIndex(){
+        return view('accountant.password');
+    }
+    public function acChangePasswordCreate(Request $request){
+        $request->validate([
+			'current_password' => ['required', function ($attribute, $value, $fail) {
+				if (!Hash::check($value,auth()->user()->password)) {
+					return $fail(__('The current password is incorrect.'));
+				}
+			}],
+			'password' => ['required','confirmed', Password::min(6)]
+		]);
+
+		$record = Accountant::where('id',auth()->user()->id)->first();
+
+		$record->update([
+			'password' => Hash::make($request->password)
+		]);
+
+		return redirect(route('accountant.ChangePasswordIndex'))->with('success', 'Password Changed Successfully');
     }
     public function opChangePasswordIndex(){
         return view('operator.password');

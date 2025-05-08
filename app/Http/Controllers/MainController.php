@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DistrictNames;
 use App\Models\Registration;
+use App\Models\StateDistricts;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Crypt;
@@ -72,6 +73,42 @@ class MainController extends Controller
 
         ];
         return view('operator.main', compact('params'));
+    }
+    public function accountantPaymentUnVerify(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Payment Verification',
+            'page_id' => 'payment_unverified'
+
+        ];
+        return view('accountant.main', compact('params'));
+    }
+    public function accountantPaymentVerify(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Payment Verification',
+            'page_id' => 'payment_verified'
+
+        ];
+        return view('accountant.main', compact('params'));
+    }
+    public function accountantPaymentReject(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Payment Verification',
+            'page_id' => 'payment_rejected'
+
+        ];
+        return view('accountant.main', compact('params'));
+    }
+    public function accountantPaymentAll(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Payment Verification',
+            'page_id' => 'payment_all'
+
+        ];
+        return view('accountant.main', compact('params'));
     }
     public function districtWorkersReport(){
         $params = [
@@ -146,7 +183,7 @@ class MainController extends Controller
         }
     }
     public function selectDistrict(){
-        $district_names = DistrictNames::orderBy('name')->get();
+        $district_names = StateDistricts::where('state_code', 12)->orderBy('district_name')->get();
         return view('website.select-district', compact('district_names'));
     }
 }

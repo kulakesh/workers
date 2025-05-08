@@ -52,8 +52,8 @@ APBOCWWB
 
                                     <div class="d-flex gap-2 justify-content-center mt-4">
                                         <a href="/admin" class="btn btn-primary">Admin</a>
+                                        <a href="/ac" class="btn btn-success">Accountant</a>
                                         <a href="/select-district" class="btn btn-danger">District</a>
-                                        <!-- <a href="/op" class="btn btn-success">Operator</a> -->
                                     </div>
                                 </div>
                             </div>

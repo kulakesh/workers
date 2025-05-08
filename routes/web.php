@@ -30,6 +30,10 @@ Route::middleware('guest:operator')->prefix('op')->name('operator.')->group(func
     Route::get('/',[AuthController::class,'operatorIndex'])->name('index');
     Route::post('/',[AuthController::class,'operatorLogin'])->name('login');
 });
+Route::middleware('guest:accountant')->prefix('ac')->name('accountant.')->group(function () {
+    Route::get('/',[AuthController::class,'accountantIndex'])->name('index');
+    Route::post('/',[AuthController::class,'accountantLogin'])->name('login');
+});
 
 Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard',[DashboardController::class,'adminDashboard'])->name('dashboard');
@@ -65,4 +69,15 @@ Route::middleware(['auth:operator'])->prefix('op')->name('operator.')->group(fun
     Route::get('/workers/create',[MainController::class,'createWorker'])->name('createWorker');
     Route::get('/reports/workers',[MainController::class,'operatorWorkersReport'])->name('workersReport');
     Route::get('/workers/edit/{id}',[MainController::class,'operatorWorkerEdit'])->name('workerEdit');
+});
+Route::middleware(['auth:accountant'])->prefix('ac')->name('accountant.')->group(function () {
+    Route::get('/dashboard',[DashboardController::class,'accountantDashboard'])->name('dashboard');
+    Route::get('/logout',[AuthController::class,'accountantLogout'])->name('logout');
+    Route::get('/change-password',[DashboardController::class,'acChangePasswordIndex'])->name('ChangePasswordIndex');
+    Route::post('/change-password',[DashboardController::class,'acChangePasswordCreate'])->name('ChangePasswordCreate');
+
+    Route::get('/reports/payment/un-verified',[MainController::class,'accountantPaymentUnVerify'])->name('PaymentUnVerify');
+    Route::get('/reports/payment/verified',[MainController::class,'accountantPaymentVerify'])->name('PaymentVerify');
+    Route::get('/reports/payment/rejected',[MainController::class,'accountantPaymentReject'])->name('PaymentReject');
+    Route::get('/reports/payment/all',[MainController::class,'accountantPaymentAll'])->name('PaymentAll');
 });

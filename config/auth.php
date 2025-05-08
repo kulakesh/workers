@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'operators',
         ],
+        'accountant' => [
+            'driver' => 'session',
+            'provider' => 'accountants',
+        ],
     ],
 
     /*
@@ -79,6 +83,10 @@ return [
         'operators' => [
             'driver' => 'eloquent',
             'model' => App\Models\Operator::class,
+        ],
+        'accountants' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Accountant::class,
         ],
 
         // 'users' => [

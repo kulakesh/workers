@@ -49,7 +49,7 @@ APBOCWWB
                                     <div class="col-lg-3 mb-2">
                                         <div class="btn-group" role="group">
                                             <button id="btnGroupDrop{{ $district_name->id }}" type="button" class="btn btn btn-soft-primary waves-effect waves-light dropdown-toggle material-shadow-none" data-bs-toggle="dropdown" aria-expanded="false">
-                                                {{ $district_name->name }}
+                                                {{ $district_name->district_name }}
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="btnGroupDrop{{ $district_name->id }}">
                                                 <li><a class="dropdown-item" href="/dt">RO Login</a></li>

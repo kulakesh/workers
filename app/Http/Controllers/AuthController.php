@@ -23,6 +23,9 @@ class AuthController extends Controller
         if(auth()->guard('operator')->check()){
             return redirect(route('admin.index'))->with('errors', 'Please logout from OPERATOR account');
         }
+        if(auth()->guard('accountant')->check()){
+            return redirect(route('admin.index'))->with('errors', 'Please logout from ACCOUNTANT account');
+        }
         // validate data 
         $request->validate([
             'email' => 'required',
@@ -60,6 +63,9 @@ class AuthController extends Controller
         if(auth()->guard('operator')->check()){
             return redirect(route('district.index'))->with('errors', 'Please logout from OPERATOR account');
         }
+        if(auth()->guard('accountant')->check()){
+            return redirect(route('district.index'))->with('errors', 'Please logout from ACCOUNTANT account');
+        }
         // validate data 
         $request->validate([
             'username' => 'required',
@@ -95,6 +101,9 @@ class AuthController extends Controller
         if(auth()->guard('district')->check()){
             return redirect(route('operator.index'))->with('errors', 'Please logout from DISTRICT account');
         }
+        if(auth()->guard('accountant')->check()){
+            return redirect(route('operator.index'))->with('errors', 'Please logout from ACCOUNTANT account');
+        }
         // validate data 
         $request->validate([
             'username' => 'required',
@@ -114,6 +123,44 @@ class AuthController extends Controller
         \Session::flush();
         auth()->guard('operator')->logout();
         return redirect(route('operator.index'));
+    }
+    public function accountantIndex()
+    {
+        if(auth()->guard('accountant')->check()){
+            return redirect(route('accountant.dashboard'));
+        }
+        return view('auth.accountant');
+    }
+    public function accountantLogin(Request $request){
+
+        if(auth()->guard('admin')->check()){
+            return redirect(route('accountant.index'))->with('errors', 'Please logout from ADMIN account');
+        }
+        if(auth()->guard('district')->check()){
+            return redirect(route('accountant.index'))->with('errors', 'Please logout from DISTRICT account');
+        }
+        if(auth()->guard('operator')->check()){
+            return redirect(route('accountant.index'))->with('errors', 'Please logout from OPERATOR account');
+        }
+        // validate data 
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+        // login code 
+        
+        if(auth()->guard('accountant')->attempt($request->only('username','password'))){
+            return redirect(route('accountant.dashboard'));
+        }
+
+        return redirect(route('accountant.index'))->with('errors', 'Login details are not valid');
+
+    }
+
+    public function accountantLogout(){
+        \Session::flush();
+        auth()->guard('accountant')->logout();
+        return redirect(route('accountant.index'));
     }
 
 }

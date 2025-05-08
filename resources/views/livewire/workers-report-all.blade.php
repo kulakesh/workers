@@ -31,6 +31,7 @@
                     <th>City/Village</th>
                     <th>District</th>
                     <th>RO Review</th>
+                    <th>Payment</th>
                     <th>Date</th>
                     <th>-</th>
                 </tr>
@@ -54,6 +55,23 @@
                             <span class="badge bg-warning">Pending</span>
                         @endif
                         </td>
+                        <td>
+                        @php 
+                        $payment_approvlal = 3;
+                        if($item->payment->first() != null) {
+                            $payment_approvlal = $item->payment->first()->approval;
+                        }
+                        @endphp
+                        @if($payment_approvlal == 1)
+                            <span class="badge bg-success">Approved</span>
+                        @elseif($payment_approvlal == 2)
+                            <span class="badge bg-danger">Rejected</span>
+                        @elseif($payment_approvlal == 3)
+                            <span class="badge bg-info">Incomplete</span>
+                        @else
+                            <span class="badge bg-warning">Pending</span>
+                        @endif
+                        </td>
                         <td>{{ $item->created_at ? $item->created_at->format('d M, Y h:i a') : '--' }}</td>
                         <td>
                             <div class="float-end">
@@ -71,7 +89,7 @@
                     </tr>
             @empty
                 <tr>
-                    <td class="align-middle text-center" colspan="9">
+                    <td class="align-middle text-center" colspan="10">
                         No results found
                     </td>
                 </tr>

@@ -100,9 +100,10 @@ class CreateWorker extends Component
                 throw new \Exception('did not match data URI with image data');
             }
             if(!file_exists(public_path('payment/') . $this->payment_photo_name)){
-                Storage::disk('public')->put('photo/'.$this->payment_photo_name, $data);
+                Storage::disk('public')->put('payment/'.$this->payment_photo_name, $data);
             }
         }
+        Renewals::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
         $renewal = Renewals::create([
             'worker_id' => $this->id,
             'payment_years' => $this->payment_years,
@@ -352,10 +353,16 @@ class CreateWorker extends Component
     ];
     public function generalValidate() 
     {
-        $this->validate($this->generalRules,$this->generalMessages);
+        try {
+            $this->validate($this->generalRules,$this->generalMessages);
 
-        session()->flash('message', 'Worker General Complete');
-        $this->dispatch('move-to-family');
+            session()->flash('message', 'Worker General Complete');
+            $this->dispatch('move-to-family');
+        } catch (\Throwable $e) {
+            $this->dispatch('validation-error');
+            throw $e;
+        }
+
     }
     public function processMark()
     {
@@ -817,11 +824,11 @@ class CreateWorker extends Component
     }
     public function render()
     {
-        $district_names = StateDistricts::select('district_name')->where('state_code', 12)->orderBy('district_name')->get();
         $state_names = StateDistricts::select('state_name')->orderBy('state_name')->distinct()->get();
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         $benefit_names = Benefit::whereDel(0)->orderBy('name')->get();
-        return view('livewire.create-worker', compact('document_heads', 'state_names', 'district_names', 'benefit_names'));
+        $renewals = Renewals::where('worker_id', $this->id)->whereDel(0)->first();
+        return view('livewire.create-worker', compact('document_heads', 'state_names', 'benefit_names', 'renewals'));
     }
 }
 

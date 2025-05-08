@@ -86,6 +86,10 @@ class Registration extends Authenticatable
     {
         return $this->hasMany(RegDocument::class, 'worker_id');
     }
+    public function payment(): HasMany
+    {
+        return $this->hasMany(Renewals::class, 'worker_id')->whereDel(0)->orderBy('id', 'DESC');
+    }
     protected $attributes = [
         'approval' => 0,
         'del' => 0
