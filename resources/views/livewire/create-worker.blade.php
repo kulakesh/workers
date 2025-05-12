@@ -495,6 +495,44 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <label>
+                                                    Are there more than one BOCW in the family?
+                                                </label>
+
+                                                <label>
+                                                    <input type="radio" wire:model="more_bocw" value="yes" />
+                                                    Yes
+                                                </label>
+                                                <label>
+                                                    <input type="radio" wire:model="more_bocw" value="no" />
+                                                    No
+                                                </label>
+
+                                                @error('more_bocw')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="number_of_bocw"
+                                                    label="Mention ID Numbers of all BoCW in the family (comma separated) (if yes)"
+                                                    placeholder="BOCW IDs"
+                                                />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="primary_bocw"
+                                                    label="Give ID Number of Primary BoCW in the family (if yes)"
+                                                    placeholder="BOCW ID"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <div class="d-flex align-items-start gap-3 mt-4">
@@ -1120,7 +1158,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <divr class="row mt-2">
+                                            <div class="row mt-2">
                                                 <div>
                                                 <label class="mb-0">
                                                 If the applicant is already a member of any other welfare board : <strong>{{ $other_welfare }}</strong>
@@ -1145,7 +1183,34 @@
                                                     </div>
                                                     @enderror
                                                 </div>
-                                            </divr>
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div>
+                                                <label class="mb-0">
+                                                Are there more than one BOCW in the family? : <strong>{{ $more_bocw }}</strong>
+                                                </label>
+                                                @error('more_bocw')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                                </div>
+                                                <div>Mention ID Numbers of all BoCW in the family :  <strong>{{ $number_of_bocw }}</strong>
+                                                    @error('number_of_bocw')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                                <div>Give ID Number of Primary BoCW in the family  :  <strong>{{ $primary_bocw }}</strong>
+                                                    @error('primary_bocw')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
 
                                         </div>
                                         <div class="col-md-4 col-sm-6">
@@ -1563,8 +1628,8 @@
                                                 <select id="payment_years" wire:model="payment_years" wire:change="payment_year_change()" class="form-select" aria-label="Years">
                                                     <option selected="">Select Renewal Years</option>
                                                     <option value="1" @if(old('payment_years')=='1') selected="selected" @endif>1 Year</option>
-                                                    <option value="2" @if(old('payment_years')=='2') selected="selected" @endif>2 Year</option>
-                                                    <option value="3" @if(old('payment_years')=='3') selected="selected" @endif>3 Year</option>
+                                                    <option value="2" @if(old('payment_years')=='2') selected="selected" @endif>2 Years</option>
+                                                    <option value="3" @if(old('payment_years')=='3') selected="selected" @endif>3 Years</option>
                                                 </select>
                                                 @error('payment_years')
                                                 <div class="invalid-feedback">

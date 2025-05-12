@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class District extends Authenticatable
 {
     use HasFactory;
@@ -46,5 +47,9 @@ class District extends Authenticatable
         return [
             'password' => 'hashed',
         ];
+    }
+    public function district_code(): BelongsTo
+    {
+        return $this->belongsTo(StateDistricts::class,'district_id','district_code')->withDefault();
     }
 }

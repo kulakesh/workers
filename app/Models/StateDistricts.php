@@ -14,6 +14,7 @@ class StateDistricts extends Model
         'state_code',
         'state_name',
         'district_code',
+        'district_short_code',
         'district_name',
     ];
 }

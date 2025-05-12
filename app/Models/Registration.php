@@ -60,12 +60,15 @@ class Registration extends Authenticatable
         'other_welfare',
         'welfare_name',
         'welfare_reg_no',
+        'more_bocw',
+        'number_of_bocw',
+        'primary_bocw',
         'nominee',
         'relation',
         'approval',
         'del'
     ];
-
+    
     public function operator(): BelongsTo
     {
         return $this->belongsTo(Operator::class)->withDefault();

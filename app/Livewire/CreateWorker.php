@@ -3,7 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Benefit;
+use App\Models\District;
 use App\Models\DistrictNames;
+use App\Models\Operator;
 use App\Models\RegBenefit;
 use App\Models\RegBiomatric;
 use App\Models\RegDocument;
@@ -21,6 +23,7 @@ use App\Models\Registration;
 use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 class CreateWorker extends Component
@@ -32,6 +35,7 @@ class CreateWorker extends Component
     $city_p, $district_p, $state_p, $pin_p, $po_p, $ps_p, $address_p, 
     $aadhaar, $nature, $serial, $doe, $dor, $turnover, 
     $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
+    $more_bocw, $number_of_bocw, $primary_bocw,
     $nominee, $relation, $del;
 
     public $state_districts_t = [], $state_districts_p = [];
@@ -344,12 +348,16 @@ class CreateWorker extends Component
         'other_welfare' => 'nullable|in:yes,no',
         'welfare_name' => 'required_if:other_welfare,yes|max:225',
         'welfare_reg_no' => 'required_if:other_welfare,yes|max:100',
+        'more_bocw' => 'nullable|in:yes,no',
+        'number_of_bocw' => 'required_if:more_bocw,yes|max:225',
+        'primary_bocw' => 'required_if:other_wmore_bocwelfare,yes|max:100',
     ];
     private $generalMessages = [
         'dob.date_format' => 'Must match the format DD/MM/YYYY',
         'doe.date_format' => 'Must match the format DD/MM/YYYY',
         'dor.date_format' => 'Must match the format DD/MM/YYYY',
         'other_welfare' => 'Select yes or no',
+        'more_bocw' => 'Select yes or no',
     ];
     public function generalValidate() 
     {
@@ -446,6 +454,9 @@ class CreateWorker extends Component
             'other_welfare' => $this->other_welfare,
             'welfare_name' => $this->welfare_name,
             'welfare_reg_no' => $this->welfare_reg_no,
+            'more_bocw' => $this->more_bocw,
+            'number_of_bocw' => $this->number_of_bocw,
+            'primary_bocw' => $this->primary_bocw,
             'nominee' => $this->nominee,
             'relation' => $this->relation,
             'del' => 0
@@ -504,8 +515,15 @@ class CreateWorker extends Component
                 'img_path' => $img_path
             ]);
         }
-
-        return redirect()->to(route('operator.workerEdit', ['id' => encrypt($worker->id), 'done' => 1]));
+        if(auth()->guard('admin')->check()){
+            return redirect()->to(route('admin.workerEdit', ['id' => encrypt($worker->id), 'done' => 1]));
+        }
+        if(auth()->guard('district')->check()){
+            return redirect()->to(route('district.workerEdit', ['id' => encrypt($worker->id), 'done' => 1]));
+        }
+        if(auth()->guard('operator')->check()){
+            return redirect()->to(route('operator.workerEdit', ['id' => encrypt($worker->id), 'done' => 1]));
+        }
         // session()->flash('message', 'Worker Registration Complete');
         // $this->dispatch('move-to-finish');
     }
@@ -557,6 +575,9 @@ class CreateWorker extends Component
             $this->other_welfare = $table->other_welfare;
             $this->welfare_name = $table->welfare_name;
             $this->welfare_reg_no = $table->welfare_reg_no;
+            $this->more_bocw = $table->more_bocw;
+            $this->number_of_bocw = $table->number_of_bocw;
+            $this->primary_bocw = $table->primary_bocw;
             $this->nominee = $table->nominee;
             $this->relation = $table->relation;
             $this->approval = $table->approval;
@@ -666,6 +687,9 @@ class CreateWorker extends Component
             'other_welfare' => $this->other_welfare,
             'welfare_name' => $this->welfare_name,
             'welfare_reg_no' => $this->welfare_reg_no,
+            'more_bocw' => $this->more_bocw,
+            'number_of_bocw' => $this->number_of_bocw,
+            'primary_bocw' => $this->primary_bocw,
             'nominee' => $this->nominee,
             'relation' => $this->relation,
         ]);
@@ -744,8 +768,15 @@ class CreateWorker extends Component
                     ]);
             }
         }
-
-        return redirect()->to(route('operator.workerEdit', ['id' => encrypt($this->id), 'edit' => 1]));
+        if(auth()->guard('admin')->check()){
+            return redirect()->to(route('admin.workerEdit', ['id' => encrypt($this->id), 'edit' => 1]));
+        }
+        if(auth()->guard('district')->check()){
+            return redirect()->to(route('district.workerEdit', ['id' => encrypt($this->id), 'edit' => 1]));
+        }
+        if(auth()->guard('operator')->check()){
+            return redirect()->to(route('operator.workerEdit', ['id' => encrypt($this->id), 'edit' => 1]));
+        }
 
         // session()->flash('message', 'Worker Registration Complete');
         // $this->dispatch('move-to-finish');
@@ -815,12 +846,32 @@ class CreateWorker extends Component
         
     }
     private function getSystemID(){
-        $number = time(); 
-        $isUsed =  Registration::where('system_id', $number)->first();
-        if ($isUsed) {
-            return $this->getSystemID();
+        // $number = time(); 
+        // $isUsed =  Registration::where('system_id', $number)->first();
+        // if ($isUsed) {
+        //     return $this->getSystemID();
+        // }
+        // return $number;
+        $ro = [];
+        if(auth()->guard('admin')->check()){
+            return $this->nextID('ADM-ADM-', 'id');
         }
-        return $number;
+        if(auth()->guard('district')->check()){
+            $ro = District::where('id', auth()->user()->id)->first();
+        }
+        if(auth()->guard('operator')->check()){
+            $ro = District::where('id', auth()->user()->district_id)->first();
+        }
+        $ro_code = $ro->ro_code;
+        $district_code = $ro->district_code->district_short_code;
+        return $this->nextID($district_code . '-' . $ro_code. '-', 'system_id');
+    }
+    private function nextID($prefix,$idno,$start = 12000) {
+        $row = Registration::select(DB::raw("max( cast( right( ".$idno.", length( ".$idno." ) -".strlen($prefix).") AS signed ) ) as id"))
+        ->whereLike('system_id', $prefix.'%')
+        ->first();
+        $NewId = $row->id == 0 ? $start : $row->id + 1;
+        return $prefix.$NewId;
     }
     public function render()
     {
