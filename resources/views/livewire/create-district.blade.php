@@ -48,7 +48,7 @@
                                     <select name="district_id" id="district_id" wire:model="district_id" class="form-select" aria-label="District">
                                         <option selected="">Select District</option>
                                         @foreach ($district_names as $district_name)
-                                        <option value="{{ $district_name->id }}">{{ $district_name->name }}</option>
+                                        <option value="{{ $district_name->district_code }}">{{ $district_name->district_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('district_id')

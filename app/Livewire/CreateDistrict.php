@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\District;
 use App\Models\DistrictNames;
+use App\Models\StateDistricts;
 use Livewire\WithPagination;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
@@ -144,7 +145,7 @@ class CreateDistrict extends Component
         ->whereDel(0)
         ->paginate(10);
 
-        $district_names = DistrictNames::orderBy('name')->get();
+        $district_names = StateDistricts::where('state_code', 12)->orderBy('district_name')->get();
 
         return view('livewire.create-district',compact('items', 'district_names'));
     }
