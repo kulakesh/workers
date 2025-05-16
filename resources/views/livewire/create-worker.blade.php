@@ -1393,11 +1393,16 @@
                                     <p>Go to Review and click Complete Enrollment</p>
                                     @endif
                                     @if($id)
-                                    <button type="button" wire:click="sendsms()" class="btn btn-success">
-                                        <i class="ri-mail-send-line"></i>
-                                        Send SMS
-                                    </button>
-                                    <p class="text-primary">{{ $smsreply }}</p>
+                                        <button type="button" wire:click="sendsms()" class="btn btn-success">
+                                            <i class="ri-mail-send-line"></i>
+                                            Send SMS
+                                        </button>
+                                        <p class="text-primary">{{ $smsreply }}</p>
+                                        @if(auth()->guard('operator')->check())
+                                            <a href="{{ route('operator.createWorker') }}" class="btn btn-success">
+                                                Enroll New
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                                 @if(auth()->guard('district')->check())
