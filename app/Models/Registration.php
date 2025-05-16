@@ -46,6 +46,7 @@ class Registration extends Authenticatable
         'ps_p',
         'address_p',
         'aadhaar',
+        'pf_no',
         'nature',
         'serial',
         'doe',
@@ -80,6 +81,10 @@ class Registration extends Authenticatable
     public function photo(): HasMany
     {
         return $this->hasMany(RegPhoto::class, 'worker_id')->orderBy('id', 'DESC');
+    }
+    public function nominee_names(): HasMany
+    {
+        return $this->hasMany(RegNominee::class, 'worker_id')->orderBy('id', 'DESC');
     }
     public function family(): HasMany
     {

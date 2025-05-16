@@ -41,7 +41,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">RO</h5>
-                                    <p class="text-muted">Login to Your Account. {{ $password = Hash::make('ro2025') }}</p>
+                                    <p class="text-muted">Login to Your Account.</p>
                                 </div>
                                 <p class="text-center small">Enter your user email & password to login</p>
                                 @if (Session::has('errors'))

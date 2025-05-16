@@ -32,7 +32,7 @@
             color: black;
         }
         .image {
-            top:23mm;
+            top:21mm;
             left:13mm;
             position: absolute;
         }
@@ -45,7 +45,7 @@
         }
         .content-front {
             position: absolute;
-            top: 51mm;
+            top: 49mm;
             width: 100%;
         }
         .content-front .name{
@@ -67,11 +67,11 @@
             width: 100%;
             margin-top: 3mm;
         }
-        .content-front .barcode{
+        .barcode{
+            margin-top: -11mm;
             text-align: center;
-            margin-top: 4mm;
         }
-        .content-front .barcode img{
+        .barcode img{
             height: 6mm;
         }
         .content-back {
@@ -97,6 +97,13 @@
         .content-back .qrcode img{
             height: 18mm;
         }
+        .content-back .note{
+            position: absolute;
+            font-size: 8px;
+            width: 31mm;
+            top:46mm;
+            left:22mm;
+        }
     </style>
     
 </head>
@@ -105,28 +112,23 @@
 <section class="sheet2">
     <div class="icard">
         <img id="bg_img" src="{{ URL::asset('build/images/icard-front.png') }}" />
-        <div class="reg_id">
-            <table class="real-table">
-                <tr>
-                    <td style="text-align: left; width: 10mm">Reg. No.</td>
-                    <td style="text-align: left">: {{ $registration->system_id }}</td>
-                </tr>
-            </table>
-        </div>
         <div class="image">
             <img id="thumb_img" src="{{ URL::asset('storage/photo/'.$registration->photo->first()->img_path) }}" />
         </div>
         <div class="content-front">
             <div class="name">{{ $registration->name }}</div>
-            <div class="role">{{ $registration->nature }}</div>
             <div class="table">
                 <table class="real-table">
                     <tr>
-                        <td style="text-align: left; width: 10mm">Father's Name</td>
+                        <td style="text-align: left; width: 10mm">F/Name</td>
                         <td style="text-align: left">: {{ $registration->father }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left; width: 10mm">Contact No</td>
+                        <td style="text-align: left; width: 10mm">Regn No</td>
+                        <td style="text-align: left">: {{ $registration->system_id }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left; width: 10mm">Phone No</td>
                         <td style="text-align: left">: {{ $registration->phone }}</td>
                     </tr>
                     <tr>
@@ -140,9 +142,10 @@
                     </tr>
                 </table>
             </div>
-            <div class="barcode">
-                <img src="/barcode/{{ $registration->system_id }}" />
-            </div>
+        </div>
+
+        <div class="barcode">
+            <img src="/barcode/{{ str_replace('/', '-', $registration->id) }}" />
         </div>
     </div>
     </section>
@@ -156,32 +159,54 @@
             <div class="table">
                 <table class="real-table">
                     <tr>
+                        <td style="text-align: left"><strong>Gender</strong> : {{ $registration->gender }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Date Of Birth</strong> : {{ $registration->dob ? \Carbon\Carbon::parse($registration->dob)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Date Of Regn</strong> : {{ $registration->created_at ? \Carbon\Carbon::parse($registration->created_at)->format('d/m/Y') : '--' }}</td>
+                    </tr>
+                    @php
+                        $validity = '';
+                        $payment = $registration->payment->where('approval', 1)->first();
+                        if ($payment) {
+                            $payment_date = $payment->payment_date;
+                            $validity = \Carbon\Carbon::parse($payment->payment_date)->addYears($payment->payment_years)->format('d/m/Y');
+                        }
+                    @endphp
+                    <tr>
+                        <td style="text-align: left"><strong>Valid Upto</strong> : {{ $validity }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Old Registration No</strong> : {{ $registration->serial }}</td>
+                    </tr>
+                    <tr>
                         <td style="text-align: left"><strong>Blood Group</strong> : {{ $registration->bg }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align: left"><strong>DOB</strong> : {{ $registration->dob ? \Carbon\Carbon::parse($registration->dob)->format('d/m/Y') : '--' }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left"><strong>Year of appointment</strong> : {{ $registration->doe ? \Carbon\Carbon::parse($registration->doe)->format('d/m/Y') : '--' }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left"><strong>Valid up to</strong> : {{ $registration->dor ? \Carbon\Carbon::parse($registration->dor)->format('d/m/Y') : '--' }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left"><strong>Expire</strong> : {{ $registration->dor ? \Carbon\Carbon::parse($registration->dor)->format('d/m/Y') : '--' }}</td>
+                        <td style="text-align: left"><strong>Name Of Nominee</strong> : {{ $registration->nominee_names->first()->nominee_name1 }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><strong>Parmanent Address</strong> : {{ $registration->address_t }} 
-                        {{ $registration->city_t }} 
-                        {{ $registration->district_t }}
-                        {{ $registration->state_t }}    
-                        {{ $registration->pin_t }}    
+                        {{ $registration->city_p }}, 
+                        {{ $registration->district_p }},
+                        {{ $registration->state_p }},   
+                        {{ $registration->pin_p }}    
                         </td>
                     </tr>
                 </table>
             </div>
             <div class="qrcode">
-                <img src="/qrcode/{{ $registration->system_id }}" />
+                <img src="/qrcode/{{ str_replace('/', '-', $registration->system_id) }}" />
+            </div>
+            <div class="note">
+                <strong>Note:</strong>
+                <p>
+                    1. This card is meant for availing benefit from APB&OCWWB only. 
+                    <strong>This card is not to be Treated as Inner Line Permit (ILP)</strong>
+                </p>
+                <p>2. This Card is not Transferable</p>
             </div>
         </div>
     </div>

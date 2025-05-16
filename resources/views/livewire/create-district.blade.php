@@ -120,7 +120,8 @@
                     <th>ID</th>
                     <th>Username</th>
                     <th>RO Code</th>
-                    <th>RO Name</th>
+                    <th>District</th>
+                    <th>Circle</th>
                     <th>Contact Person</th>
                     <th>Email</th>
                     <th>Phone</th>
@@ -135,6 +136,7 @@
                         <td>{{ $item->id }}</td>
                         <td>{{ $item->username }}</td>
                         <td>{{ $item->ro_code }}</td>
+                        <td>{{ $item->district_code->district_name }}</td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->contact_person }}</td>
                         <td>{{ $item->email }}</td>
@@ -192,7 +194,7 @@
                                     <select name="district_id" id="district_id" wire:model="district_id" class="form-select" aria-label="District">
                                         <option selected="">Select District</option>
                                         @foreach ($district_names as $district_name)
-                                        <option value="{{ $district_name->id }}">{{ $district_name->name }}</option>
+                                        <option value="{{ $district_name->district_code }}">{{ $district_name->district_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('district_id')

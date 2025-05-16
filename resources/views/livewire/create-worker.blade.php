@@ -367,6 +367,12 @@
                                                 </div>
                                                 @enderror
                                                 </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="serial"
+                                                    label="Old Registration Number"
+                                                    placeholder="Old Registration Number"
+                                                    />
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
@@ -376,7 +382,7 @@
                                                 />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="serial"
+                                                <x-input-wire name="pf_no"
                                                     label="ESI/PF numbers"
                                                     placeholder="ESI/PF numbers"
                                                     />
@@ -1081,6 +1087,13 @@
                                                         </div>
                                                         @enderror
                                                     </div>
+                                                    <div>Old Registration Number :  <strong>{{ $serial }}</strong>
+                                                        @error('serial')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                     <div>Nature of work :  <strong>{{ $nature }}</strong>
                                                         @error('nature')
                                                         <div class="invalid-feedback">
@@ -1088,8 +1101,8 @@
                                                         </div>
                                                         @enderror
                                                     </div>
-                                                    <div>ESI/PF numbers :  <strong>{{ $serial }}</strong>
-                                                        @error('serial')
+                                                    <div>ESI/PF numbers :  <strong>{{ $pf_no }}</strong>
+                                                        @error('pf_no')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
                                                         </div>

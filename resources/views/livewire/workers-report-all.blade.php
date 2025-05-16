@@ -27,7 +27,7 @@
                     <th>#</th>
                     <th>System ID</th>
                     <th>Name</th>
-                    <th>District office</th>
+                    <th>Circle office</th>
                     <th>City/Village</th>
                     <th>District</th>
                     <th>RO Review</th>

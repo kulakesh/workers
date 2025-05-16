@@ -33,7 +33,7 @@ class CreateWorker extends Component
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $bg,
     $city_t, $district_t, $state_t, $pin_t, $po_t, $ps_t, $address_t, 
     $city_p, $district_p, $state_p, $pin_p, $po_p, $ps_p, $address_p, 
-    $aadhaar, $nature, $serial, $doe, $dor, $turnover, 
+    $aadhaar, $nature, $serial, $pf_no, $doe, $dor, $turnover, 
     $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
     $more_bocw, $number_of_bocw, $primary_bocw,
     $nominee, $relation, $del;
@@ -442,6 +442,7 @@ class CreateWorker extends Component
             'aadhaar' => $this->aadhaar,
             'nature' => $this->nature,
             'serial' => $this->serial,
+            'pf_no' => $this->pf_no,
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
             'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
             'turnover' => $this->turnover,
@@ -563,6 +564,7 @@ class CreateWorker extends Component
             $this->aadhaar = $table->aadhaar;
             $this->nature = $table->nature;
             $this->serial = $table->serial;
+            $this->pf_no = $table->pf_no;
             $this->doe = $table->doe ? Carbon::parse($table->doe)->format('d/m/Y') : null;
             $this->dor = $table->dor ? Carbon::parse($table->dor)->format('d/m/Y') : null;
             $this->turnover = $table->turnover;
@@ -675,6 +677,7 @@ class CreateWorker extends Component
             'aadhaar' => $this->aadhaar,
             'nature' => $this->nature,
             'serial' => $this->serial,
+            'pf_no' => $this->pf_no,
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
             'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
             'turnover' => $this->turnover,
@@ -854,7 +857,7 @@ class CreateWorker extends Component
         // return $number;
         $ro = [];
         if(auth()->guard('admin')->check()){
-            return $this->nextID('ADM-ADM-', 'id');
+            return $this->nextID('XXX-XXX-', 'id');
         }
         if(auth()->guard('district')->check()){
             $ro = District::where('id', auth()->user()->id)->first();
@@ -863,15 +866,14 @@ class CreateWorker extends Component
             $ro = District::where('id', auth()->user()->district_id)->first();
         }
         $ro_code = $ro->ro_code;
-        $district_code = $ro->district_code->district_short_code;
-        return $this->nextID($district_code . '-' . $ro_code. '-', 'system_id');
+        return $this->nextID('APB&OCWWB/' . $ro_code. '/', 'system_id');
     }
-    private function nextID($prefix,$idno,$start = 12000) {
+    private function nextID($prefix,$idno,$start = 1) {
         $row = Registration::select(DB::raw("max( cast( right( ".$idno.", length( ".$idno." ) -".strlen($prefix).") AS signed ) ) as id"))
         ->whereLike('system_id', $prefix.'%')
         ->first();
         $NewId = $row->id == 0 ? $start : $row->id + 1;
-        return $prefix.$NewId;
+        return $prefix . str_pad($NewId, 6, '0', STR_PAD_LEFT);
     }
     public function render()
     {
@@ -879,7 +881,8 @@ class CreateWorker extends Component
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         $benefit_names = Benefit::whereDel(0)->orderBy('name')->get();
         $renewals = Renewals::where('worker_id', $this->id)->whereDel(0)->first();
-        return view('livewire.create-worker', compact('document_heads', 'state_names', 'benefit_names', 'renewals'));
+        $sys_id = $this->getSystemID();
+        return view('livewire.create-worker', compact('document_heads', 'state_names', 'benefit_names', 'renewals', 'sys_id'));
     }
 }
 

@@ -168,6 +168,7 @@ class MainController extends Controller
     public function barcodeIndex($code)
     {
         if($code != null) {
+            $code = str_replace('-', '/', $code);
             $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
             $image = $generator->getBarcode($code, $generator::TYPE_CODE_128);
     
@@ -177,7 +178,7 @@ class MainController extends Controller
     public function qrcodeIndex($code)
     {
         if($code != null) {
-            $qrCode = QrCode::size(300)->generate($code);
+            $qrCode = QrCode::size(300)->generate('https://apbocwwb-id.in/verify/' . $code);
 
             return response($qrCode)->header('Content-Type', 'image/svg+xml');
         }

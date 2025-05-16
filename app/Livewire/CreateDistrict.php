@@ -143,6 +143,7 @@ class CreateDistrict extends Component
             return $q->where('name', 'like', '%'.$this->search.'%')->orWhere('contact_person', 'like', '%'.$this->search.'%');
         })
         ->whereDel(0)
+        ->where('id', '!=', 1)
         ->paginate(10);
 
         $district_names = StateDistricts::where('state_code', 12)->orderBy('district_name')->get();
