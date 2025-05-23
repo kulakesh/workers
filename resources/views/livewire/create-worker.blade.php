@@ -570,7 +570,7 @@
                                                 <td>1</td>
                                                 
                                                 <td>
-                                                    <input type="text" class="form-control" name="nominee_name1" wire:model="nominee_name1" placeholder="Nominee 1 name">
+                                                    <input type="text" class="form-control" id="nominee_name1" name="nominee_name1" wire:model="nominee_name1" placeholder="Nominee 1 name">
                                                     @error('nominee_name1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -607,7 +607,7 @@
                                                 <td>2</td>
                                                 
                                                 <td>
-                                                    <input type="text" class="form-control" name="nominee_name2" wire:model="nominee_name2" placeholder="Nominee 2 name">
+                                                    <input type="text" class="form-control" id="nominee_name2" name="nominee_name2" wire:model="nominee_name2" placeholder="Nominee 2 name">
                                                     @error('nominee_name2')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -1399,7 +1399,7 @@
                                         </button>
                                         <p class="text-primary">{{ $smsreply }}</p>
                                         @if(auth()->guard('operator')->check())
-                                            <a href="{{ route('operator.createWorker') }}" class="btn btn-success">
+                                            <a href="{{ route('operator.createWorker') }}" class="btn btn-primary">
                                                 Enroll New
                                             </a>
                                         @endif
@@ -1635,10 +1635,11 @@
                                         </div>
                                     </div>
                                     @endif
-                                    <div class="card">
+                                   <div class="card">
                                         <div class="card-header"><h5>Payment Details</h5></div>
                                         <div class="card-body">
-                                            
+                                            <div class="row">
+                                            <div class="col-md-12 col-xl-8"> 
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="marital" class="form-label ">Renewal Year(s)</label>
@@ -1660,60 +1661,83 @@
                                                 <label for="marital" class="form-label ">Payable Amount</label>
                                                 <input type="text" id="payment_amount" wire:model="payment_amount" class="form-control" placeholder="{{ $payment_amount }}" autocomplete="off" value="{{ $payment_amount }}" disabled="true">
                                                 </div>
-                                        </div>
-                                            <div class="row">
+                                            </div>
+                                            <div class="row mt-3">
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="marital" class="form-label ">Payment Mode</label>
-                                                <span class="required">*</span>
-                                                <select id="payment_mode" wire:model="payment_mode" class="form-select" aria-label="Mode">
-                                                    <option selected="">Select Payment Mode</option>
-                                                    <option value="UPI" @if(old('payment_mode')=='UPI') selected="selected" @endif>UPI (PhonePay, Google Pay etc..)</option>
-                                                    <option value="NEFT" @if(old('payment_mode')=='NEFT') selected="selected" @endif>NEFT</option>
-                                                    <option value="RTGS" @if(old('payment_mode')=='RTGS') selected="selected" @endif>RTGS</option>
-                                                    <option value="Challan" @if(old('payment_mode')=='Challan') selected="selected" @endif>Challan</option>  
-                                                </select>
-                                                @error('payment_mode')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
+                                                    <label for="marital" class="form-label ">Payment Mode</label>
+                                                    <span class="required">*</span>
+                                                    <select id="payment_mode" wire:model="payment_mode" class="form-select" aria-label="Mode">
+                                                        <option selected="">Select Payment Mode</option>
+                                                        <option value="NEFT" @if(old('payment_mode')=='NEFT') selected="selected" @endif>NEFT</option>
+                                                        <option value="RTGS" @if(old('payment_mode')=='RTGS') selected="selected" @endif>RTGS</option>
+                                                        <option value="Challan" @if(old('payment_mode')=='Challan') selected="selected" @endif>Challan</option>  
+                                                    </select>
+                                                    @error('payment_mode')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
                                                 </div>
 
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="marital" class="form-label ">Refference Number (UPI transaction ID, Ref. No, Challan number etc..)</label>
-                                                <span class="required">*</span>
-                                                <input type="text" id="payment_ref_no" wire:model="payment_ref_no" class="form-control" placeholder="Payment Refference Number" autocomplete="off">
-                                                @error('payment_ref_no')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                    <label for="marital" class="form-label ">Refference Number (Ref. No, Challan number etc..)</label>
+                                                    <span class="required">*</span>
+                                                    <input type="text" id="payment_ref_no" wire:model="payment_ref_no" class="form-control" placeholder="Payment Refference Number" autocomplete="off">
+                                                    @error('payment_ref_no')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
                                                 </div>
-                                                @enderror
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Payment Date</label>
+                                                    <span class="required">*</span>
+                                                    <input type="text" id="payment_date" wire:model="payment_date" class="form-control flatpickr-input" 
+                                                    data-provider="flatpickr" data-date-format="d M Y"
+                                                    readonly="readonly" placeholder="Payment Date" autocomplete="off" readonly="" />
+                                                    @error('payment_date')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
                                                 </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                    <label for="marital" class="form-label ">Upload Payment Receipt</label>
+                                                    <input type="file" wire:model="payment_document" wire:change="doNothig" accept="image/png, image/jpeg, application/pdf" class="form-select" />
+                                                    @error('payment_document')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                                
+                                            </div>
+                                            <div class="col-md-12 col-xl-4">
+                                                <div class="card banks" id="sec-SBI" style="display: flex;">
+                                                    <div class="card-header bg-warning-subtle">
+                                                        <h5 class="card-title mb-0"><i class="bx bx-info-circle me-3"></i> Bank Details</h5>
+                                                    </div>
+                                                    <div class="card-body justify-content-center">
+                                                        <div>
+                                                            <p>Name: <strong> APB&OCWWB </strong></p>
+                                                            <p>Ac / No: <strong>345101002310</strong> </p>
+                                                            <p>IFSC: <strong>CNRB0003435</strong></p>
+                                                            <p>Bank: <strong>CANARA BANK</strong></p>
+                                                            <p>Branch: <strong>ITANAGAR, ARUNACHAL PRADESH</strong></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 col-xl-6">
-                                                <label for="marital" class="form-label ">Payment Date</label>
-                                                <span class="required">*</span>
-                                                <input type="text" id="payment_date" wire:model="payment_date" class="form-control flatpickr-input" 
-                                                data-provider="flatpickr" data-date-format="d M Y"
-                                                readonly="readonly" placeholder="Payment Date" autocomplete="off" readonly="" />
-                                                @error('payment_date')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
-                                            </div>
-                                            <div class="col-md-12 col-xl-6">
-                                                <label for="marital" class="form-label ">Upload Payment Receipt</label>
-                                                <input type="file" wire:model="payment_document" wire:change="doNothig" accept="image/png, image/jpeg, application/pdf" class="form-select" />
-                                                @error('payment_document')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                                @enderror
-                                            </div>
+                                        </div>
+                                    </div>
 
-                                        </div>
+                                    
+                                            
+
                                         <div class="card">
                                             <div class="card-header"><h5>Take Image</h5></div>
                                             <div class="card-body">
@@ -1801,6 +1825,9 @@
 <script src="{{ URL::asset('build/libs/flatpickr/flatpickr.min.js') }}"></script>   
 <script src="{{ URL::asset('build/libs/toastify-js/src/toastify.js') }}"></script>   
 <script>
+    $("#name, #father, #mother, #nominee_name1, #nominee_name2").keyup(function () {  
+        $(this).val($(this).val().toUpperCase());  
+    });
     if (document.querySelector("#dob")) {
         var cleaveDate = new Cleave('#dob', {
             date: true,

@@ -81,7 +81,7 @@
                                 </a>
                                 @endif
                                 <a target="_blank" href="{{ route($for.'.workerEdit', ['id' => Crypt::encrypt($item->id)]) }}" class="btn btn-sm btn-secondary">
-                                    Edit
+                                    View
                                 </a>
                             </div>
                         </td>
