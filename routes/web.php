@@ -58,6 +58,8 @@ Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(fun
     Route::get('/oparator/create',[MainController::class,'createOparator'])->name('createOparator');
     Route::get('/reports/workers',[MainController::class,'districtWorkersReport'])->name('workersReport');
     Route::get('/reports/workers/approvals',[MainController::class,'districtWorkersReportApproval'])->name('workersReportApproval');
+    Route::get('/reports/workers/approved',[MainController::class,'districtWorkersApproved'])->name('districtWorkersApproved');
+    Route::get('/reports/workers/rejected',[MainController::class,'districtWorkersRejected'])->name('districtWorkersRejected');
     Route::get('/workers/edit/{id}',[MainController::class,'districtWorkerEdit'])->name('workerEdit');
 });
 Route::middleware(['auth:operator'])->prefix('op')->name('operator.')->group(function () {

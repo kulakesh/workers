@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Renewals;
+use Illuminate\Support\Facades\DB;
 use Livewire\WithPagination;
 use Livewire\Component;
 
@@ -12,7 +13,7 @@ class PaymentVarification extends Component
 
     public $id, $varified;
 
-    public $search = '';
+    public $search = '', $dates = '';
     public function mount($varified = null)
     {
         $this->varified = $varified;
@@ -45,11 +46,21 @@ class PaymentVarification extends Component
     }
     public function render()
     {
-        $items = [];
+        $item = Renewals::when($this->dates, function($q){
+            return $q->where(DB::raw('DATE(payment_date)'), '>=' ,  \App\DateRange::date($this->dates)->from)
+            ->where(DB::raw('DATE(payment_date)'), '<=' ,  \App\DateRange::date($this->dates)->to);
+        })
+        ->when($this->search, function($q){
+            return $q->whereHas('worker', function($q) {
+                $q->where('name', 'like', '%'.$this->search.'%')
+                ->orWhere('system_id', 'like', '%'.$this->search.'%');
+            });
+        })
+        ->whereDel(0);
 
         $items = $this->varified !== null
-        ? Renewals::whereDel(0)->whereApproval($this->varified)->paginate(10) 
-        : Renewals::whereDel(0)->paginate(10);
+        ? $item->whereApproval($this->varified)->paginate(10) 
+        : $item->paginate(10);
 
         return view('livewire.payment-verification', compact('items'));
     }

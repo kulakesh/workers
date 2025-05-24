@@ -119,6 +119,24 @@ class MainController extends Controller
         ];
         return view('district.main', compact('params'));
     }
+    public function districtWorkersApproved(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Worker Report',
+            'page_id' => 'worker_report_approved'
+
+        ];
+        return view('district.main', compact('params'));
+    }
+    public function districtWorkersRejected(){
+        $params = [
+            'page_group' => 'Report',
+            'page_name' => 'Worker Report',
+            'page_id' => 'worker_report_rejected'
+
+        ];
+        return view('district.main', compact('params'));
+    }
     public function districtWorkersReportApproval(){
         $params = [
             'page_group' => 'Report',

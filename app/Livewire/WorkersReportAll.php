@@ -4,28 +4,34 @@ namespace App\Livewire;
 
 use Livewire\WithPagination;
 use App\Models\Registration;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class WorkersReportAll extends Component
 {
     use WithPagination;
 
-    public $for, $approval_only = false;
-    public $search = '';
+    public $for, $approval_only = false, $ro_verification;
+    public $search = '', $dates = '';
 
-    public function mount($for = null, $approval_only = null)
+    public function mount($for = null, $approval_only = null, $ro_verification = null)
     {
         $this->for = $for;
         $this->approval_only = $approval_only;
+        $this->ro_verification = $ro_verification;
     }
     public function doNothig(){
         //nothing
     }
     public function render()
     {
-        $items = Registration::when($this->search, function($q){
+        $items = Registration::when($this->dates, function($q){
+            return $q->where(DB::raw('DATE(created_at)'), '>=' ,  \App\DateRange::date($this->dates)->from)
+            ->where(DB::raw('DATE(created_at)'), '<=' ,  \App\DateRange::date($this->dates)->to);
+        })
+        ->when($this->search, function($q){
             return $q->where('name', 'like', '%'.$this->search.'%')
-            ->orWhere('address_t', 'like', '%'.$this->search.'%');
+            ->orWhere('system_id', 'like', '%'.$this->search.'%');
         })
         ->orderByDesc('id')
         ->whereDel(0);
@@ -41,6 +47,9 @@ class WorkersReportAll extends Component
                 break;
 
             case 'district':
+                if($this->ro_verification){
+                    $items = $items->where('approval', $this->ro_verification);
+                }
                 $items = $items->whereIn('operator_id', function ($query) {
                     $query->select('id')
                     ->from('operators')

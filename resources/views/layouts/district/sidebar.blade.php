@@ -62,7 +62,16 @@
                     <div class="collapse {{ request()->is('dt/reports*') ? 'show' : null }} menu-dropdown" id="sidebarReport">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('district.workersReport') }}" class="nav-link">Worker Report</a>
+                                <a href="{{ route('district.workersReport') }}" class="nav-link">All Beneficiary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('district.workersReportApproval') }}" class="nav-link">Pending Beneficiary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('district.districtWorkersApproved') }}" class="nav-link">Approved Beneficiary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('district.districtWorkersRejected') }}" class="nav-link">Rejected Beneficiary</a>
                             </li>
                         </ul>
                     </div>

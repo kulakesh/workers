@@ -5,14 +5,19 @@
     </div>
     <div class="col-sm-12 col-md-6">
         <div id="example_filter" class="float-end">
-        <form wire:submit.prevent="doNothig">
-            <label>Search:
-                <input type="search" wire:model="search" class="form-control form-control-sm" aria-controls="example">
-            </label>
-            <button type="submit" class="btn btn-sm btn-primary">
-                Search
-            </button>
-        </form>
+            <form wire:submit.prevent="doNothig">
+                <label>Date:
+                <input name="dates" wire:model="dates"
+                        placeholder="From, To" type="text" class="form-control form-control-sm flatpickr-input" 
+                        data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" readonly="readonly">
+                </label>
+                <label>Search:
+                    <input type="search" wire:model="search" placeholder="System ID, Name" class="form-control form-control-sm" aria-controls="example">
+                </label>
+                <button type="submit" class="btn btn-sm btn-primary">
+                    Search
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -100,3 +105,8 @@
         </div>
     </div>
 </div>
+@section('script')
+
+<script src="{{ URL::asset('build/libs/flatpickr/flatpickr.min.js') }}"></script>
+
+@endsection
