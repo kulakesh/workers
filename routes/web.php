@@ -17,6 +17,7 @@ Route::get('/select-district',[MainController::class,'selectDistrict'])->name('s
 
 Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
 Route::get('/qrcode/{code}',[MainController::class,'qrcodeIndex'])->name('qrcodeIndex');
+Route::get('/verify/{code}',[MainController::class,'verifyIndex'])->name('verifyIndex');
 
 Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',[AuthController::class,'adminIndex'])->name('index');

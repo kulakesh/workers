@@ -33,7 +33,7 @@ class CreateWorker extends Component
     public $id, $system_id, $name, $father, $mother, $spouse, $gender, $dob, $marital, $cast, $tribe, $email, $phone, $bg,
     $city_t, $district_t, $state_t, $pin_t, $po_t, $ps_t, $address_t, 
     $city_p, $district_p, $state_p, $pin_p, $po_p, $ps_p, $address_p, 
-    $aadhaar, $nature, $serial, $pf_no, $doe, $dor, $turnover, 
+    $aadhaar, $nature, $serial, $serial_date, $pf_no, $doe, $dor, $turnover, 
     $total_years, $est_name, $est_reg_no, $est_address, $employer_name, $employer_address, $other_welfare, $welfare_name, $welfare_reg_no,
     $more_bocw, $number_of_bocw, $primary_bocw,
     $nominee, $relation, $del;
@@ -342,6 +342,7 @@ class CreateWorker extends Component
         'state_p' => 'required',
         'pin_p' => 'nullable|digits:6',
         'aadhaar' => 'required|digits:12',
+        'serial_date' => 'nullable|date_format:d/m/Y',
         'doe' => 'nullable|date_format:d/m/Y',
         'dor' => 'nullable|date_format:d/m/Y',
         'turnover' => 'nullable|numeric',
@@ -354,6 +355,7 @@ class CreateWorker extends Component
     ];
     private $generalMessages = [
         'dob.date_format' => 'Must match the format DD/MM/YYYY',
+        'serial_date.date_format' => 'Must match the format DD/MM/YYYY',
         'doe.date_format' => 'Must match the format DD/MM/YYYY',
         'dor.date_format' => 'Must match the format DD/MM/YYYY',
         'other_welfare' => 'Select yes or no',
@@ -443,6 +445,7 @@ class CreateWorker extends Component
             'nature' => $this->nature,
             'serial' => $this->serial,
             'pf_no' => $this->pf_no,
+            'serial_date' => $this->serial_date ? Carbon::createFromFormat('d/m/Y', $this->serial_date)->format('Y-m-d') : null,
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
             'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
             'turnover' => $this->turnover,
@@ -565,6 +568,7 @@ class CreateWorker extends Component
             $this->nature = $table->nature;
             $this->serial = $table->serial;
             $this->pf_no = $table->pf_no;
+            $this->serial_date = $table->serial_date ? Carbon::parse($table->serial_date)->format('d/m/Y') : null;
             $this->doe = $table->doe ? Carbon::parse($table->doe)->format('d/m/Y') : null;
             $this->dor = $table->dor ? Carbon::parse($table->dor)->format('d/m/Y') : null;
             $this->turnover = $table->turnover;
@@ -678,6 +682,7 @@ class CreateWorker extends Component
             'nature' => $this->nature,
             'serial' => $this->serial,
             'pf_no' => $this->pf_no,
+            'serial_date' => $this->serial_date ? Carbon::createFromFormat('d/m/Y', $this->serial_date)->format('Y-m-d') : null,
             'doe' => $this->doe ? Carbon::createFromFormat('d/m/Y', $this->doe)->format('Y-m-d') : null,
             'dor' => $this->dor ? Carbon::createFromFormat('d/m/Y', $this->dor)->format('Y-m-d') : null,
             'turnover' => $this->turnover,

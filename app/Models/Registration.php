@@ -49,6 +49,7 @@ class Registration extends Authenticatable
         'pf_no',
         'nature',
         'serial',
+        'serial_date',
         'doe',
         'dor',
         'turnover',

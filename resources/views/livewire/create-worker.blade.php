@@ -358,19 +358,29 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="nature" class="form-label ">AADHAAR</label>
-                                                <span class="required">*</span>
-                                                <input type="text" name="aadhaar" id="aadhaar" wire:model="aadhaar" class="form-control" placeholder="AADHAAR" autocomplete="off" required="">
-                                                @error('aadhaar')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                    <div class="mb-3">
+                                                        <label for="nature" class="form-label ">AADHAAR</label>
+                                                        <span class="required">*</span>
+                                                        <input type="text" name="aadhaar" id="aadhaar" wire:model="aadhaar" class="form-control" placeholder="AADHAAR" autocomplete="off" required="">
+                                                        @error('aadhaar')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                 </div>
-                                                @enderror
-                                                </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="serial"
                                                     label="Old Registration Number"
                                                     placeholder="Old Registration Number"
+                                                    />
+                                                </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                <x-input-wire name="serial_date"
+                                                    label="Old Registration Date"
+                                                    placeholder="DD/MM/YYYY"
                                                     />
                                                 </div>
                                             </div>
@@ -1094,6 +1104,13 @@
                                                         </div>
                                                         @enderror
                                                     </div>
+                                                    <div>Old Registration Date :  <strong>{{ $serial_date }}</strong>
+                                                        @error('serial_date')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                        @enderror
+                                                    </div>
                                                     <div>Nature of work :  <strong>{{ $nature }}</strong>
                                                         @error('nature')
                                                         <div class="invalid-feedback">
@@ -1723,7 +1740,7 @@
                                                     <div class="card-body justify-content-center">
                                                         <div>
                                                             <p>Name: <strong> APB&OCWWB </strong></p>
-                                                            <p>Ac / No: <strong>345101002310</strong> </p>
+                                                            <p>Ac / No: <strong>3435101002310</strong> </p>
                                                             <p>IFSC: <strong>CNRB0003435</strong></p>
                                                             <p>Bank: <strong>CANARA BANK</strong></p>
                                                             <p>Branch: <strong>ITANAGAR, ARUNACHAL PRADESH</strong></p>
@@ -1734,11 +1751,7 @@
                                         </div>
                                         </div>
                                     </div>
-
-                                    
-                                            
-
-                                        <div class="card">
+                                    <div class="card">
                                             <div class="card-header"><h5>Take Image</h5></div>
                                             <div class="card-body">
                                                 <div class="row">
@@ -1765,12 +1778,12 @@
                                         </div>
                                         
                                     </div>
-                                </div>
 
-                                <div class="d-flex align-items-start gap-3 mt-4">
-                                    <button type="button" wire:click="submitPayment()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
-                                        data-nexttab="pills-photo-tab"><i
-                                            class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                    <div class="d-flex align-items-start gap-3 mt-4">
+                                        <button type="button" wire:click="submitPayment()" class="btn btn-success btn-label right ms-auto nexttab nexttab"
+                                            data-nexttab="pills-photo-tab"><i
+                                                class="ri-arrow-right-line label-icon align-middle fs-16 ms-2"></i>Submit</button>
+                                    </div>
                                 </div>
 
                                 @else
@@ -1830,6 +1843,13 @@
     });
     if (document.querySelector("#dob")) {
         var cleaveDate = new Cleave('#dob', {
+            date: true,
+            delimiter: '/',
+            datePattern: ['d', 'm', 'Y']
+        });
+    }
+    if (document.querySelector("#serial_date")) {
+        var cleaveDate = new Cleave('#serial_date', {
             date: true,
             delimiter: '/',
             datePattern: ['d', 'm', 'Y']

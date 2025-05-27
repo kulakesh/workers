@@ -87,7 +87,7 @@
         }
         .content-back .real-table{
             width: 100%;
-            margin-top: 18mm;
+            margin-top: 16mm;
         }
         .content-back .qrcode{
             position: absolute;
@@ -180,6 +180,9 @@
                     </tr>
                     <tr>
                         <td style="text-align: left"><strong>Old Registration No</strong> : {{ $registration->serial }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left"><strong>Old Registration Date</strong> : {{ $registration->serial_date ? \Carbon\Carbon::parse($registration->serial_date)->format('d/m/Y') : null }}</td>
                     </tr>
                     <tr>
                         <td style="text-align: left"><strong>Blood Group</strong> : {{ $registration->bg }}</td>

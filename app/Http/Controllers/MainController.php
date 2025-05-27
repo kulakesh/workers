@@ -201,6 +201,15 @@ class MainController extends Controller
             return response($qrCode)->header('Content-Type', 'image/svg+xml');
         }
     }
+    public function verifyIndex($code)
+    {
+        if($code != null) {
+
+            $code = str_replace('-', '/', $code);
+            $registration = Registration::where('system_id', $code)->first();
+            return view('verify', compact('registration'));
+        }
+    }
     public function selectDistrict(){
         $district_names = StateDistricts::where('state_code', 12)->orderBy('district_name')->get();
         return view('website.select-district', compact('district_names'));
