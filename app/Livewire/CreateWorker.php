@@ -415,9 +415,9 @@ class CreateWorker extends Component
         $worker = Registration::create([
             'operator_id' => auth()->user()->id,
             'system_id' => $this->getSystemID(),
-            'name' => $this->name,
-            'father' => $this->father,
-            'mother' => $this->mother,
+            'name' => strtoupper($this->name),
+            'father' => strtoupper($this->father),
+            'mother' => strtoupper($this->mother),
             'spouse' => $this->spouse,
             'gender' => $this->gender,
             'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
@@ -468,11 +468,11 @@ class CreateWorker extends Component
 
         RegNominee::create([
             'worker_id' => $worker->id,
-            'nominee_name1' => $this->nominee_name1,
+            'nominee_name1' => strtoupper($this->nominee_name1),
             'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
             'nominee_relation1' => $this->nominee_relation1,
             'nominee_address1' => $this->nominee_address1,
-            'nominee_name2' => $this->nominee_name2,
+            'nominee_name2' => strtoupper($this->nominee_name2),
             'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
             'nominee_relation2' => $this->nominee_relation2,
             'nominee_address2' => $this->nominee_address2,
@@ -653,8 +653,8 @@ class CreateWorker extends Component
         $update = Registration::where('id', $this->id);
         $update->update([
             'name' => $this->name,
-            'father' => $this->father,
-            'mother' => $this->mother,
+            'father' => strtoupper($this->father),
+            'mother' => strtoupper($this->mother),
             'spouse' => $this->spouse,
             'gender' => $this->gender,
             'dob' => Carbon::createFromFormat('d/m/Y', $this->dob)->format('Y-m-d'),
@@ -706,11 +706,11 @@ class CreateWorker extends Component
         ]);
         RegNominee::create([
             'worker_id' => $this->id,
-            'nominee_name1' => $this->nominee_name1,
+            'nominee_name1' => strtoupper($this->nominee_name1),
             'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
             'nominee_relation1' => $this->nominee_relation1,
             'nominee_address1' => $this->nominee_address1,
-            'nominee_name2' => $this->nominee_name2,
+            'nominee_name2' => strtoupper($this->nominee_name2),
             'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
             'nominee_relation2' => $this->nominee_relation2,
             'nominee_address2' => $this->nominee_address2,

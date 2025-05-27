@@ -181,7 +181,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="gender" class="form-label ">Blood Group</label>
+                                                <label for="bg" class="form-label ">Blood Group</label>
                                                 <select name="bg" id="bg" wire:model="bg" class="form-select" aria-label="Blood Group">
                                                     <option selected="">Select Blood Group</option>
                                                     <option value="A+">A+</option>
@@ -193,7 +193,7 @@
                                                     <option value="O+">O+</option>
                                                     <option value="O-">O-</option>
                                                 </select>
-                                                @error('gender')
+                                                @error('bg')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -886,21 +886,21 @@
                                     <h4>Personal Details</h4>
                                     <div class="row">
                                         <div class="col-md-8 col-sm-6">
-                                            <div>Beneficiary Name :  <strong>{{ $name }}</strong>
+                                            <div>Beneficiary Name :  <strong>{{ strtoupper($name) }}</strong>
                                                 @error('name')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                                 @enderror
                                             </div>
-                                            <div>Father's Name :  <strong>{{ $father }}</strong>
+                                            <div>Father's Name :  <strong>{{ strtoupper($father) }}</strong>
                                                 @error('father')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
                                                 @enderror
                                             </div>
-                                            <div>Mother's Name :  <strong>{{ $mother }}</strong>
+                                            <div>Mother's Name :  <strong>{{ strtoupper($mother) }}</strong>
                                                 @error('mother')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -1266,14 +1266,14 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>1</td>
-                                                        <td>{{ $nominee_name1 }}</td>
+                                                        <td>{{ strtoupper($nominee_name1) }}</td>
                                                         <td>{{ $nominee_dob1 }}</td>
                                                         <td>{{ $nominee_relation1 }}</td>
                                                         <td>{{ $nominee_address1 }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>2</td>
-                                                        <td>{{ $nominee_name2 }}</td>
+                                                        <td>{{ strtoupper($nominee_name2) }}</td>
                                                         <td>{{ $nominee_dob2 }}</td>
                                                         <td>{{ $nominee_relation2 }}</td>
                                                         <td>{{ $nominee_address2 }}</td>
@@ -1281,6 +1281,11 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        @error('nominee_name1')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                     <h4>Employer Details</h4>
                                     <div class="row">
