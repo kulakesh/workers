@@ -108,7 +108,7 @@ class CreateWorker extends Component
                 Storage::disk('public')->put('payment/'.$this->payment_photo_name, $data);
             }
         }
-        Renewals::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
+        // Renewals::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
         $renewal = Renewals::create([
             'worker_id' => $this->id,
             'payment_type' => $this->payment_type,
