@@ -887,7 +887,7 @@ class CreateWorker extends Component
         $state_names = StateDistricts::select('state_name')->orderBy('state_name')->distinct()->get();
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         $benefit_names = Benefit::whereDel(0)->orderBy('name')->get();
-        $renewals = Renewals::where('worker_id', $this->id)->whereDel(0)->first();
+        $renewals = Renewals::where('worker_id', $this->id)->whereDel(0)->get();
         $sys_id = $this->getSystemID();
         return view('livewire.create-worker', compact('document_heads', 'state_names', 'benefit_names', 'renewals', 'sys_id'));
     }

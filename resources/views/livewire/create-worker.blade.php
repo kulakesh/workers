@@ -1624,34 +1624,36 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            @foreach($renewals as $renewal)
                                                             <tr>
-                                                                <td>{{ $renewals->payment_type }}</td>
-                                                                <td>{{ $renewals->payment_years }}</td>
-                                                                <td>{{ $renewals->payment_amount }}</td>
-                                                                <td>{{ $renewals->payment_mode }}</td>
-                                                                <td>{{ $renewals->payment_ref_no }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($renewals->payment_date)->format('d M Y') }}</td>
-                                                                <td>{{ \Carbon\Carbon::parse($renewals->created_at)->format('d M Y h:i a') }}</td>
+                                                                <td>{{ $renewal->payment_type }}</td>
+                                                                <td>{{ $renewal->payment_years }}</td>
+                                                                <td>{{ $renewal->payment_amount }}</td>
+                                                                <td>{{ $renewal->payment_mode }}</td>
+                                                                <td>{{ $renewal->payment_ref_no }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($renewal->payment_date)->format('d M Y') }}</td>
+                                                                <td>{{ \Carbon\Carbon::parse($renewal->created_at)->format('d M Y h:i a') }}</td>
                                                                 <td>
-                                                                    @if($renewals->doc_path && file_exists(public_path('storage/payment/') . $renewals->doc_path))
-                                                                    <a target="_blank" href="{{ asset('storage/payment/'. $renewals->doc_path)}}" class="btn btn-primary btn-sm">View</a>
+                                                                    @if($renewal->doc_path && file_exists(public_path('storage/payment/') . $renewals->doc_path))
+                                                                    <a target="_blank" href="{{ asset('storage/payment/'. $renewal->doc_path)}}" class="btn btn-primary btn-sm">View</a>
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    @if($renewals->img_path && file_exists(public_path('storage/payment/') . $renewals->img_path))
-                                                                    <a target="_blank" href="{{ asset('storage/payment/'. $renewals->img_path)}}" class="btn btn-primary btn-sm">View</a>
+                                                                    @if($renewal->img_path && file_exists(public_path('storage/payment/') . $renewals->img_path))
+                                                                    <a target="_blank" href="{{ asset('storage/payment/'. $renewal->img_path)}}" class="btn btn-primary btn-sm">View</a>
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                @if($renewals->approval == 1)
+                                                                @if($renewal->approval == 1)
                                                                     <span class="badge bg-success">Approved</span>
-                                                                @elseif($renewals->approval == 2)
+                                                                @elseif($renewal->approval == 2)
                                                                     <span class="badge bg-danger">Rejected</span>
                                                                 @else
                                                                     <span class="badge bg-warning">Pending</span>
                                                                 @endif
                                                                 </td>
                                                             </tr>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
