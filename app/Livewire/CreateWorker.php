@@ -52,7 +52,7 @@ class CreateWorker extends Component
     public $benefit_name, $benefit_date, $benefit_amount, $benefit_cheque, $benefit_bank;
     public $benefits = [];
 
-    public $payment_years, $payment_amount, $payment_mode, $payment_ref_no, $payment_date, $payment_document, $payment_document_name, $payment_photo, $payment_photo_name;
+    public $payment_type, $payment_years, $payment_amount, $payment_mode, $payment_ref_no, $payment_date, $payment_document, $payment_document_name, $payment_photo, $payment_photo_name;
     public $documents = [];
     public $uploaded_documents = [];
 
@@ -71,6 +71,7 @@ class CreateWorker extends Component
 
     public function submitPayment(){
         $this->validate([
+            'payment_type' => 'required|in:New,Renew',
             'payment_years' => 'required|numeric|in:1,2,3',
             'payment_mode' => 'required',
             'payment_ref_no' => 'required',
@@ -110,6 +111,7 @@ class CreateWorker extends Component
         Renewals::where('worker_id', $this->id)->whereDel(0)->update(['del' => 1]);
         $renewal = Renewals::create([
             'worker_id' => $this->id,
+            'payment_type' => $this->payment_type,
             'payment_years' => $this->payment_years,
             'payment_amount' => $this->payment_amount,
             'payment_mode' => $this->payment_mode,

@@ -11,6 +11,7 @@ class Renewals extends Model
     use HasFactory;
     protected $fillable = [
         'worker_id',
+        'payment_type',
         'payment_years',
         'payment_amount',
         'payment_mode',

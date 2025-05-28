@@ -66,7 +66,7 @@
                                     <button class="nav-link" id="steparrow-payment-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-payment-info" type="button"
                                         role="tab" aria-controls="steparrow-payment-info"
-                                        aria-selected="false" wire:ignore.self>Renewal</button>
+                                        aria-selected="false" wire:ignore.self>Payment</button>
                                 </li>
                             </ul>
                         </div>
@@ -1611,7 +1611,8 @@
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr class="table-primary">
-                                                                <th>Renewal Year(s)</th>
+                                                                <th>Type</th>
+                                                                <th>Year(s)</th>
                                                                 <th>Paid Amount</th>
                                                                 <th>Payment Mode</th>
                                                                 <th>Ref. No</th>
@@ -1624,6 +1625,7 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
+                                                                <td>{{ $renewals->payment_type }}</td>
                                                                 <td>{{ $renewals->payment_years }}</td>
                                                                 <td>{{ $renewals->payment_amount }}</td>
                                                                 <td>{{ $renewals->payment_mode }}</td>
@@ -1664,7 +1666,23 @@
                                             <div class="col-md-12 col-xl-8"> 
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <label for="marital" class="form-label ">Renewal Year(s)</label>
+                                                <label for="marital" class="form-label ">Payment Type</label>
+                                                <span class="required">*</span>
+                                                <select id="payment_type" wire:model="payment_type" class="form-select">
+                                                    <option selected="">Select Type</option>
+                                                    <option value="New" @if(old('payment_type')=='New') selected="selected" @endif>New</option>
+                                                    <option value="Renew" @if(old('payment_type')=='Renew') selected="selected" @endif>Renew</option>
+                                                </select>
+                                                @error('payment_years')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 col-xl-6">
+                                                <label for="marital" class="form-label ">Year(s)</label>
                                                 <span class="required">*</span>
                                                 <select id="payment_years" wire:model="payment_years" wire:change="payment_year_change()" class="form-select" aria-label="Years">
                                                     <option selected="">Select Renewal Years</option>
