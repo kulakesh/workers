@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\District;
 use Livewire\WithPagination;
 use App\Models\Registration;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,7 @@ class WorkersReportAll extends Component
     use WithPagination;
 
     public $for, $approval_only = false, $ro_verification;
-    public $search = '', $dates = '';
+    public $search = '', $dates = '', $circle = '';
 
     public function mount($for = null, $approval_only = null, $ro_verification = null)
     {
@@ -40,29 +41,25 @@ class WorkersReportAll extends Component
             $items = $items->where('approval', 0);
         }
         
-        switch ($this->for) {
-            case 'operator':
-                $items = $items->where('operator_id', auth()->user()->id)
-                ->paginate(10);
-                break;
-
-            case 'district':
-                if($this->ro_verification){
-                    $items = $items->where('approval', $this->ro_verification);
-                }
-                $items = $items->whereIn('operator_id', function ($query) {
-                    $query->select('id')
-                    ->from('operators')
-                    ->where('district_id', auth()->user()->id);
-                })
-                ->paginate(10);
-                break;
-            
-            default:
-                $items = $items->paginate(10);
-                break;
+        if($this->for == 'district' || $this->circle != ''){
+            if($this->ro_verification){
+                $items = $items->where('approval', $this->ro_verification);
+            }
+            $ro_id = $this->circle != '' ? $this->circle : auth()->user()->id;
+            $items = $items->whereIn('operator_id', function ($query) use ($ro_id) {
+                $query->select('id')
+                ->from('operators')
+                ->where('district_id', $ro_id);
+            })
+            ->paginate(10);
+        } elseif($this->for == 'operator') {
+            $items = $items->where('operator_id', auth()->user()->id)
+            ->paginate(10);
+        }else{
+            $items = $items->paginate(10);
         }
 
-        return view('livewire.workers-report-all', compact('items'));
+        $ros = District::where('del', 0)->orderBy('name')->get();
+        return view('livewire.workers-report-all', compact('items', 'ros'));
     }
 }

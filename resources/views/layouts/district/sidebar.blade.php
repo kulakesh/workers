@@ -41,14 +41,14 @@
                 </li> 
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarOparator" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarOparator">
-                        <i class="bx bx-bell"></i> <span>Oparator</span>
+                    <a class="nav-link menu-link" href="#sidebarOperator" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarOperator">
+                        <i class="bx bx-bell"></i> <span>Operator</span>
                     </a>
-                    <div class="collapse {{ request()->is('dt/oparator*') ? 'show' : null }} menu-dropdown" id="sidebarOparator">
+                    <div class="collapse {{ request()->is('dt/operator*') ? 'show' : null }} menu-dropdown" id="sidebarOperator">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('district.createOparator') }}" class="nav-link">Add / Edit</a>
+                                <a href="{{ route('district.createOperator') }}" class="nav-link">Add / Edit</a>
                             </li>
                         </ul>
                     </div>

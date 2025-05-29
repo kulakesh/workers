@@ -7,7 +7,7 @@
         @slot('title') {{ $params['page_name'] }} @endslot
     @endcomponent
 
-    @if($params['page_id'] == 'oparator')
+    @if($params['page_id'] == 'operator')
     <livewire:create-operator />
     @elseif($params['page_id'] == 'worker_report_all')
     <livewire:workers-report-all for="district"/>

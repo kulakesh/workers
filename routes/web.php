@@ -17,6 +17,7 @@ Route::get('/select-district',[MainController::class,'selectDistrict'])->name('s
 
 Route::get('/barcode/{code}',[MainController::class,'barcodeIndex'])->name('barcodeIndex');
 Route::get('/qrcode/{code}',[MainController::class,'qrcodeIndex'])->name('qrcodeIndex');
+Route::get('/reports/icard/{id}',[MainController::class,'adminIcard'])->name('adminIcard');
 Route::get('/verify/{code}',[MainController::class,'verifyIndex'])->name('verifyIndex');
 
 Route::middleware('guest:admin')->prefix('admin')->name('admin.')->group(function () {
@@ -47,7 +48,6 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('/settings/benefits',[MainController::class,'createBenefits'])->name('createBenefits');
     Route::get('/reports/workers',[MainController::class,'adminWorkersReport'])->name('workersReport');
     Route::get('/workers/edit/{id}',[MainController::class,'adminWorkerEdit'])->name('workerEdit');
-    Route::get('/reports/icard/{id}',[MainController::class,'adminIcard'])->name('adminIcard');
 });
 
 Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(function () {
@@ -56,7 +56,7 @@ Route::middleware(['auth:district'])->prefix('dt')->name('district.')->group(fun
     Route::get('/change-password',[DashboardController::class,'dtChangePasswordIndex'])->name('ChangePasswordIndex');
     Route::post('/change-password',[DashboardController::class,'dtChangePasswordCreate'])->name('ChangePasswordCreate');
 
-    Route::get('/oparator/create',[MainController::class,'createOparator'])->name('createOparator');
+    Route::get('/operator/create',[MainController::class,'createOperator'])->name('createOperator');
     Route::get('/reports/workers',[MainController::class,'districtWorkersReport'])->name('workersReport');
     Route::get('/reports/workers/approvals',[MainController::class,'districtWorkersReportApproval'])->name('workersReportApproval');
     Route::get('/reports/workers/approved',[MainController::class,'districtWorkersApproved'])->name('districtWorkersApproved');

@@ -415,7 +415,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="turnover"
-                                                    label="Anual income"
+                                                    label="Annual income"
                                                     placeholder="0.00"
                                                 />
                                                 </div>
@@ -1139,7 +1139,7 @@
                                                         </div>
                                                         @enderror
                                                     </div>
-                                                    <div>Anual income :  <strong>{{ $turnover }}</strong>
+                                                    <div>Annual income :  <strong>{{ $turnover }}</strong>
                                                         @error('turnover')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -1634,12 +1634,12 @@
                                                                 <td>{{ \Carbon\Carbon::parse($renewal->payment_date)->format('d M Y') }}</td>
                                                                 <td>{{ \Carbon\Carbon::parse($renewal->created_at)->format('d M Y h:i a') }}</td>
                                                                 <td>
-                                                                    @if($renewal->doc_path && file_exists(public_path('storage/payment/') . $renewals->doc_path))
+                                                                    @if($renewal->doc_path && file_exists(public_path('storage/payment/') . $renewal->doc_path))
                                                                     <a target="_blank" href="{{ asset('storage/payment/'. $renewal->doc_path)}}" class="btn btn-primary btn-sm">View</a>
                                                                     @endif
                                                                 </td>
                                                                 <td>
-                                                                    @if($renewal->img_path && file_exists(public_path('storage/payment/') . $renewals->img_path))
+                                                                    @if($renewal->img_path && file_exists(public_path('storage/payment/') . $renewal->img_path))
                                                                     <a target="_blank" href="{{ asset('storage/payment/'. $renewal->img_path)}}" class="btn btn-primary btn-sm">View</a>
                                                                     @endif
                                                                 </td>
@@ -1666,7 +1666,7 @@
                                         <div class="card-body">
                                             <div class="row">
                                             <div class="col-md-12 col-xl-8"> 
-                                            <div class="row">
+                                            <div class="row mb-3">
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="marital" class="form-label ">Payment Type</label>
                                                 <span class="required">*</span>
@@ -1675,7 +1675,7 @@
                                                     <option value="New" @if(old('payment_type')=='New') selected="selected" @endif>New</option>
                                                     <option value="Renew" @if(old('payment_type')=='Renew') selected="selected" @endif>Renew</option>
                                                 </select>
-                                                @error('payment_years')
+                                                @error('payment_type')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -2086,6 +2086,9 @@
             console.log('testing from other os');
             @this.set('finger', 'testing');
             @this.set('finger_template', 'testing from mac');
+            setTimeout(function() {
+                $("#finger-print").attr("src","{{ asset('storage/biometric/do-not-delete-finger.png')}}");
+            }, 5000);
             return;
         }
         var url = "http://localhost:8080/CallMorphoAPI";

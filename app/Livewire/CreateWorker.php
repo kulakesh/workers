@@ -154,7 +154,9 @@ class CreateWorker extends Component
     }
     public function state_change_t()
     {
+       
        $this->state_districts_t = StateDistricts::select('district_name')->where('state_name', $this->state_t)->orderBy('district_name')->get();
+       $this->state_districts_p = StateDistricts::select('district_name')->where('state_name', $this->state_p)->orderBy('district_name')->get();
     }
     public function state_change_p()
     {
@@ -387,8 +389,9 @@ class CreateWorker extends Component
     public function same()
     {
         $this->city_p = $this->city_t;
-        $this->district_p = $this->district_t;
         $this->state_p = $this->state_t;
+        $this->state_change_t();
+        $this->district_p = $this->district_t;
         $this->pin_p = $this->pin_t;
         $this->po_p = $this->po_t;
         $this->ps_p = $this->ps_t;

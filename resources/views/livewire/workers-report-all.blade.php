@@ -6,6 +6,16 @@
     <div class="col-sm-12 col-md-6">
         <div id="example_filter" class="float-end">
             <form wire:submit.prevent="doNothig">
+                @if($for == 'admin')
+                <label>RO:
+                    <select wire:model="circle" class="form-select form-select-sm">
+                        <option value="">All</option>
+                        @foreach($ros as $ro)
+                            <option value="{{ $ro->id }}">{{ $ro->name }}</option>
+                        @endforeach
+                    </select>
+                </label>
+                @endif
                 <label>Date:
                 <input name="dates" wire:model="dates"
                         placeholder="From, To" type="text" class="form-control form-control-sm flatpickr-input" 
@@ -80,8 +90,8 @@
                         <td>{{ $item->created_at ? $item->created_at->format('d M, Y h:i a') : '--' }}</td>
                         <td>
                             <div class="float-end">
-                                @if($for == 'admin')
-                                <a target="_blank" href="{{ route('admin.adminIcard', ['id' => $item->id]) }}" class="btn btn-sm btn-primary">
+                                @if($for != 'operator')
+                                <a target="_blank" href="{{ route('adminIcard', ['id' => $item->id]) }}" class="btn btn-sm btn-primary">
                                     Print
                                 </a>
                                 @endif
