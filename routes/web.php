@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 
-URL::forceScheme('https');
+if(env('HTTPS', true)) {
+    URL::forceScheme('https');
+}
 
 require __DIR__.'/global.php';
 

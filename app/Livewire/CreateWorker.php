@@ -52,7 +52,7 @@ class CreateWorker extends Component
     public $benefit_name, $benefit_date, $benefit_amount, $benefit_cheque, $benefit_bank;
     public $benefits = [];
 
-    public $payment_type, $payment_years, $payment_amount, $payment_mode, $payment_ref_no, $payment_date, $payment_document, $payment_document_name, $payment_photo, $payment_photo_name;
+    public $payment_type, $payment_years = 0, $reg_fee = 0, $renew_fee = 0, $payment_amount, $payment_mode, $payment_ref_no, $payment_date, $payment_document, $payment_document_name, $payment_photo, $payment_photo_name;
     public $documents = [];
     public $uploaded_documents = [];
 
@@ -113,6 +113,8 @@ class CreateWorker extends Component
             'worker_id' => $this->id,
             'payment_type' => $this->payment_type,
             'payment_years' => $this->payment_years,
+            'reg_fee' => $this->reg_fee,
+            'renew_fee' => $this->renew_fee,
             'payment_amount' => $this->payment_amount,
             'payment_mode' => $this->payment_mode,
             'payment_ref_no' => $this->payment_ref_no,
@@ -125,9 +127,11 @@ class CreateWorker extends Component
         session()->flash('message', 'Renewal payment complete, require Approval');
         $this->dispatch('payment-done');
     }
-    public function payment_year_change()
+    public function payment_change()
     {
-        $this->payment_amount = $this->payment_years * 240;
+        $this->reg_fee = $this->payment_type == 'New' ? 25 : 0;
+        $this->renew_fee = $this->payment_years * 240;
+        $this->payment_amount = $this->reg_fee + $this->renew_fee;
     }
     public function mount($worker_id = null)
     {

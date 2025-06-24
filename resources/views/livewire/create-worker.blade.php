@@ -1670,7 +1670,7 @@
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="marital" class="form-label ">Payment Type</label>
                                                 <span class="required">*</span>
-                                                <select id="payment_type" wire:model="payment_type" class="form-select">
+                                                <select id="payment_type" wire:model="payment_type"  wire:change="payment_change()" class="form-select">
                                                     <option selected="">Select Type</option>
                                                     <option value="New" @if(old('payment_type')=='New') selected="selected" @endif>New</option>
                                                     <option value="Renew" @if(old('payment_type')=='Renew') selected="selected" @endif>Renew</option>
@@ -1681,12 +1681,25 @@
                                                 </div>
                                                 @enderror
                                                 </div>
+                                                <div class="col-md-12 col-xl-6">
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-xl-6">
+                                                        <label for="marital" class="form-label ">Registration fee</label>
+                                                        <input type="text" id="reg_fee" wire:model="reg_fee" class="form-control" placeholder="{{ $reg_fee }}" autocomplete="off" value="{{ $reg_fee }}" disabled="true">
+                                                        </div>
+
+                                                        <div class="col-md-12 col-xl-6">
+                                                        <label for="marital" class="form-label ">Renew fee</label>
+                                                        <input type="text" id="renew_fee" wire:model="renew_fee" class="form-control" placeholder="{{ $renew_fee }}" autocomplete="off" value="{{ $renew_fee }}" disabled="true">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
                                                 <label for="marital" class="form-label ">Year(s)</label>
                                                 <span class="required">*</span>
-                                                <select id="payment_years" wire:model="payment_years" wire:change="payment_year_change()" class="form-select" aria-label="Years">
+                                                <select id="payment_years" wire:model="payment_years" wire:change="payment_change()" class="form-select" aria-label="Years">
                                                     <option selected="">Select Renewal Years</option>
                                                     <option value="1" @if(old('payment_years')=='1') selected="selected" @endif>1 Year</option>
                                                     <option value="2" @if(old('payment_years')=='2') selected="selected" @endif>2 Years</option>
