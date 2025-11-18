@@ -12,7 +12,7 @@ class WorkersReportAll extends Component
 {
     use WithPagination;
 
-    public $for, $approval_only = false, $ro_verification;
+    public $id, $for, $approval_only = false, $ro_verification;
     public $search = '', $dates = '', $circle = '';
 
     public function mount($for = null, $approval_only = null, $ro_verification = null)
@@ -23,6 +23,21 @@ class WorkersReportAll extends Component
     }
     public function doNothig(){
         //nothing
+    }
+    public function delete(int $id){
+        $this->id = $id;
+    }
+    public function destroy(){
+        $delete = Registration::where('id',$this->id)->update([
+            "del" => 1
+        ]);
+        session()->flash('message', 'Record Deleted');
+        $this->id = null;
+        $this->dispatch('close-modal');
+    }
+    public function closeDeleteModal()
+    {
+        $this->id = null;
     }
     public function render()
     {

@@ -98,6 +98,11 @@
                                 <a target="_blank" href="{{ route($for.'.workerEdit', ['id' => Crypt::encrypt($item->id)]) }}" class="btn btn-sm btn-secondary">
                                     View
                                 </a>
+                                @if($for == 'admin')
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModals" wire:click="delete({{$item->id}})" class="btn btn-sm btn-danger">
+                                    Delete
+                                </button>
+                                @endif
                             </div>
                         </td>
                         
@@ -114,6 +119,34 @@
         {{ $items->links() }}
         </div>
     </div>
+
+    <div id="deleteModals" class="modal fade" tabindex="-1" aria-hidden="true" wire:ignore.self>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 overflow-hidden">
+                <div class="modal-header p-3">
+                    <h4 class="card-title mb-0">Add Category</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal" aria-label="Close"></button>
+                </div>
+                <div class="hide-me-after-done">
+                    @if(session()->has('message'))
+                    <div class="alert alert-success  rounded-0 mb-0">
+                        <p class="mb-0">{{ session('message') }}</p>
+                    </div>
+                    @endif
+                </div>
+                <form wire:submit.prevent="destroy"> 
+                    <div class="modal-body">
+                        <h4>Are you sure you want to delete this data?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="closeDeleteModal" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Yes! Delete</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 </div>
 @section('script')
 
