@@ -44,7 +44,7 @@ class CreateWorker extends Component
 
     public $family_member_name, $family_member_age, $family_member_relation;
 
-    public $nominee_name1, $nominee_dob1, $nominee_relation1, $nominee_address1, $nominee_name2, $nominee_dob2, $nominee_relation2, $nominee_address2;
+    public $nominee_name1, $nominee_dob1, $nominee_aadhaar1, $nominee_relation1, $nominee_address1, $nominee_name2, $nominee_dob2, $nominee_aadhaar2, $nominee_relation2, $nominee_address2;
 
     public $employer_description, $employer_name_address, $employer_nature, $employer_document, $employer_document_name;
     public $employers = [];
@@ -317,15 +317,20 @@ class CreateWorker extends Component
     private $nomineeRule = [
         'nominee_name1' => 'required',
         'nominee_dob1' => 'required|date_format:d/m/Y',
+        'nominee_aadhaar1' => 'required|digits:12',
         'nominee_relation1' => 'required',
         'nominee_dob2' => 'nullable|date_format:d/m/Y',
+        'nominee_aadhaar2' => 'nullable|digits:12',
     ];
     private $nomineeMessage = [
         'nominee_name1.required' => 'Nominee name required',
         'nominee_dob1.required' => 'Nominee DOB required',
+        'nominee_aadhaar1.required' => 'Nominee AADHAAR required',
         'nominee_relation1.required' => 'Nominee Relation required',
         'nominee_dob1.date_format' => 'No a valid Format',
         'nominee_dob2.date_format' => 'No a valid Format',
+        'nominee_aadhaar1.digits' => 'No a valid AADHAAR',
+        'nominee_aadhaar2.digits' => 'No a valid AADHAAR',
     ];
     public function validateNominee(){
         $this->validate($this->nomineeRule, $this->nomineeMessage);
@@ -479,10 +484,12 @@ class CreateWorker extends Component
             'worker_id' => $worker->id,
             'nominee_name1' => strtoupper($this->nominee_name1),
             'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
+            'nominee_aadhaar1' => $this->nominee_aadhaar1,
             'nominee_relation1' => $this->nominee_relation1,
             'nominee_address1' => $this->nominee_address1,
             'nominee_name2' => strtoupper($this->nominee_name2),
             'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
+            'nominee_aadhaar2' => $this->nominee_aadhaar2,
             'nominee_relation2' => $this->nominee_relation2,
             'nominee_address2' => $this->nominee_address2,
             'del' => 0
@@ -604,10 +611,12 @@ class CreateWorker extends Component
         if($nominee){
             $this->nominee_name1 = $nominee->nominee_name1;
             $this->nominee_dob1 = $nominee->nominee_dob1 ? Carbon::parse($nominee->nominee_dob1)->format('d/m/Y') : null;
+            $this->nominee_aadhaar1 = $nominee->nominee_aadhaar1;
             $this->nominee_relation1 = $nominee->nominee_relation1;
             $this->nominee_address1 = $nominee->nominee_address1;
             $this->nominee_name2 = $nominee->nominee_name2;
             $this->nominee_dob2 = $nominee->nominee_dob2 ? Carbon::parse($nominee->nominee_dob2)->format('d/m/Y') : null;
+            $this->nominee_aadhaar2 = $nominee->nominee_aadhaar2;
             $this->nominee_relation2 = $nominee->nominee_relation2;
             $this->nominee_address2 = $nominee->nominee_address2;
         }
@@ -717,10 +726,12 @@ class CreateWorker extends Component
             'worker_id' => $this->id,
             'nominee_name1' => strtoupper($this->nominee_name1),
             'nominee_dob1' => $this->nominee_dob1 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob1)->format('Y-m-d') : null,
+            'nominee_aadhaar1' => $this->nominee_aadhaar1,
             'nominee_relation1' => $this->nominee_relation1,
             'nominee_address1' => $this->nominee_address1,
             'nominee_name2' => strtoupper($this->nominee_name2),
             'nominee_dob2' => $this->nominee_dob2 ? Carbon::createFromFormat('d/m/Y', $this->nominee_dob2)->format('Y-m-d') : null,
+            'nominee_aadhaar2' => $this->nominee_aadhaar2,
             'nominee_relation2' => $this->nominee_relation2,
             'nominee_address2' => $this->nominee_address2,
             'del' => 0

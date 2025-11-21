@@ -48,7 +48,7 @@
                                     <button class="nav-link" id="steparrow-review-info-tab"
                                         data-bs-toggle="pill" data-bs-target="#steparrow-review-info" type="button"
                                         role="tab" aria-controls="steparrow-review-info"
-                                        aria-selected="false" wire:ignore.self>Review</button>
+                                        aria-selected="false" wire:ignore.self>Review<span class="badge rounded-pill bg-danger">Save</span></button>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="steparrow-finish-info-tab"
@@ -571,6 +571,7 @@
                                                 <th>#</th>
                                                 <th>Name</th>
                                                 <th>Date of birth</th>
+                                                <th>AADHAAR</th>
                                                 <th>Relation</th>
                                                 <th>Address</th>
                                             </tr>
@@ -591,6 +592,14 @@
                                                     <input type="text" class="form-control" name="nominee_dob1" id="nominee_dob1" wire:model="nominee_dob1" placeholder="Nominee 1 DOB (DD/MM/YYYY)">
                                                     <span class="text-primary" id="nomineeAge1"></span>
                                                     @error('nominee_dob1')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_aadhaar1" id="nominee_aadhaar1" wire:model="nominee_aadhaar1" placeholder="AADHAAR">
+                                                    @error('nominee_aadhaar1')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
@@ -628,6 +637,14 @@
                                                     <input type="text" class="form-control" name="nominee_dob2" id="nominee_dob2" wire:model="nominee_dob2" placeholder="Nominee 2 DOB (DD/MM/YYYY)">
                                                     <span class="text-primary" id="nomineeAge2"></span>
                                                     @error('nominee_dob2')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="nominee_aadhaar2" id="nominee_aadhaar2" wire:model="nominee_aadhaar2" placeholder="AADHAAR">
+                                                    @error('nominee_aadhaar2')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
