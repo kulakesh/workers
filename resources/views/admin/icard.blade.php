@@ -169,7 +169,8 @@
                     </tr>
                     @php
                         $validity = '';
-                        $payment = $registration->payment->where('approval', 1)->first();
+                        // $payment = $registration->payment->where('approval', 1)->first();
+                        $payment = $registration->payment->first();
                         if ($payment) {
                             $payment_date = $payment->payment_date;
                             $validity = \Carbon\Carbon::parse($payment->payment_date)->addYears($payment->payment_years)->format('d/m/Y');
