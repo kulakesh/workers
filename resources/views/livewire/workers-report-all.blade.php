@@ -27,6 +27,9 @@
                 <button type="submit" class="btn btn-sm btn-primary">
                     Search
                 </button>
+                <button type="button" class="btn btn-sm btn-primary" wire:click="exportExcel()">
+                    Export
+                </button>
             </form>
         </div>
     </div>

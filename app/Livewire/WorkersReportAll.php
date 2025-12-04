@@ -39,6 +39,12 @@ class WorkersReportAll extends Component
     {
         $this->id = null;
     }
+    public function exportExcel()
+    {
+        $export = new \App\Exports\WorkerExport();
+        $export->setDates($this->dates);
+        return \Maatwebsite\Excel\Facades\Excel::download($export, 'workers_report_'.date('d_m_Y_H_i_s').'.xlsx');
+    }
     public function render()
     {
         $items = Registration::when($this->dates, function($q){
