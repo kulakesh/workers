@@ -359,6 +359,7 @@ class CreateWorker extends Component
         'doe' => 'nullable|date_format:d/m/Y',
         'dor' => 'nullable|date_format:d/m/Y',
         'turnover' => 'nullable|numeric',
+        'total_years' => 'nullable|numeric',
         'other_welfare' => 'nullable|in:yes,no',
         'welfare_name' => 'required_if:other_welfare,yes|max:225',
         'welfare_reg_no' => 'required_if:other_welfare,yes|max:100',
