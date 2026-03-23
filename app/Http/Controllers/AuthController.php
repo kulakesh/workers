@@ -17,14 +17,18 @@ class AuthController extends Controller
 
     public function adminLogin(Request $request){
 
+        \Session::flush();
         if(auth()->guard('district')->check()){
-            return redirect(route('admin.index'))->with('errors', 'Please logout from DISTRICT account');
+            auth()->guard('district')->logout();
+            // return redirect(route('admin.index'))->with('errors', 'Please logout from DISTRICT account');
         }
         if(auth()->guard('operator')->check()){
-            return redirect(route('admin.index'))->with('errors', 'Please logout from OPERATOR account');
+            auth()->guard('operator')->logout();
+            // return redirect(route('admin.index'))->with('errors', 'Please logout from OPERATOR account');
         }
         if(auth()->guard('accountant')->check()){
-            return redirect(route('admin.index'))->with('errors', 'Please logout from ACCOUNTANT account');
+            auth()->guard('accountant')->logout();
+            // return redirect(route('admin.index'))->with('errors', 'Please logout from ACCOUNTANT account');
         }
         // validate data 
         $request->validate([
