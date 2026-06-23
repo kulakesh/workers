@@ -13,6 +13,8 @@
     <livewire:document-heads-create />
     @elseif($params['page_id'] == 'benefit')
     <livewire:benefits-create />
+    @elseif($params['page_id'] == 'payment_mode')
+    <livewire:payment-mode-create />
     @elseif($params['page_id'] == 'worker_report_all')
     <livewire:workers-report-all for="admin"/>
     @elseif($params['page_id'] == 'worker-edit')

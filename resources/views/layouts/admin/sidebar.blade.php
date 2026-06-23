@@ -81,6 +81,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('admin.createBenefits') }}" class="nav-link">Benefits</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.createPaymentMode') }}" class="nav-link">Payment Mode</a>
+                            </li>
                         </ul>
                     </div>
                 </li>

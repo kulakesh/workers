@@ -56,6 +56,15 @@ class MainController extends Controller
         ];
         return view('admin.main', compact('params'));
     }
+    public function createPaymentMode(){
+        $params = [
+            'page_group' => 'Settings',
+            'page_name' => 'Create Payment Mode',
+            'page_id' => 'payment_mode'
+
+        ];
+        return view('admin.main', compact('params'));
+    }
     public function adminWorkersReport(){
         $params = [
             'page_group' => 'Report',

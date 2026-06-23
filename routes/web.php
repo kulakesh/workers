@@ -48,6 +48,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->name('admin.')->group(functi
     Route::get('/district/create',[MainController::class,'createDistrict'])->name('createDistrict');
     Route::get('/settings/documents',[MainController::class,'createDocument'])->name('createDocument');
     Route::get('/settings/benefits',[MainController::class,'createBenefits'])->name('createBenefits');
+    Route::get('/settings/payment-modes',[MainController::class,'createPaymentMode'])->name('createPaymentMode');
     Route::get('/reports/workers',[MainController::class,'adminWorkersReport'])->name('workersReport');
     Route::get('/workers/edit/{id}',[MainController::class,'adminWorkerEdit'])->name('workerEdit');
 });
