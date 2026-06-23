@@ -1740,9 +1740,14 @@
                                                     <span class="required">*</span>
                                                     <select id="payment_mode" wire:model="payment_mode" class="form-select" aria-label="Mode">
                                                         <option selected="">Select Payment Mode</option>
+                                                        @foreach ($payment_modes as $payment_mode)
+                                                        <option value="{{ $payment_mode->name }}">{{ $payment_mode->name }}</option>
+                                                        @endforeach
+                                                        {{--
                                                         <option value="NEFT" @if(old('payment_mode')=='NEFT') selected="selected" @endif>NEFT</option>
                                                         <option value="RTGS" @if(old('payment_mode')=='RTGS') selected="selected" @endif>RTGS</option>
                                                         <option value="Challan" @if(old('payment_mode')=='Challan') selected="selected" @endif>Challan</option>  
+                                                        --}}
                                                     </select>
                                                     @error('payment_mode')
                                                     <div class="invalid-feedback">

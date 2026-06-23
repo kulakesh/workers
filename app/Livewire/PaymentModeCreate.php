@@ -12,7 +12,7 @@ class PaymentModeCreate extends Component
 
     public function mount()
     {
-        $this->benefits = PaymentMode::whereDel(0)->orderBy('name')->get();
+        $this->benefits = PaymentMode::whereDel(0)->orderBy('id')->get();
     }
     public function addBenefit(){
         $this->validate([

@@ -15,6 +15,7 @@ use App\Models\RegNominee;
 use App\Models\RegPhoto;
 use App\Models\Rejection;
 use App\Models\Renewals;
+use App\Models\PaymentMode;
 use App\Models\StateDistricts;
 use App\SMS;
 use Livewire\WithFileUploads;
@@ -907,8 +908,9 @@ class CreateWorker extends Component
         $document_heads = DocumentHeads::whereDel(0)->orderBy('id')->get();
         $benefit_names = Benefit::whereDel(0)->orderBy('name')->get();
         $renewals = Renewals::where('worker_id', $this->id)->whereDel(0)->get();
+        $payment_modes = PaymentMode::whereDel(0)->orderBy('id')->get();
         $sys_id = $this->getSystemID();
-        return view('livewire.create-worker', compact('document_heads', 'state_names', 'benefit_names', 'renewals', 'sys_id'));
+        return view('livewire.create-worker', compact('document_heads', 'state_names', 'benefit_names', 'renewals', 'payment_modes', 'sys_id'));
     }
 }
 
