@@ -386,10 +386,10 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="nature"
-                                                    label="Nature of work"
-                                                    placeholder="Nature of work"
-                                                />
+                                                    <x-input-wire name="est_reg_no"
+                                                    label="Registration number"
+                                                    placeholder="Establishment registration number"
+                                                    />
                                                 </div>
                                                 <div class="col-md-12 col-xl-6">
                                                 <x-input-wire name="pf_no"
@@ -428,7 +428,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    {{--
                                     <div class="card">
                                         <div class="card-header"><h5>Current Employer Details</h5></div>
                                         <div class="card-body">
@@ -439,12 +439,7 @@
                                                     placeholder="Establishment name"
                                                 />
                                                 </div>
-                                                <div class="col-md-12 col-xl-6">
-                                                <x-input-wire name="est_reg_no"
-                                                    label="Registration number"
-                                                    placeholder="Establishment registration number"
-                                                    />
-                                                </div>
+                                                
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12 col-xl-12">
@@ -472,7 +467,7 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    --}}
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
